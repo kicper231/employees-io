@@ -7,7 +7,8 @@ body {
 }
 
 .content {
-  font-size: 1.6rem;
+  font-size: 1rem;
+  margin: 2% 20% 0 20%;
 }
 .tile__input {
   margin-top: 0.5rem;
@@ -32,10 +33,44 @@ body {
 }
 
 .profile-info {
-  margin: 2% 20% 0 20%;
+  margin: 2% 0 0 0;
 }
 
 .profile-info__tile {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   padding: 0.5rem;
+}
+
+.employees-list__button {
+  width: 200px;
+  flex: 1;
+  cursor: pointer;
+  position: relative;
+  left: 0;
+  border: 1px solid #ced4da;
+  margin: 1em;
+  padding: 1em;
+  border-radius: 4px;
+  display: flex;
+  height: 1.8em;
+  align-items: center;
+}
+
+.employees-list__button--selected {
+  background-color: bisque;
+}
+
+.employees-list__button:hover {
+  background-color: beige;
+}
+
+.employees-list {
+  margin: 0 0 2em 0;
+  list-style-type: none;
+  padding: 0;
+  width: 15em;
+}
+
+.button__name--surname {
+  margin: 0 auto;
 }

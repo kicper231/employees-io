@@ -1,20 +1,42 @@
-<div class="profile-info">
-  <h2 class="profileInfo__title">Employee profile info</h2>
+<div class="content">
+  <h2 class="content__title">My slaves (Employees)</h2>
+  <ul class="employees-list">
+    <li *ngFor="let employee of listOfEmployees">
+      <button
+        type="button"
+        [class.employees-list__button--selected]="employee === selectedEmployee"
+        class="employees-list__button"
+        (click)="onSelect(employee)"
+      >
+        <span class="button__name--surname">{{ employee.name }} {{ employee.surname }}</span>
+      </button>
+    </li>
+  </ul>
 
-  <div class="profile-info__tile">
-    <label for="name" class="tile__label"> name: </label>
-    <input id="name" class="tile__input" [(ngModel)]="exampleEmployee.name" placeholder="name" />
-    {{ exampleEmployee.name | uppercase }}
-  </div>
+  <div class="profile-info" *ngIf="selectedEmployee">
+    <h3 class="profileInfo__title">Employee profile info</h3>
+    <div class="profile-info__tile">
+      <label for="name" class="tile__label"> name: </label>
+      <input id="name" class="tile__input" [(ngModel)]="selectedEmployee.name" placeholder="name" />
+      {{ selectedEmployee.name | uppercase }}
+    </div>
 
-  <div class="profile-info__tile">
-    <label for="surname" class="tile__label"> surname: </label>
-    <input id="surname" class="tile__input" [(ngModel)]="exampleEmployee.surname" placeholder="surname" />
-    {{ exampleEmployee.surname }}
-  </div>
+    <div class="profile-info__tile">
+      <label for="surname" class="tile__label"> surname: </label>
+      <input id="surname" class="tile__input" [(ngModel)]="selectedEmployee.surname" placeholder="surname" />
 
-  <div class="profile-info__tile">
-    <label for="hire-date" class="tile__label"> Date of hire: </label>
-    <input id="hire-date" class="tile__input" [(ngModel)]="exampleEmployee.hireDate" placeholder="surname" disabled />
+      {{ selectedEmployee.surname }}
+    </div>
+
+    <div class="profile-info__tile">
+      <label for="hire-date" class="tile__label"> Date of hire: </label>
+      <input
+        id="hire-date"
+        class="tile__input"
+        [(ngModel)]="selectedEmployee.hireDate"
+        placeholder="surname"
+        disabled
+      />
+    </div>
   </div>
 </div>
