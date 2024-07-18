@@ -1,13 +1,12 @@
-import { skill } from './skill';
-import { project } from './project';
+import { Skill } from './skill';
+import { Project } from './project';
 
-export interface employee {
+export interface Employee {
   name: string;
   surname: string;
   id: string;
   hireDate: Date;
-  skillsList: skill[];
-  projectsList: project[];
-  // ewentualnie nowa klasa lub pole ismanager
-  manager: employee | null;
+  skillsList: Skill[];
+  projectsList: Project[];
+  manager: Employee | null;
 }

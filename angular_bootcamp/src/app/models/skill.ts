@@ -1,12 +1,7 @@
-// później do ewentualnego  przeniesienia
-enum proficiencyLevels {
-  begginer,
-  intermediate,
-  advanced,
-}
+import { ProficiencyLevels } from './proficiency-levels';
 
-export interface skill {
+export interface Skill {
   name: string;
   description: string;
-  proficiency: proficiencyLevels;
+  proficiency: ProficiencyLevels;
 }

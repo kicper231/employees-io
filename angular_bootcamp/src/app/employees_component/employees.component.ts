@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { employee } from '../models/employee';
+import { Employee } from '../models/employee';
 import { FormsModule } from '@angular/forms';
 import { UpperCasePipe } from '@angular/common';
 
@@ -11,7 +11,7 @@ import { UpperCasePipe } from '@angular/common';
   styleUrl: './employees.component.css',
 })
 export class EmployeesComponent {
-  exampleEmployee: employee = {
+  exampleEmployee: Employee = {
     name: 'Kapiszon',
     hireDate: new Date(Date.now()),
     id: crypto.randomUUID(),
