@@ -7,7 +7,7 @@ import { EmployeesComponent } from './employees_component/employees.component';
   standalone: true,
   imports: [RouterOutlet, EmployeesComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'angular_bootcamp';

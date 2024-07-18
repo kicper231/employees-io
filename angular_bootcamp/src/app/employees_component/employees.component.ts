@@ -8,7 +8,7 @@ import { UpperCasePipe } from '@angular/common';
   standalone: true,
   imports: [FormsModule, UpperCasePipe],
   templateUrl: './employees.component.html',
-  styleUrl: './employees.component.css',
+  styleUrl: './employees.component.scss',
 })
 export class EmployeesComponent {
   exampleEmployee: Employee = {

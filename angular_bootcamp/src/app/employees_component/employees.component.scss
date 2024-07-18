@@ -1,31 +1,41 @@
-.profile-info__tile {
-  margin-top: 10px;
-  padding: 5px;
+$font-size-body: 10px;
+$font-size-content: 1.6rem;
+$border-radius-size: 0.25rem;
+
+body {
+  font-size: $font-size-body;
 }
 
+.content {
+  font-size: 1.6rem;
+}
 .tile__input {
-  margin-top: 5px;
-  margin-bottom: 10px;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
   display: block;
   width: 100%;
   padding: 0.375rem 0.75rem;
-  font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
   color: #495057;
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #ced4da;
-  border-radius: 0.25rem;
+  border-radius: $border-radius-size;
   transition:
     border-color 0.15s ease-in-out,
     box-shadow 0.15s ease-in-out;
 }
 
 .tile__label {
-  margin-bottom: 5px;
+  margin-bottom: 0.5rem;
 }
 
 .profile-info {
   margin: 2% 20% 0 20%;
+}
+
+.profile-info__tile {
+  margin-top: 1rem;
+  padding: 0.5rem;
 }
