@@ -1,11 +1,9 @@
-$font-size-body: 10px;
+@import '../../../styles';
+
 $font-size-content: 1.6rem;
 
-body {
-  font-size: $font-size-body;
-}
-
 .content {
+  color: $text;
   font-size: 1rem;
   margin: 2% 20% 0 20%;
 }

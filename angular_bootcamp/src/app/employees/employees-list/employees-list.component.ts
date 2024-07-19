@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { EMPLOYESS } from '../../mocks/mock-employees';
 import { Employee } from '../../models/employee.model';
 
 @Component({
