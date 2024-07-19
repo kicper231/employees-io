@@ -1,0 +1,59 @@
+@if (employee) {
+  <div class="profile-info">
+    <h3>Employee profile info</h3>
+    <div class="profile-info__tile">
+      <label for="name" class="profile-info__tile__label"> name: </label>
+      <input id="name" class="profile-info__tile__input" type="text" [(ngModel)]="employee.name" placeholder="name" />
+      {{ employee.name | uppercase }}
+    </div>
+
+    <div class="profile-info__tile">
+      <label for="surname" class="profile-info__tile__label"> surname: </label>
+      <input
+        id="surname"
+        class="profile-info__tile__input"
+        type="text"
+        [(ngModel)]="employee.surname"
+        placeholder="surname"
+      />
+      {{ employee.surname }}
+    </div>
+    <div class="profile-info__tile">
+      <label for="hire-date" class="profile-info__tile__label"> Date of hire: </label>
+      <input
+        id="hire-date"
+        class="profile-info__tile__input"
+        [ngModel]="employee.hireDate | date: 'medium'"
+        placeholder="hireDate"
+        disabled
+      />
+      {{ employee.hireDate | date: 'medium' }}
+    </div>
+  </div>
+
+  <div class="profile-info__tile">
+    <span>Skills:</span>
+    <ul class="tile__skills-list">
+      @for (skill of employee.skillsList; track skill.name) {
+        <li>
+          <span class="skill__name">{{ skill.name }}</span> -
+          <span class="skill__description">{{ skill.description }}</span>
+          (Proficiency: {{ skill.proficiency }})
+        </li>
+      }
+    </ul>
+  </div>
+
+  <div class="profile-info__tile">
+    <span>Projects:</span>
+    <ul class="tile__project">
+      @for (project of employee.projectsList; track project.name) {
+        <li>
+          <span class="project__name">{{ project.name }}</span> -
+          <span class="project__description">{{ project.description }}</span>
+          (Proficiency: {{ project.technologies }})
+        </li>
+      }
+    </ul>
+  </div>
+}

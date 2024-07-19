@@ -1,0 +1,8 @@
+<div class="content">
+  <h2 class="content__title">My Employees</h2>
+  <app-employees-list
+    [listOfEmployees]="listOfEmployees"
+    (selectEmployee)="onSelectEmployee($event)"
+  ></app-employees-list>
+  <app-employee-details [employee]="selectedEmployee"></app-employee-details>
+</div>
