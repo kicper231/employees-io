@@ -1,23 +1,32 @@
 @if (employee) {
   <div class="profile-info">
-    <h2 class="profile-info_title">Employee profile info</h2>
-    <div class="profile-info__tile">
-      <label for="name" class="profile-info__tile-label"> name: </label>
-      <input id="name" class="profile-info__tile-input" type="text" [(ngModel)]="employee.name" placeholder="name" />
-      {{ employee.name | uppercase }}
-    </div>
+    <form [formGroup]="employeeForm">
+      <h2 class="profile-info_title">Employee profile info</h2>
+      <div class="profile-info__tile">
+        <label for="name" class="profile-info__tile-label"> Name: </label>
+        <input id="name" class="profile-info__tile-input" type="text" formControlName="name" placeholder="name" />
+        {{ employeeForm.controls['name'].value | uppercase }}
+        {{ employee.name }}
+        @if (employeeForm.controls.name.hasError('required') && employeeForm.controls.name.touched) {
+          <div class="profile-info__tile-error">Name is required!</div>
+        }
+      </div>
 
-    <div class="profile-info__tile">
-      <label for="surname" class="profile-info__tile-label"> surname: </label>
-      <input
-        id="surname"
-        class="profile-info__tile-input"
-        type="text"
-        [(ngModel)]="employee.surname"
-        placeholder="surname"
-      />
-      {{ employee.surname }}
-    </div>
+      <div class="profile-info__tile">
+        <label for="surname" class="profile-info__tile-label"> Surname: </label>
+        <input
+          id="surname"
+          class="profile-info__tile-input"
+          type="text"
+          formControlName="surname"
+          placeholder="surname"
+        />
+        @if (employeeForm.controls.surname.hasError('required') && employeeForm.controls.surname.touched) {
+          <div class="profile-info__tile-error">Surname is required!</div>
+        }
+        {{ employeeForm.controls.surname.value }}
+      </div>
+    </form>
     <div class="profile-info__tile">
       <label for="hire-date" class="profile-info__tile-label"> Date of hire: </label>
       <input
@@ -29,18 +38,33 @@
       />
       {{ employee.hireDate | date: 'medium' }}
     </div>
-  </div>
 
-  <div class="profile-info__tile">
-    <app-employee-details-skills [employee]="employee"></app-employee-details-skills>
-  </div>
+    <div class="profile-info__tile">
+      <app-employee-details-skills [employee]="employee"></app-employee-details-skills>
+    </div>
 
-  <div class="profile-info__tile">
-    <app-employee-details-projects [employee]="employee"></app-employee-details-projects>
-  </div>
+    <div class="profile-info__tile">
+      <app-employee-details-projects [employee]="employee"></app-employee-details-projects>
+    </div>
 
-  <div class="profile-info__tile">
-    <span> Manager: </span>
-    <span class="profile-info__tile-input"> {{ getManagerFullName() }}</span>
+    <div class="profile-info__tile">
+      <span> Manager: </span>
+      <span class="profile-info__tile-input"> {{ getManagerFullName() }}</span>
+    </div>
+
+    <!--    <ng-container formArrayName="skills">-->
+    <!--    <div-->
+    <!--      *ngFor="let skill of skills.controls; let i = index"-->
+    <!--      [formGroupName]="i"-->
+    <!--      class="array"-->
+    <!--    >-->
+    <!--      <label>Skill name</label>-->
+    <!--      <input formControlName="name">-->
+    <!--      <label>Skill level</label>-->
+    <!--      <input type="number" formControlName="level">-->
+    <!--      <button (click)="skills.removeAt(i)">X</button>-->
+    <!--    </div>-->
+    <!--    </ng-container>-->
+    <!--    <button (click)="addSkill()">Add new Skill</button>-->
   </div>
 }

@@ -4,5 +4,8 @@
     [listOfEmployees]="listOfEmployees"
     (selectEmployee)="onSelectEmployee($event)"
   ></app-employees-list>
-  <app-employee-details [employee]="selectedEmployee"></app-employee-details>
+  <app-employee-details
+    [employee]="selectedEmployee"
+    (updatedEmployee)="onUpdateEmployee($event)"
+  ></app-employee-details>
 </div>

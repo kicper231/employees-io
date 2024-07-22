@@ -20,4 +20,13 @@ export class EmployeesComponent {
   onSelectEmployee(employee: Employee) {
     this.selectedEmployee = employee;
   }
+
+  onUpdateEmployee(UpdatedEmployee: Employee) {
+    console.log(UpdatedEmployee);
+    const index: number = this.listOfEmployees.findIndex((value) => value.id == UpdatedEmployee.id);
+    console.log(index);
+    if (index != -1) {
+      this.listOfEmployees[index] = UpdatedEmployee;
+    }
+  }
 }
