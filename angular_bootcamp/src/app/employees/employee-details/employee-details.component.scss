@@ -1,14 +1,14 @@
-$border-radius-size: 0.25rem;
+@import '../../../styles';
 
 .profile-info {
   margin: 2% 0 0 0;
   &__tile {
     margin-top: 0.5rem;
     padding: 0.5rem;
-    &__label {
+    &-label {
       margin-bottom: 0.5rem;
     }
-    &__input {
+    &-input {
       margin-top: 0.5rem;
       margin-bottom: 1rem;
       display: block;
@@ -16,10 +16,9 @@ $border-radius-size: 0.25rem;
       padding: 0.375rem 0.75rem;
       font-weight: 400;
       line-height: 1.5;
-      color: #495057;
-      background-color: #fff;
+      color: $text;
       background-clip: padding-box;
-      border: 1px solid #ced4da;
+      border: $border-width solid $border;
       border-radius: $border-radius-size;
       transition:
         border-color 0.15s ease-in-out,

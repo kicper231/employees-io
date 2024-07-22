@@ -10,7 +10,7 @@ import { Employee } from '../../models/employee.model';
 })
 export class EmployeesListComponent {
   @Input() listOfEmployees?: Employee[];
-  @Output() selectEmployee = new EventEmitter<Employee>();
+  @Output() selectEmployee: EventEmitter<Employee> = new EventEmitter<Employee>();
   selectedEmployee?: Employee;
 
   onSelect(employee: Employee) {

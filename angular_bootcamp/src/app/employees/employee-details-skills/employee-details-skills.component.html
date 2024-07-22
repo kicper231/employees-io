@@ -1,0 +1,12 @@
+<div class="skills-tile">
+  <span class="skills-tile__title">Skills:</span>
+  <ul class="skills-tile__list">
+    @for (skill of employee.skillsList; track skill.name) {
+      <li class="list-element">
+        <span class="list-element__name">{{ skill.name }}</span> -
+        <span class="list-element__description">{{ skill.description }}</span>
+        <span class="list-element__proficiency">(Proficiency: {{ skill.proficiency }})</span>
+      </li>
+    }
+  </ul>
+</div>
