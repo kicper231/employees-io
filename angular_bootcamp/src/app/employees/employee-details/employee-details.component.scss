@@ -53,6 +53,15 @@
     padding: 0.5rem;
     align-items: stretch;
     flex: 1;
+    &-select {
+      padding: 0.5rem;
+      width: 100%;
+
+      display: block;
+
+      border: $border-width solid $border;
+      border-radius: $border-radius-size;
+    }
     &-label {
       font-size: 0.8rem;
     }

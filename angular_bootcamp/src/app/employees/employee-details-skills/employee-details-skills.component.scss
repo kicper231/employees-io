@@ -7,11 +7,13 @@
     list-style-type: none;
     padding: 0;
     &-element {
+      display: block;
       margin-bottom: 0.5rem;
       &-name {
         font-weight: bold;
       }
       &-description {
+        display: block;
       }
       &-proficiency {
         display: block;

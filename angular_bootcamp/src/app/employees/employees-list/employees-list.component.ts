@@ -17,4 +17,20 @@ export class EmployeesListComponent {
     this.selectedEmployee = employee;
     this.selectEmployee.emit(employee);
   }
+
+  addEmployee() {
+    const newEmployee: Employee = {
+      id: crypto.randomUUID(),
+      name: '',
+      surname: '',
+      hireDate: new Date(),
+      manager: null,
+      skillsList: [],
+      projectsList: [],
+    };
+
+    this.listOfEmployees!.push(newEmployee);
+
+    this.onSelect(newEmployee);
+  }
 }

@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Employee } from '../../models/employee.model';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-employee-details-projects',
@@ -10,4 +11,5 @@ import { Employee } from '../../models/employee.model';
 })
 export class EmployeeDetailsProjectsComponent {
   @Input() employee!: Employee;
+  @Input() employeeForm!: FormGroup;
 }

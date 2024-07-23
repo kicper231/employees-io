@@ -1,7 +1,6 @@
 <div class="profile-info">
-  <form [formGroup]="employeeForm">
+  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
     <div class="profile-info__title">Employee profile info</div>
-
     <div class="profile-info__row">
       <div class="profile-info__tile">
         <label for="name" class="profile-info__tile-label">Name:</label>
@@ -38,23 +37,46 @@
       />
       {{ employeeForm.controls.hireDate.value }}
     </div>
+
+    <div class="profile-info__tile">
+      <app-employee-details-skills
+        [skillsList]="employee.skillsList"
+        [skillsFormArray]="employeeForm.controls.skillsList"
+        [employeeForm]="employeeForm"
+      >
+      </app-employee-details-skills>
+      <button type="button" (click)="addSkill()">Add new Skill</button>
+    </div>
+
+    <div class="profile-info__tile">
+      <app-employee-details-projects [employee]="employee" [employeeForm]="employeeForm"
+        >></app-employee-details-projects
+      >
+      <button type="button">Add new project</button>
+    </div>
+
+    <div class="profile-info__tile">
+      <div class="profile-info__tile-label">Manager:</div>
+
+      <select class="profile-info__tile-select" id="managers" formControlName="manager">
+        @if (!employee.manager) {
+          <option value="default" disabled selected hidden>Choose manager</option>
+        }
+
+        @for (manager of managers; track manager) {
+          <option [selected]="employee.manager && employee.manager.id === manager.id">
+            {{ getManagerFullName(manager) }}
+          </option>
+        }
+      </select>
+      @if (employeeForm.controls.manager.hasError('required')) {
+        <div class="profile-info__tile-error">Manager is required!</div>
+      }
+    </div>
+
+    <div class="profile-info__button-row">
+      <button type="button" class="profile-info__button-row-element" (click)="onReset()">reset</button>
+      <button class="profile-info__button-row-element" type="submit">submit</button>
+    </div>
   </form>
-
-  <div class="profile-info__tile">
-    <app-employee-details-skills [employee]="employee"></app-employee-details-skills>
-  </div>
-
-  <div class="profile-info__tile">
-    <app-employee-details-projects [employee]="employee"></app-employee-details-projects>
-  </div>
-
-  <div class="profile-info__tile">
-    <span> Manager: </span>
-    <span class="profile-info__tile-input"> {{ getManagerFullName() }}</span>
-  </div>
-
-  <div class="profile-info__button-row">
-    <button class="profile-info__button-row-element" type="reset">reset</button>
-    <button class="profile-info__button-row-element" type="submit">submit</button>
-  </div>
 </div>

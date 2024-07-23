@@ -22,11 +22,14 @@ export class EmployeesComponent {
   }
 
   onUpdateEmployee(UpdatedEmployee: Employee) {
+    console.log('u rodzica updatedEmployee');
     console.log(UpdatedEmployee);
+
     const index: number = this.listOfEmployees.findIndex((value) => value.id == UpdatedEmployee.id);
     console.log(index);
     if (index != -1) {
       this.listOfEmployees[index] = UpdatedEmployee;
+      console.log(this.listOfEmployees);
     }
   }
 }
