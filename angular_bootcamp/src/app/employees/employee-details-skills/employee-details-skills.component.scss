@@ -1,16 +1,21 @@
 .skills-tile {
   &__title {
     font-size: 1.2rem;
+    margin-bottom: 0.5rem;
   }
   &__list {
-  }
-}
-
-.list-element {
-  &__name {
-  }
-  &__description {
-  }
-  &__proficiency {
+    list-style-type: none;
+    padding: 0;
+    &-element {
+      margin-bottom: 0.5rem;
+      &-name {
+        font-weight: bold;
+      }
+      &-description {
+      }
+      &-proficiency {
+        display: block;
+      }
+    }
   }
 }

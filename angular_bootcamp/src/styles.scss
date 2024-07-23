@@ -5,6 +5,7 @@ $secondary: #a896d6;
 $accent: #8d70d3;
 $border: #ced4da;
 $error: #ff0c0c;
+$menu: #f8f8f8;
 
 $border-radius-size: 0.25rem;
 $border-width: 1px;
@@ -12,4 +13,9 @@ $font-size-body: 10px;
 
 body {
   font-size: $font-size-body;
+}
+
+* {
+  margin: 0;
+  padding: 0;
 }
