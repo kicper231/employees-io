@@ -13,7 +13,7 @@ export class EmployeesListComponent {
   @Output() selectEmployee: EventEmitter<Employee> = new EventEmitter<Employee>();
   selectedEmployee?: Employee;
 
-  onSelect(employee: Employee) {
+  onSelect(employee?: Employee) {
     this.selectedEmployee = employee;
     this.selectEmployee.emit(employee);
   }
@@ -32,5 +32,12 @@ export class EmployeesListComponent {
     this.listOfEmployees!.push(newEmployee);
 
     this.onSelect(newEmployee);
+  }
+
+  deleteEmployee() {
+    if (this.selectEmployee) {
+      this.listOfEmployees = this.listOfEmployees?.filter((item) => item.id != this.selectedEmployee!.id);
+      this.onSelect();
+    }
   }
 }

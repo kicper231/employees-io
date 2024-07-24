@@ -20,10 +20,9 @@
           formControlName="surname"
           placeholder="surname"
         />
-        @if (employeeForm.controls.surname.hasError('required') && employeeForm.controls.surname.touched) {
+        @if (employeeForm.controls.surname.hasError('required')) {
           <div class="profile-info__tile-error">Surname is required!</div>
         }
-        <!--        {{ employeeForm.controls.surname.value }}-->
       </div>
     </div>
     <div class="profile-info__tile">
@@ -35,18 +34,68 @@
         formControlName="hireDate"
         placeholder="hireDate"
       />
-      {{ employeeForm.controls.hireDate.value }}
-    </div>
-    <div class="profile-info__tile">
-      <app-employee-details-skills [skillsList]="employee.skillsList"> </app-employee-details-skills>
-      <!--      <button type="button" (click)="addSkill()">Add new Skill</button>-->
     </div>
 
     <div class="profile-info__tile">
-      <app-employee-details-projects [employee]="employee" [employeeForm]="employeeForm"
-        >></app-employee-details-projects
-      >
-      <button type="button">Add new project</button>
+      <div class="profile-info__tile-label--bigger">Skills:</div>
+      <!--      <app-employee-details-skills [skillsList]="employee.skillsList"> </app-employee-details-skills>-->
+      <div formArrayName="skillsList" class="profile-info__tile-skills">
+        @for (skill of skillsList.controls; track skill; let i = $index) {
+          <div [formGroupName]="i" class="profile-info__tile-skills-group">
+            <input formControlName="name" placeholder="Skill Name" class="profile-info__tile-skills-group-element" />
+            @if (skill.get('name')!.hasError('required')) {
+              <div class="profile-info__tile-error">Skill name is required!</div>
+            }
+            <select formControlName="proficiency" class="profile-info__tile-skills-group-element">
+              @for (element of proficiencyValues; track element) {
+                <option [value]="element" [selected]="element === skill.value.proficiency">{{ element }}</option>
+              }
+            </select>
+            <button
+              class="profile-info__tile-skills-button--delete profile-info__tile-skills-button"
+              (click)="deleteSkill(i)"
+            >
+              <i class="fa fa-trash"></i>
+            </button>
+          </div>
+        }
+        <button type="button" class="profile-info__tile-skills-button" (click)="addSkill()">Add Skill</button>
+      </div>
+    </div>
+
+    <div class="profile-info__tile">
+      <div class="profile-info__tile-label--bigger">Projects:</div>
+
+      <div formArrayName="projectsList" class="profile-info__tile-projects">
+        @for (projects of projectsList.controls; track projects; let i = $index) {
+          <div [formGroupName]="i" style="margin-bottom: 1rem">
+            <label for="project-name-{{ i }}" class="profile-info__tile-label">Name:</label>
+            <input
+              id="project-name-{{ i }}"
+              formControlName="name"
+              placeholder="Project Name"
+              class="profile-info__tile-projects-element"
+            />
+            @if (projects.get('name')!.hasError('required')) {
+              <div class="profile-info__tile-error">Name is required!</div>
+            }
+            <label for="project-description-{{ i }}" class="profile-info__tile-label">Description:</label>
+            <textarea
+              id="project-description-{{ i }}"
+              formControlName="description"
+              placeholder="Description"
+              class="profile-info__tile-projects-element--big profile-info__tile-projects-element"
+            ></textarea>
+            @if (projects.get('description')!.hasError('required')) {
+              <div class="profile-info__tile-error">Description is required!</div>
+            }
+
+            <!--            <div class="profile-info__tile-skills-button&#45;&#45;delete fa fa-trash" (click)="deleteSkill(i)"></div>-->
+          </div>
+        }
+
+        <button type="button" class="profile-info__tile-skills-button" (click)="addProject()">Add Project</button>
+      </div>
     </div>
 
     <div class="profile-info__tile">

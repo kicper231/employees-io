@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Employee } from '../../models/employee.model';
 import { FormsModule } from '@angular/forms';
-import { DatePipe, NgForOf, NgIf, UpperCasePipe } from '@angular/common';
+import { DatePipe, JsonPipe, NgForOf, NgIf, UpperCasePipe } from '@angular/common';
 import { EMPLOYESS } from '../../mocks/mock-employees';
 import { EmployeesListComponent } from '../employees-list/employees-list.component';
 import { EmployeeDetailsComponent } from '../employee-details/employee-details.component';
@@ -9,7 +9,16 @@ import { EmployeeDetailsComponent } from '../employee-details/employee-details.c
 @Component({
   selector: 'app-employees',
   standalone: true,
-  imports: [FormsModule, UpperCasePipe, NgForOf, NgIf, DatePipe, EmployeesListComponent, EmployeeDetailsComponent],
+  imports: [
+    FormsModule,
+    UpperCasePipe,
+    NgForOf,
+    NgIf,
+    DatePipe,
+    EmployeesListComponent,
+    EmployeeDetailsComponent,
+    JsonPipe,
+  ],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.scss',
 })
@@ -19,6 +28,7 @@ export class EmployeesComponent {
 
   onSelectEmployee(employee: Employee) {
     this.selectedEmployee = employee;
+    // console.log(employee);
   }
 
   onUpdateEmployee(UpdatedEmployee: Employee) {

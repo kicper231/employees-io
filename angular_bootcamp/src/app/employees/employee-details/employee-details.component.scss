@@ -22,11 +22,12 @@
       flex: 1;
       padding: 0.5rem 1rem;
       border-radius: $border-radius-size;
+      border: 1px solid $border;
       transition: background-color 0.3s ease;
       cursor: pointer;
       box-sizing: border-box;
       margin: 1rem;
-      border: 1px solid $border;
+
       display: flex;
       align-items: center;
       justify-content: center;
@@ -53,10 +54,54 @@
     padding: 0.5rem;
     align-items: stretch;
     flex: 1;
+    &-projects {
+      padding: 0.5rem 1rem;
+
+      &-element {
+        margin: 0.5rem;
+        display: block;
+        padding: 0.5rem 1rem;
+        border-radius: $border-radius-size;
+        border: 1px solid $border;
+        &--big {
+          height: 2rem;
+          max-lines: 5;
+          width: calc(100% - 2rem);
+        }
+      }
+    }
+    &-skills {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+
+      &-button {
+        align-self: center;
+        &--delete {
+          color: $error;
+          border: none;
+          display: inline-block;
+          width: 3rem;
+          height: 3rem;
+          margin-left: 1rem;
+        }
+      }
+      &-group {
+        align-items: center;
+
+        &-element {
+          align-items: center;
+          margin: 0.5rem;
+          padding: 0.5rem 1rem;
+          border-radius: $border-radius-size;
+          border: 1px solid $border;
+        }
+      }
+    }
     &-select {
       padding: 0.5rem;
       width: 100%;
-
       display: block;
 
       border: $border-width solid $border;
@@ -64,6 +109,9 @@
     }
     &-label {
       font-size: 0.8rem;
+      &--bigger {
+        font-size: 1.2rem;
+      }
     }
     &-input {
       width: calc(100% - 1.4rem);
