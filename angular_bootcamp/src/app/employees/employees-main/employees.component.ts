@@ -28,15 +28,12 @@ export class EmployeesComponent {
 
   onSelectEmployee(employee: Employee) {
     this.selectedEmployee = employee;
-    // console.log(employee);
   }
 
   onUpdateEmployee(UpdatedEmployee: Employee) {
-    const index: number = this.listOfEmployees.findIndex((value) => value.id == UpdatedEmployee.id);
-    console.log(index);
+    const index: number = this.listOfEmployees.findIndex((value: Employee): boolean => value.id == UpdatedEmployee.id);
     if (index != -1) {
       this.listOfEmployees[index] = UpdatedEmployee;
-      console.log(this.listOfEmployees);
     }
   }
 }

@@ -50,20 +50,6 @@ export class EmployeeDetailsComponent {
     manager: FormControl<Employee | null>;
   }>;
 
-  createSkillGroup(skill?: Skill): FormGroup {
-    return this.formBuilder.group({
-      name: new FormControl<string | null>(skill?.name ?? null, [Validators.required]),
-      proficiency: new FormControl<ProficiencyLevelsEnums | null>(skill?.proficiency ?? null, [Validators.required]),
-    });
-  }
-
-  createProjectGroup(project?: Project): FormGroup {
-    return this.formBuilder.group({
-      name: [project?.name ?? null, Validators.required],
-      description: [project?.description ?? null, Validators.required],
-    });
-  }
-
   constructor(
     private formBuilder: FormBuilder,
     private datePipe: DatePipe
@@ -76,6 +62,19 @@ export class EmployeeDetailsComponent {
       skillsList: this.formBuilder.array([this.createSkillGroup()]),
       projectsList: this.formBuilder.array([this.createProjectGroup()]),
       manager: [new FormControl<Employee | null>(null), Validators.required],
+    });
+  }
+  createSkillGroup(skill?: Skill): FormGroup {
+    return this.formBuilder.group({
+      name: new FormControl<string | null>(skill?.name ?? null, [Validators.required]),
+      proficiency: new FormControl<ProficiencyLevelsEnums | null>(skill?.proficiency ?? null, [Validators.required]),
+    });
+  }
+
+  createProjectGroup(project?: Project): FormGroup {
+    return this.formBuilder.group({
+      name: [project?.name ?? null, Validators.required],
+      description: [project?.description ?? null, Validators.required],
     });
   }
 
@@ -152,9 +151,5 @@ export class EmployeeDetailsComponent {
       description: '',
     };
     this.projectsList.push(this.createProjectGroup(project));
-  }
-
-  public deleteProject(index: number) {
-    this.projectsList.removeAt(index);
   }
 }
