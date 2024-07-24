@@ -13,13 +13,4 @@ import { ProficiencyLevelsEnums } from '../../enums/proficiency-levels.enums';
 })
 export class EmployeeDetailsSkillsComponent {
   @Input() skillsList!: Skill[];
-  @Input() skillsFormArray!: FormArray<
-    FormGroup<{
-      name: FormControl<string | null>;
-      description: FormControl<string | null>;
-      proficiency: FormControl<ProficiencyLevelsEnums | null>;
-    }>
-  >;
-
-  @Input() employeeForm!: FormGroup;
 }

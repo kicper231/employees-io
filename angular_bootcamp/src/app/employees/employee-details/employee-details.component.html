@@ -37,15 +37,9 @@
       />
       {{ employeeForm.controls.hireDate.value }}
     </div>
-
     <div class="profile-info__tile">
-      <app-employee-details-skills
-        [skillsList]="employee.skillsList"
-        [skillsFormArray]="employeeForm.controls.skillsList"
-        [employeeForm]="employeeForm"
-      >
-      </app-employee-details-skills>
-      <button type="button" (click)="addSkill()">Add new Skill</button>
+      <app-employee-details-skills [skillsList]="employee.skillsList"> </app-employee-details-skills>
+      <!--      <button type="button" (click)="addSkill()">Add new Skill</button>-->
     </div>
 
     <div class="profile-info__tile">
@@ -57,7 +51,6 @@
 
     <div class="profile-info__tile">
       <div class="profile-info__tile-label">Manager:</div>
-
       <select class="profile-info__tile-select" id="managers" formControlName="manager">
         @if (!employee.manager) {
           <option value="default" disabled selected hidden>Choose manager</option>

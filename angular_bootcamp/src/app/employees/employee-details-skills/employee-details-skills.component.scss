@@ -4,10 +4,10 @@
     margin-bottom: 0.5rem;
   }
   &__list {
-    list-style-type: none;
+    display: grid;
+    grid-template-columns: auto auto auto;
     padding: 0;
     &-element {
-      display: block;
       margin-bottom: 0.5rem;
       &-name {
         font-weight: bold;

@@ -1,15 +1,12 @@
 <div class="skills-tile">
   <div class="skills-tile__title">Skills:</div>
-  <ul class="skills-tile__list">
-    @for (skill of skillsFormArray.controls; track skill) {
-      <li [formGroup]="skill" class="skills-tile__list-element">
-        <label>Name:</label>
-        <input class="skills-tile__list-element-name" formControlName="name" />
-        <label>Description:</label>
-        <input class="skills-tile__list-element-proficiency" formControlName="proficiency" />
-        <label>Proficiency:</label>
-        <input class="skills-tile__list-element-proficiency" formControlName="proficiency" />
-      </li>
+  <div class="skills-tile__list">
+    @for (skill of skillsList; track skill.name) {
+      <div class="skills-tile__list-element">
+        <span class="skills-tile__list-element-name">{{ skill.name }}</span> -
+        <span class="skills-tile__list-element-description">{{ skill.description }} </span>
+        <span class="skills-tile__list-element-proficiency">(Proficiency: {{ skill.proficiency }})</span>
+      </div>
     }
-  </ul>
+  </div>
 </div>

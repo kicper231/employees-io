@@ -16,6 +16,7 @@ import { EmployeeDetailsProjectsComponent } from '../employee-details-projects/e
 import { ProficiencyLevelsEnums } from '../../enums/proficiency-levels.enums';
 import { MANAGERS } from '../../mocks/mock-managers';
 import { Skill } from '../../models/skill.model';
+import { Project } from '../../models/project.model';
 
 @Component({
   selector: 'app-employee-details',
@@ -36,8 +37,6 @@ export class EmployeeDetailsComponent implements OnInit {
   private _employee!: Employee;
   @Output() updatedEmployee: EventEmitter<Employee> = new EventEmitter<Employee>();
   @Input() managers = MANAGERS;
-
-  countries: string[] = ['USA', 'UK', 'Canada'];
 
   employeeForm!: FormGroup<{
     id: FormControl<string | null>;
@@ -61,19 +60,18 @@ export class EmployeeDetailsComponent implements OnInit {
     manager: FormControl<Employee | null>;
   }>;
 
-  createSkillGroup(): FormGroup {
+  createSkillGroup(skill?: Skill): FormGroup {
     return this.formBuilder.group({
-      name: new FormControl<string | null>(null),
-      description: new FormControl<string | null>(null),
-      proficiency: new FormControl<ProficiencyLevelsEnums | null>(null),
+      name: new FormControl<string | null>(skill?.name ?? null),
+      proficiency: new FormControl<ProficiencyLevelsEnums | null>(skill?.proficiency ?? null),
     });
   }
 
-  createProjectGroup(): FormGroup {
+  createProjectGroup(project?: Project): FormGroup {
     return this.formBuilder.group({
-      name: [''],
-      description: [''],
-      technologies: new FormControl<string[] | null>(null),
+      name: [project?.name ?? null],
+      description: [project?.name ?? null],
+      technologies: new FormControl<string[] | null>(project?.technologies ?? null),
     });
   }
 
@@ -90,20 +88,9 @@ export class EmployeeDetailsComponent implements OnInit {
       projectsList: this.formBuilder.array([this.createProjectGroup()]),
       manager: [new FormControl<Employee | null>(null), Validators.required],
     });
-
-    // this.employeeForm.valueChanges.subscribe((value) => {
-    //   const editedEmployee = {
-    //     ...this.employee,
-    //     ...value,
-    //   };
-    //   console.log('cos sise stalo');
-    //   this.updatedEmployee.emit(editedEmployee as Employee);
-    // });
   }
 
-  ngOnInit(): void {
-    console.log('eee');
-  }
+  ngOnInit(): void {}
 
   getManagerFullName(employee?: Employee): string {
     return employee == null
@@ -114,17 +101,32 @@ export class EmployeeDetailsComponent implements OnInit {
   @Input()
   public set employee(employee: Employee) {
     this._employee = employee;
+
     if (employee) {
       this.employeeForm.patchValue({
-        id: employee.id,
-        name: employee.name,
-        surname: employee.surname,
-        manager: employee.manager,
+        ...employee,
         hireDate: this.datePipe.transform(employee.hireDate, 'yyyy-MM-dd'),
-        skillsList: employee.skillsList,
-        projectsList: employee.projectsList,
       });
+      //  this.employeeForm.setControl('skillsList', employee.skillsList);
     }
+    let skillsArray: FormGroup<{
+      name: FormControl<string | null>;
+      description: FormControl<string | null>;
+      proficiency: FormControl<ProficiencyLevelsEnums | null>;
+    }>[] = [];
+    employee.skillsList.forEach((skill) => skillsArray.push(this.createSkillGroup(skill)));
+    this.employeeForm.setControl('skillsList', this.formBuilder.array(skillsArray || []));
+
+    let projectArray: FormGroup<{
+      name: FormControl<string | null>;
+      description: FormControl<string | null>;
+      technologies: FormControl<string[] | null>;
+    }>[] = [];
+    employee.projectsList.forEach((project) => projectArray.push(this.createProjectGroup(project)));
+    this.employeeForm.setControl('projectsList', this.formBuilder.array(projectArray || []));
+
+    console.log(employee);
+    console.log(this.employeeForm.getRawValue());
   }
 
   public get employee() {
@@ -132,7 +134,7 @@ export class EmployeeDetailsComponent implements OnInit {
   }
 
   public onSubmit() {
-    console.log('onsubmit');
+    // console.log('onsubmit');
     console.log(this.convertRawValueToEmployee(this.employeeForm.getRawValue()));
 
     if (this.employeeForm.valid) {
@@ -153,7 +155,8 @@ export class EmployeeDetailsComponent implements OnInit {
   }
 
   get skillsList(): FormArray {
-    return this.employeeForm?.controls['skillsList'] as FormArray;
+    return this.employeeForm.get('skillsList') as FormArray;
+    //  return this.employeeForm.controls['skillsList'] as FormArray;
   }
 
   public addSkill() {
