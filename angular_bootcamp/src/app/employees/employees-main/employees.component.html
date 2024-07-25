@@ -3,11 +3,14 @@
     <app-employees-list
       [listOfEmployees]="listOfEmployees"
       (selectEmployee)="onSelectEmployee($event)"
+      (deleteEmployeeEmitter)="onDeleteEmployee($event)"
+      (creatingNewEmployee)="onCreatingEmployee($event)"
     ></app-employees-list>
   </div>
-  @if (selectedEmployee) {
+  @if (selectedEmployee || isCreating) {
     <div class="employees__details">
       <app-employee-details
+        [isCreating]="isCreating"
         [employee]="selectedEmployee"
         (updatedEmployee)="onUpdateEmployee($event)"
       ></app-employee-details>

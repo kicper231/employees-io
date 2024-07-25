@@ -5,7 +5,6 @@
       <div class="profile-info__tile">
         <label for="name" class="profile-info__tile-label">Name:</label>
         <input id="name" class="profile-info__tile-input" type="text" formControlName="name" placeholder="name" />
-        <!--        {{ employeeForm.controls.name.value | uppercase }}-->
         @if (employeeForm.controls.name.hasError('required')) {
           <div class="profile-info__tile-error">Name is required!</div>
         }
@@ -26,7 +25,7 @@
       </div>
     </div>
     <div class="profile-info__tile">
-      <label for="hire-date" class="profile-info__tile-label"> Date of hire: </label>
+      <label for="hire-date" class="profile-info__tile-label">Date of hire:</label>
       <input
         type="date"
         id="hire-date"
@@ -38,9 +37,8 @@
 
     <div class="profile-info__tile">
       <div class="profile-info__tile-label--bigger">Skills:</div>
-      <!--      <app-employee-details-skills [skillsList]="employee.skillsList"> </app-employee-details-skills>-->
       <div formArrayName="skillsList" class="profile-info__tile-skills">
-        @for (skill of skillsList.controls; track skill; let i = $index) {
+        @for (skill of skillsListControlArray.controls; track skill; let i = $index) {
           <div [formGroupName]="i" class="profile-info__tile-skills-group">
             <input formControlName="name" placeholder="Skill Name" class="profile-info__tile-skills-group-element" />
             @if (skill.get('name')!.hasError('required')) {
@@ -67,7 +65,7 @@
       <div class="profile-info__tile-label--bigger">Projects:</div>
 
       <div formArrayName="projectsList" class="profile-info__tile-projects">
-        @for (projects of projectsList.controls; track projects; let i = $index) {
+        @for (projects of projectsListControlArray.controls; track projects; let i = $index) {
           <div [formGroupName]="i" style="margin-bottom: 1rem">
             <label for="project-name-{{ i }}" class="profile-info__tile-label">Name:</label>
             <input
@@ -89,8 +87,6 @@
             @if (projects.get('description')!.hasError('required')) {
               <div class="profile-info__tile-error">Description is required!</div>
             }
-
-            <!--            <div class="profile-info__tile-skills-button&#45;&#45;delete fa fa-trash" (click)="deleteSkill(i)"></div>-->
           </div>
         }
 
@@ -107,9 +103,10 @@
 
         @for (manager of managers; track manager) {
           <option [selected]="employee.manager && employee.manager.id === manager.id">
-            {{ getManagerFullName(manager) }}
+            {{ manager | fullName }}
           </option>
         }
+        S
       </select>
       @if (employeeForm.controls.manager.hasError('required')) {
         <div class="profile-info__tile-error">Manager is required!</div>
@@ -118,7 +115,7 @@
 
     <div class="profile-info__button-row">
       <button type="button" class="profile-info__button-row-element" (click)="onReset()">reset</button>
-      <button class="profile-info__button-row-element" type="submit">submit</button>
+      <button class="profile-info__button-row-element" [disabled]="employeeForm.invalid" type="submit">submit</button>
     </div>
   </form>
 </div>

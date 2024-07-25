@@ -16,11 +16,12 @@ import { ProficiencyLevelsEnums } from '../../enums/proficiency-levels.enums';
 import { MANAGERS } from '../../mocks/mock-managers';
 import { Skill } from '../../models/skill.model';
 import { Project } from '../../models/project.model';
+import { FullName } from '../../utils/full-name.pipe';
 
 @Component({
   selector: 'app-employee-details',
   standalone: true,
-  imports: [DatePipe, ReactiveFormsModule, UpperCasePipe, FormsModule, NgForOf],
+  imports: [DatePipe, ReactiveFormsModule, UpperCasePipe, FormsModule, NgForOf, FullName],
   templateUrl: './employee-details.component.html',
   styleUrl: './employee-details.component.scss',
   providers: [DatePipe],
@@ -28,8 +29,8 @@ import { Project } from '../../models/project.model';
 export class EmployeeDetailsComponent {
   @Output() updatedEmployee: EventEmitter<Employee> = new EventEmitter<Employee>();
   @Input() managers: Employee[] = MANAGERS;
+  @Input() isCreating: boolean = false;
   proficiencyValues = Object.values(ProficiencyLevelsEnums);
-  private _employee!: Employee;
   employeeForm!: FormGroup<{
     id: FormControl<string | null>;
     name: FormControl<string | null>;
@@ -49,40 +50,7 @@ export class EmployeeDetailsComponent {
     >;
     manager: FormControl<Employee | null>;
   }>;
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private datePipe: DatePipe
-  ) {
-    this.employeeForm = this.formBuilder.group({
-      id: [''],
-      name: ['', Validators.required],
-      surname: ['', Validators.required],
-      hireDate: [new FormControl<string | null>(null)],
-      skillsList: this.formBuilder.array([this.createSkillGroup()]),
-      projectsList: this.formBuilder.array([this.createProjectGroup()]),
-      manager: [new FormControl<Employee | null>(null), Validators.required],
-    });
-  }
-  createSkillGroup(skill?: Skill): FormGroup {
-    return this.formBuilder.group({
-      name: new FormControl<string | null>(skill?.name ?? null, [Validators.required]),
-      proficiency: new FormControl<ProficiencyLevelsEnums | null>(skill?.proficiency ?? null, [Validators.required]),
-    });
-  }
-
-  createProjectGroup(project?: Project): FormGroup {
-    return this.formBuilder.group({
-      name: [project?.name ?? null, Validators.required],
-      description: [project?.description ?? null, Validators.required],
-    });
-  }
-
-  getManagerFullName(employee?: Employee): string {
-    return employee == null
-      ? this.employee?.manager?.name + ' ' + this.employee?.manager?.surname
-      : employee?.name + ' ' + employee.surname;
-  }
+  private _employee?: Employee;
 
   @Input()
   public set employee(employee: Employee) {
@@ -109,12 +77,50 @@ export class EmployeeDetailsComponent {
     this.employeeForm.setControl('projectsList', this.formBuilder.array(projectArray || []));
   }
 
-  public get employee() {
+  public get employee(): Employee | undefined {
     return this._employee;
+  }
+
+  get skillsListControlArray(): FormArray {
+    return this.employeeForm.get('skillsList') as FormArray;
+  }
+
+  get projectsListControlArray(): FormArray {
+    return this.employeeForm.get('projectsList') as FormArray;
+  }
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private datePipe: DatePipe
+  ) {
+    this.employeeForm = this.formBuilder.group({
+      id: [''],
+      name: ['', Validators.required],
+      surname: ['', Validators.required],
+      hireDate: [new FormControl<string | null>(null)],
+      skillsList: this.formBuilder.array([this.createSkillGroup()]),
+      projectsList: this.formBuilder.array([this.createProjectGroup()]),
+      manager: [new FormControl<Employee | null>(null), Validators.required],
+    });
+  }
+
+  createSkillGroup(skill?: Skill): FormGroup {
+    return this.formBuilder.group({
+      name: new FormControl<string | null>(skill?.name ?? null, [Validators.required]),
+      proficiency: new FormControl<ProficiencyLevelsEnums | null>(skill?.proficiency ?? null, [Validators.required]),
+    });
+  }
+
+  createProjectGroup(project?: Project): FormGroup {
+    return this.formBuilder.group({
+      name: [project?.name ?? null, Validators.required],
+      description: [project?.description ?? null, Validators.required],
+    });
   }
 
   public onSubmit() {
     if (this.employeeForm.valid) {
+      console.log(this.employeeForm.getRawValue());
       const formValue = this.employeeForm.getRawValue();
       this.updatedEmployee.emit({ ...formValue, hireDate: new Date(formValue.hireDate!) } as Employee);
     } else {
@@ -124,14 +130,8 @@ export class EmployeeDetailsComponent {
 
   public onReset() {
     this.employeeForm.reset();
-  }
-
-  get skillsList(): FormArray {
-    return this.employeeForm.get('skillsList') as FormArray;
-  }
-
-  get projectsList(): FormArray {
-    return this.employeeForm.get('projectsList') as FormArray;
+    this.employeeForm.controls.projectsList.clear();
+    this.employeeForm.controls.skillsList.clear();
   }
 
   public addSkill() {
@@ -139,10 +139,10 @@ export class EmployeeDetailsComponent {
       name: '',
       proficiency: ProficiencyLevelsEnums.begginer,
     };
-    this.skillsList.push(this.createSkillGroup(skill));
+    this.skillsListControlArray.push(this.createSkillGroup(skill));
   }
   public deleteSkill(index: number) {
-    this.skillsList.removeAt(index);
+    this.skillsListControlArray.removeAt(index);
   }
 
   public addProject() {
@@ -150,6 +150,6 @@ export class EmployeeDetailsComponent {
       name: '',
       description: '',
     };
-    this.projectsList.push(this.createProjectGroup(project));
+    this.projectsListControlArray.push(this.createProjectGroup(project));
   }
 }

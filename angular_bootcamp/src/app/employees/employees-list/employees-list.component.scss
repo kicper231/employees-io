@@ -5,6 +5,7 @@
   list-style-type: none;
   display: flex;
   flex-direction: column;
+
   &__header {
     background-color: $menu;
     font-weight: bold;
@@ -15,6 +16,12 @@
     align-items: center;
     border-bottom: 1px solid $border;
   }
+
+  &__buttons-group {
+    display: flex;
+    justify-content: flex-end;
+  }
+
   &__button {
     width: calc(100% - 2rem);
     padding: 1rem;
@@ -26,6 +33,7 @@
     border-radius: $border-radius-size;
     height: 1.8rem;
     align-items: center;
+
     &-add {
       align-self: flex-end;
       margin: 0.5rem;

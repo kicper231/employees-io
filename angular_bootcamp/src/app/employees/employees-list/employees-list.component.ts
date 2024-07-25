@@ -11,6 +11,9 @@ import { Employee } from '../../models/employee.model';
 export class EmployeesListComponent {
   @Input() listOfEmployees?: Employee[];
   @Output() selectEmployee: EventEmitter<Employee> = new EventEmitter<Employee>();
+  @Output() deleteEmployeeEmitter: EventEmitter<Employee[]> = new EventEmitter<Employee[]>();
+  @Output() creatingNewEmployee: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   selectedEmployee?: Employee;
 
   onSelect(employee?: Employee) {
@@ -19,25 +22,28 @@ export class EmployeesListComponent {
   }
 
   addEmployee() {
-    const newEmployee: Employee = {
-      id: crypto.randomUUID(),
-      name: '',
-      surname: '',
-      hireDate: new Date(),
-      manager: null,
-      skillsList: [],
-      projectsList: [],
-    };
+    // const newEmployee: Employee = {
+    //   id: crypto.randomUUID(),
+    //   name: '',
+    //   surname: '',
+    //   hireDate: new Date(),
+    //   manager: null,
+    //   skillsList: [],
+    //   projectsList: [],
+    // };
 
-    this.listOfEmployees!.push(newEmployee);
+    // this.listOfEmployees!.push(newEmployee);
+    this.onSelect();
 
-    this.onSelect(newEmployee);
+    this.creatingNewEmployee.emit(true);
   }
 
   deleteEmployee() {
     if (this.selectEmployee) {
+      console.log(this.selectEmployee);
       this.listOfEmployees = this.listOfEmployees?.filter((item) => item.id != this.selectedEmployee!.id);
       this.onSelect();
+      this.deleteEmployeeEmitter.emit(this.listOfEmployees);
     }
   }
 }

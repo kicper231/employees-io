@@ -1,5 +1,5 @@
-<div class="employees-list__header">Employees list</div>
 <ul class="employees-list">
+  <div class="employees-list__header">Employees list</div>
   @for (employee of listOfEmployees; track employee.id) {
     <li>
       <button
@@ -12,8 +12,10 @@
       </button>
     </li>
   }
-  <button class="employees-list__button-add" type="button" (click)="deleteEmployee()">
-    <i class="fa fa-trash"></i>
-  </button>
-  <button class="employees-list__button-add" type="button" (click)="addEmployee()"><i class="fa fa-plus"></i></button>
+  <div class="employees-list__buttons-group">
+    <button class="employees-list__button-add" type="button" (click)="deleteEmployee()">
+      <i class="fa fa-trash"></i>
+    </button>
+    <button class="employees-list__button-add" type="button" (click)="addEmployee()"><i class="fa fa-plus"></i></button>
+  </div>
 </ul>
