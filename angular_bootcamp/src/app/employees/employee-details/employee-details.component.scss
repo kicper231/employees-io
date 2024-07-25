@@ -14,6 +14,7 @@
       height: 2.5rem;
     }
   }
+
   &__button-row {
     display: flex;
     gap: 1rem;
@@ -40,7 +41,7 @@
   &__title {
     height: 2rem;
     background-color: $menu;
-    border-bottom: 1px solid $border;
+    border-bottom: $border-default;
     text-align: left;
     display: flex;
     align-items: center;
@@ -53,51 +54,68 @@
     padding: 0.5rem;
     flex: 1;
 
+    &-button {
+      align-self: flex-end;
+      background-color: white;
+      border-radius: 1rem;
+      border: $border-button;
+      padding: 0.5rem;
+
+      &--delete {
+        margin-left: auto;
+        display: inline-block;
+        align-self: center;
+        color: $error;
+        border: none;
+      }
+    }
+
     &-projects {
+      flex-direction: column;
+      display: flex;
       padding: 0.5rem 1rem;
 
-      &-element {
-        margin: 0.5rem;
-        display: block;
-        padding: 0.5rem 1rem;
-        border-radius: $border-radius-size;
-        border: 1px solid $border;
+      &-group {
+        margin-bottom: 2rem;
 
-        &--big {
-          height: 2rem;
-          max-lines: 5;
-          width: calc(100% - 2rem);
+        &-element {
+          margin-bottom: 0.5rem;
+          display: block;
+          padding: 0.5rem 1rem;
+          border-radius: $border-radius-size;
+          border: $border-default;
+
+          &--big {
+            height: 2rem;
+            max-lines: 5;
+            width: calc(100% - 2rem);
+          }
+
+          &--inline {
+            display: inline-block;
+          }
         }
       }
     }
+
     &-skills {
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
+      align-content: flex-start;
       padding: 0.5rem;
 
-      &-button {
-        align-self: center;
-
-        &--delete {
-          color: $error;
-          border: none;
-          display: inline-block;
-          width: 3rem;
-          height: 3rem;
-          margin-left: 1rem;
-        }
-      }
-
       &-group {
-        align-items: center;
+        height: 3rem;
+        display: flex;
+        flex-wrap: nowrap;
 
         &-element {
           align-items: center;
           margin: 0.5rem;
-          padding: 0.5rem 1rem;
+          padding: 0 1rem;
           border-radius: $border-radius-size;
-          border: 1px solid $border;
+          border: $border-default;
         }
       }
     }
@@ -106,12 +124,12 @@
       padding: 0.5rem;
       width: 100%;
       display: block;
-
       border: $border-width solid $border;
       border-radius: $border-radius-size;
     }
 
     &-label {
+      display: block;
       font-size: 0.8rem;
 
       &--bigger {
@@ -119,7 +137,8 @@
       }
     }
     &-input {
-      width: calc(100% - 1.4rem);
+      box-sizing: border-box;
+      width: 100%;
       margin-bottom: 0.5rem;
       display: block;
       padding: 0.3rem 0.7rem;
@@ -135,9 +154,9 @@
     }
 
     &-error {
-      display: inline-block;
       color: $error;
       font-size: 0.8rem;
+      display: block;
     }
   }
 }

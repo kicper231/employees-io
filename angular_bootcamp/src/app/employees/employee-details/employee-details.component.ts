@@ -50,7 +50,7 @@ export class EmployeeDetailsComponent {
     >;
     manager: FormControl<Employee | null>;
   }>;
-  private _employee?: Employee;
+  private _employee!: Employee;
 
   @Input()
   public set employee(employee: Employee) {
@@ -77,7 +77,7 @@ export class EmployeeDetailsComponent {
     this.employeeForm.setControl('projectsList', this.formBuilder.array(projectArray || []));
   }
 
-  public get employee(): Employee | undefined {
+  public get employee(): Employee {
     return this._employee;
   }
 
@@ -120,7 +120,6 @@ export class EmployeeDetailsComponent {
 
   public onSubmit() {
     if (this.employeeForm.valid) {
-      console.log(this.employeeForm.getRawValue());
       const formValue = this.employeeForm.getRawValue();
       this.updatedEmployee.emit({ ...formValue, hireDate: new Date(formValue.hireDate!) } as Employee);
     } else {
@@ -151,5 +150,8 @@ export class EmployeeDetailsComponent {
       description: '',
     };
     this.projectsListControlArray.push(this.createProjectGroup(project));
+  }
+  public deleteProject(index: number) {
+    this.projectsListControlArray.removeAt(index);
   }
 }

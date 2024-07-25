@@ -25,7 +25,7 @@ import { EmployeeDetailsComponent } from '../employee-details/employee-details.c
 export class EmployeesComponent {
   selectedEmployee?: Employee;
   listOfEmployees: Employee[] = EMPLOYESS;
-  isCreating = false;
+  isCreatingEmployee = false;
 
   onSelectEmployee(employee: Employee) {
     this.selectedEmployee = employee;
@@ -34,16 +34,17 @@ export class EmployeesComponent {
     this.listOfEmployees = employees;
   }
   onCreatingEmployee(isCreating: boolean) {
-    this.isCreating = isCreating;
+    this.isCreatingEmployee = isCreating;
   }
 
   onUpdateEmployee(updatedEmployee: Employee) {
-    console.log(this.listOfEmployees);
     const index: number = this.listOfEmployees!.findIndex((value: Employee): boolean => value.id == updatedEmployee.id);
-    console.log(index);
+    this.isCreatingEmployee = false;
+
     if (index != -1) {
-      console.log(updatedEmployee);
       this.listOfEmployees[index] = updatedEmployee;
     }
+    console.log(this.selectedEmployee);
+    console.log(this.listOfEmployees);
   }
 }

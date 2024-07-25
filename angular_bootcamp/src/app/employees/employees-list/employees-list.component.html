@@ -4,7 +4,7 @@
     <li>
       <button
         type="button"
-        [class.employees-list__button--selected]="employee === selectedEmployee"
+        [class.employees-list__button--selected]="employee.id === selectedEmployee?.id!"
         class="employees-list__button"
         (click)="onSelect(employee)"
       >

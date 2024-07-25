@@ -1,6 +1,11 @@
 <div class="profile-info">
   <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
-    <div class="profile-info__title">Employee profile info</div>
+    @if (isCreating) {
+      <div class="profile-info__title">Create Employee profile info</div>
+    } @else {
+      <div class="profile-info__title">Edit employee profile info</div>
+    }
+
     <div class="profile-info__row">
       <div class="profile-info__tile">
         <label for="name" class="profile-info__tile-label">Name:</label>
@@ -41,23 +46,25 @@
         @for (skill of skillsListControlArray.controls; track skill; let i = $index) {
           <div [formGroupName]="i" class="profile-info__tile-skills-group">
             <input formControlName="name" placeholder="Skill Name" class="profile-info__tile-skills-group-element" />
-            @if (skill.get('name')!.hasError('required')) {
-              <div class="profile-info__tile-error">Skill name is required!</div>
-            }
+
             <select formControlName="proficiency" class="profile-info__tile-skills-group-element">
               @for (element of proficiencyValues; track element) {
                 <option [value]="element" [selected]="element === skill.value.proficiency">{{ element }}</option>
               }
             </select>
             <button
-              class="profile-info__tile-skills-button--delete profile-info__tile-skills-button"
+              class="profile-info__tile-button--delete profile-info__tile-button"
+              type="button"
               (click)="deleteSkill(i)"
             >
               <i class="fa fa-trash"></i>
             </button>
           </div>
+          @if (skill.get('name')!.hasError('required')) {
+            <div class="profile-info__tile-error">Skill name is required!</div>
+          }
         }
-        <button type="button" class="profile-info__tile-skills-button" (click)="addSkill()">Add Skill</button>
+        <button type="button" class="profile-info__tile-button" (click)="addSkill()">Add Skill</button>
       </div>
     </div>
 
@@ -66,14 +73,21 @@
 
       <div formArrayName="projectsList" class="profile-info__tile-projects">
         @for (projects of projectsListControlArray.controls; track projects; let i = $index) {
-          <div [formGroupName]="i" style="margin-bottom: 1rem">
+          <div [formGroupName]="i" class="profile-info__tile-projects-group">
             <label for="project-name-{{ i }}" class="profile-info__tile-label">Name:</label>
             <input
               id="project-name-{{ i }}"
               formControlName="name"
               placeholder="Project Name"
-              class="profile-info__tile-projects-element"
+              class="profile-info__tile-projects-group-element profile-info__tile-projects-group-element--inline"
             />
+            <button
+              class="profile-info__tile-button--delete profile-info__tile-button"
+              type="button"
+              (click)="deleteProject(i)"
+            >
+              Delete Project
+            </button>
             @if (projects.get('name')!.hasError('required')) {
               <div class="profile-info__tile-error">Name is required!</div>
             }
@@ -82,7 +96,7 @@
               id="project-description-{{ i }}"
               formControlName="description"
               placeholder="Description"
-              class="profile-info__tile-projects-element--big profile-info__tile-projects-element"
+              class="profile-info__tile-projects-group-element--big profile-info__tile-projects-group-element"
             ></textarea>
             @if (projects.get('description')!.hasError('required')) {
               <div class="profile-info__tile-error">Description is required!</div>
@@ -90,7 +104,7 @@
           </div>
         }
 
-        <button type="button" class="profile-info__tile-skills-button" (click)="addProject()">Add Project</button>
+        <button type="button" class="profile-info__tile-button" (click)="addProject()">Add Project</button>
       </div>
     </div>
 
