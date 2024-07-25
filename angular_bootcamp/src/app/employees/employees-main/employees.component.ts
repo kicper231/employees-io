@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Employee } from '../../models/employee.model';
 import { FormsModule } from '@angular/forms';
 import { DatePipe, JsonPipe, NgForOf, NgIf, UpperCasePipe } from '@angular/common';

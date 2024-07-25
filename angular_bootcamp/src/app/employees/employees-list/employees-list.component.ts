@@ -15,7 +15,7 @@ export class EmployeesListComponent {
   @Output() creatingEmployeeEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Input() selectedEmployee?: Employee;
-  @Input() creatingEmployee: boolean = false;
+  @Input() creatingEmployee = false;
 
   onSelect(employee?: Employee) {
     if (this.creatingEmployee && employee != this.listOfEmployees!.at(-1)) {

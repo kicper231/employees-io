@@ -29,7 +29,7 @@ import { FullName } from '../../utils/full-name.pipe';
 export class EmployeeDetailsComponent {
   @Output() updatedEmployee: EventEmitter<Employee> = new EventEmitter<Employee>();
   @Input() managers: Employee[] = MANAGERS;
-  @Input() isCreating: boolean = false;
+  @Input() isCreating = false;
   proficiencyValues = Object.values(ProficiencyLevelsEnums);
   employeeForm!: FormGroup<{
     id: FormControl<string | null>;
@@ -67,14 +67,20 @@ export class EmployeeDetailsComponent {
       proficiency: FormControl<ProficiencyLevelsEnums | null>;
     }>[] = [];
     employee.skillsList.forEach((skill) => skillsArray.push(this.createSkillGroup(skill)));
-    this.employeeForm.setControl('skillsList', this.formBuilder.array(skillsArray || []));
+    this.employeeForm.setControl(
+      'skillsList',
+      this.formBuilder.array(skillsArray, [Validators.minLength(1), Validators.required])
+    );
 
     const projectArray: FormGroup<{
       name: FormControl<string | null>;
       description: FormControl<string | null>;
     }>[] = [];
     employee.projectsList.forEach((project) => projectArray.push(this.createProjectGroup(project)));
-    this.employeeForm.setControl('projectsList', this.formBuilder.array(projectArray || []));
+    this.employeeForm.setControl(
+      'projectsList',
+      this.formBuilder.array(projectArray, [Validators.minLength(1), Validators.required])
+    );
   }
 
   public get employee(): Employee {
@@ -97,9 +103,9 @@ export class EmployeeDetailsComponent {
       id: [''],
       name: ['', Validators.required],
       surname: ['', Validators.required],
-      hireDate: [new FormControl<string | null>(null)],
-      skillsList: this.formBuilder.array([this.createSkillGroup()]),
-      projectsList: this.formBuilder.array([this.createProjectGroup()]),
+      hireDate: [new FormControl<string | null>(null), Validators.required],
+      skillsList: this.formBuilder.array([this.createSkillGroup()], Validators.required),
+      projectsList: this.formBuilder.array([this.createProjectGroup()], [Validators.minLength(1), Validators.required]),
       manager: [new FormControl<Employee | null>(null), Validators.required],
     });
   }

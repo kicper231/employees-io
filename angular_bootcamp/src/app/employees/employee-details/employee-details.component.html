@@ -38,11 +38,18 @@
         formControlName="hireDate"
         placeholder="hireDate"
       />
+      @if (employeeForm.controls.hireDate.hasError('required')) {
+        <div class="profile-info__tile-error">Hire date is required!</div>
+      }
     </div>
 
     <div class="profile-info__tile">
       <div class="profile-info__tile-label--bigger">Skills:</div>
       <div formArrayName="skillsList" class="profile-info__tile-skills">
+        @if (skillsListControlArray.hasError('required')) {
+          <div class="profile-info__tile-error">Skill list cannot be empty</div>
+        }
+
         @for (skill of skillsListControlArray.controls; track skill; let i = $index) {
           <div [formGroupName]="i" class="profile-info__tile-skills-group">
             <input formControlName="name" placeholder="Skill Name" class="profile-info__tile-skills-group-element" />
@@ -70,7 +77,9 @@
 
     <div class="profile-info__tile">
       <div class="profile-info__tile-label--bigger">Projects:</div>
-
+      @if (projectsListControlArray.hasError('required')) {
+        <div class="profile-info__tile-error">Projects list cannot be empty</div>
+      }
       <div formArrayName="projectsList" class="profile-info__tile-projects">
         @for (projects of projectsListControlArray.controls; track projects; let i = $index) {
           <div [formGroupName]="i" class="profile-info__tile-projects-group">
@@ -81,13 +90,7 @@
               placeholder="Project Name"
               class="profile-info__tile-projects-group-element profile-info__tile-projects-group-element--inline"
             />
-            <button
-              class="profile-info__tile-button--delete profile-info__tile-button"
-              type="button"
-              (click)="deleteProject(i)"
-            >
-              Delete Project
-            </button>
+
             @if (projects.get('name')!.hasError('required')) {
               <div class="profile-info__tile-error">Name is required!</div>
             }
@@ -101,6 +104,13 @@
             @if (projects.get('description')!.hasError('required')) {
               <div class="profile-info__tile-error">Description is required!</div>
             }
+            <button
+              class="profile-info__tile-button--delete profile-info__tile-button"
+              type="button"
+              (click)="deleteProject(i)"
+            >
+              <i class="fa fa-trash"></i>
+            </button>
           </div>
         }
 
