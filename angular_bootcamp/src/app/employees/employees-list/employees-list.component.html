@@ -1,0 +1,14 @@
+<ul class="employees-list">
+  @for (employee of listOfEmployees; track employee.id) {
+    <li>
+      <button
+        type="button"
+        [class.employees-list__button--selected]="employee === selectedEmployee"
+        class="employees-list__button"
+        (click)="onSelect(employee)"
+      >
+        <span class="employees-list__button__name-surname">{{ employee.name }} {{ employee.surname }}</span>
+      </button>
+    </li>
+  }
+</ul>

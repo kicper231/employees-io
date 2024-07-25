@@ -1,0 +1,33 @@
+@import '../../../styles';
+
+.employees-list {
+  margin: 0 0 2rem 0;
+  list-style-type: none;
+  padding: 0;
+  width: 15rem;
+  &__button {
+    width: 200px;
+    flex: 1;
+    cursor: pointer;
+    position: relative;
+    left: 0;
+    border: 1px solid $border;
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: $border-radius-size;
+    display: flex;
+    height: 1.8rem;
+    align-items: center;
+    &--selected {
+      background-color: $primary;
+      color: $background;
+    }
+    &:hover {
+      background-color: $secondary;
+    }
+
+    &__name-surname {
+      margin: 0 auto;
+    }
+  }
+}
