@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { EmployeesComponent } from './employees/employees-main/employees.component';
+import { EmployeesComponent } from './features/employees/pages/edit-add-employees/components/employees-main/employees.component';
+import { HeaderComponent } from './shared/layout/header/header.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, EmployeesComponent],
+  imports: [RouterOutlet, EmployeesComponent, HeaderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

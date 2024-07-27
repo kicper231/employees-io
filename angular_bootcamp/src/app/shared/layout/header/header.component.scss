@@ -1,0 +1,32 @@
+@import '../../styles/styles';
+.header {
+  height: 7rem;
+  margin: 0 0 4rem 0;
+  padding: 0 0 0 0;
+  background-color: $menu;
+  display: flex;
+  align-items: center;
+
+  &__page-title {
+    font-size: 2.5em;
+    margin-left: 2rem;
+  }
+
+  &__navbar {
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-end;
+    flex: 1;
+
+    &-element {
+      padding: 1rem;
+      background: $secondary;
+      margin: 1rem;
+      color: white;
+      width: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}

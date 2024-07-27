@@ -1,5 +1,5 @@
 import { Employee } from '../models/employee.model';
-import { ProficiencyLevelsEnums } from '../enums/proficiency-levels.enums';
+import { ProficiencyLevelsEnums } from '../models/enums/proficiency-levels.enums';
 import { MANAGERS } from './mock-managers';
 
 export const EMPLOYESS: Employee[] = [

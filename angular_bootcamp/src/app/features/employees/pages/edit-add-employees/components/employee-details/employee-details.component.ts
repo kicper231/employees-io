@@ -12,11 +12,11 @@ import {
 } from '@angular/forms';
 import { Employee } from '../../models/employee.model';
 
-import { ProficiencyLevelsEnums } from '../../enums/proficiency-levels.enums';
-import { MANAGERS } from '../../mocks/mock-managers';
+import { ProficiencyLevelsEnums } from '../../models/enums/proficiency-levels.enums';
+import { MANAGERS } from '../../employees-mocks/mock-managers';
 import { Skill } from '../../models/skill.model';
 import { Project } from '../../models/project.model';
-import { FullName } from '../../utils/full-name.pipe';
+import { FullName } from '../../pipes/full-name.pipe';
 
 @Component({
   selector: 'app-employee-details',
@@ -31,6 +31,7 @@ export class EmployeeDetailsComponent {
   @Input() managers: Employee[] = MANAGERS;
   @Input() isCreating = false;
   proficiencyValues = Object.values(ProficiencyLevelsEnums);
+
   employeeForm!: FormGroup<{
     id: FormControl<string | null>;
     name: FormControl<string | null>;
