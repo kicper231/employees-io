@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { EmployeesComponent } from './features/employees/pages/edit-add-employees/components/employees-main/employees.component';
-import { HeaderComponent } from './shared/layout/header/header.component';
+import { HeaderComponent } from './core/layout/header/header.component';
 
 @Component({
   selector: 'app-root',

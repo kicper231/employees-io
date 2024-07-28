@@ -1,0 +1,20 @@
+import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-language-picker-component',
+  standalone: true,
+  imports: [FormsModule],
+  templateUrl: './language-picker-component.component.html',
+  styleUrl: './language-picker-component.component.scss',
+})
+export class LanguagePickerComponentComponent {
+  constructor(public translate: TranslateService) {
+    this.translate.addLangs(['en', 'pl']);
+    this.translate.use('pl');
+  }
+  setLanguage(value: string) {
+    this.translate.use(value);
+  }
+}
