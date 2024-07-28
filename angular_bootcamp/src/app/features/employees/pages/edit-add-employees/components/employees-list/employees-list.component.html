@@ -1,5 +1,5 @@
 <ul class="employees-list">
-  <div class="employees-list__header">Employees list</div>
+  <div class="employees-list__header">{{ "employees.list.title" | translate }}</div>
   @for (employee of listOfEmployees; track employee.id) {
     <li>
       <button

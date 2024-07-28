@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DatePipe, NgForOf, UpperCasePipe } from '@angular/common';
+import { DatePipe, LowerCasePipe, NgForOf, UpperCasePipe } from '@angular/common';
 
 import {
   FormArray,
@@ -17,11 +17,21 @@ import { MANAGERS } from '../../employees-mocks/mock-managers';
 import { Skill } from '../../models/skill.model';
 import { Project } from '../../models/project.model';
 import { FullName } from '../../pipes/full-name.pipe';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-employee-details',
   standalone: true,
-  imports: [DatePipe, ReactiveFormsModule, UpperCasePipe, FormsModule, NgForOf, FullName],
+  imports: [
+    DatePipe,
+    ReactiveFormsModule,
+    UpperCasePipe,
+    FormsModule,
+    NgForOf,
+    FullName,
+    TranslateModule,
+    LowerCasePipe,
+  ],
   templateUrl: './employee-details.component.html',
   styleUrl: './employee-details.component.scss',
   providers: [DatePipe],

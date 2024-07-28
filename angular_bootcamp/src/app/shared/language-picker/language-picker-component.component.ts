@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-language-picker-component',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, TranslateModule],
   templateUrl: './language-picker-component.component.html',
   styleUrl: './language-picker-component.component.scss',
 })
