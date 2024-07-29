@@ -1,46 +1,145 @@
-@if (employee) {
-  <div class="profile-info">
-    <h2 class="profile-info_title">Employee profile info</h2>
-    <div class="profile-info__tile">
-      <label for="name" class="profile-info__tile-label"> name: </label>
-      <input id="name" class="profile-info__tile-input" type="text" [(ngModel)]="employee.name" placeholder="name" />
-      {{ employee.name | uppercase }}
-    </div>
+<div class="profile-info">
+  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+    @if (isCreating) {
+      <div class="profile-info__title">Create Employee profile info</div>
+    } @else {
+      <div class="profile-info__title">Edit employee profile info</div>
+    }
 
-    <div class="profile-info__tile">
-      <label for="surname" class="profile-info__tile-label"> surname: </label>
-      <input
-        id="surname"
-        class="profile-info__tile-input"
-        type="text"
-        [(ngModel)]="employee.surname"
-        placeholder="surname"
-      />
-      {{ employee.surname }}
+    <div class="profile-info__row">
+      <div class="profile-info__tile">
+        <label for="name" class="profile-info__tile-label">Name:</label>
+        <input id="name" class="profile-info__tile-input" type="text" formControlName="name" placeholder="name" />
+        @if (employeeForm.controls.name.hasError('required')) {
+          <div class="profile-info__tile-error">Name is required!</div>
+        }
+      </div>
+
+      <div class="profile-info__tile">
+        <label for="surname" class="profile-info__tile-label">Surname:</label>
+        <input
+          id="surname"
+          class="profile-info__tile-input"
+          type="text"
+          formControlName="surname"
+          placeholder="surname"
+        />
+        @if (employeeForm.controls.surname.hasError('required')) {
+          <div class="profile-info__tile-error">Surname is required!</div>
+        }
+      </div>
     </div>
     <div class="profile-info__tile">
-      <label for="hire-date" class="profile-info__tile-label"> Date of hire: </label>
+      <label for="hire-date" class="profile-info__tile-label">Date of hire:</label>
       <input
+        type="date"
         id="hire-date"
         class="profile-info__tile-input"
-        [ngModel]="employee.hireDate | date: 'medium'"
+        formControlName="hireDate"
         placeholder="hireDate"
-        disabled
       />
-      {{ employee.hireDate | date: 'medium' }}
+      @if (employeeForm.controls.hireDate.hasError('required')) {
+        <div class="profile-info__tile-error">Hire date is required!</div>
+      }
     </div>
-  </div>
 
-  <div class="profile-info__tile">
-    <app-employee-details-skills [employee]="employee"></app-employee-details-skills>
-  </div>
+    <div class="profile-info__tile">
+      <div class="profile-info__tile-label--bigger">Skills:</div>
+      <div formArrayName="skillsList" class="profile-info__tile-skills">
+        @if (skillsListControlArray.hasError('required')) {
+          <div class="profile-info__tile-error">Skill list cannot be empty</div>
+        }
 
-  <div class="profile-info__tile">
-    <app-employee-details-projects [employee]="employee"></app-employee-details-projects>
-  </div>
+        @for (skill of skillsListControlArray.controls; track skill; let i = $index) {
+          <div [formGroupName]="i" class="profile-info__tile-skills-group">
+            <input formControlName="name" placeholder="Skill Name" class="profile-info__tile-skills-group-element" />
 
-  <div class="profile-info__tile">
-    <span> Manager: </span>
-    <span class="profile-info__tile-input"> {{ getManagerFullName() }}</span>
-  </div>
-}
+            <select formControlName="proficiency" class="profile-info__tile-skills-group-element">
+              @for (element of proficiencyValues; track element) {
+                <option [value]="element" [selected]="element === skill.value.proficiency">{{ element }}</option>
+              }
+            </select>
+            <button
+              class="profile-info__tile-button--delete profile-info__tile-button"
+              type="button"
+              (click)="deleteSkill(i)"
+            >
+              <i class="fa fa-trash"></i>
+            </button>
+          </div>
+          @if (skill.get('name')!.hasError('required')) {
+            <div class="profile-info__tile-error">Skill name is required!</div>
+          }
+        }
+        <button type="button" class="profile-info__tile-button" (click)="addSkill()">Add Skill</button>
+      </div>
+    </div>
+
+    <div class="profile-info__tile">
+      <div class="profile-info__tile-label--bigger">Projects:</div>
+      @if (projectsListControlArray.hasError('required')) {
+        <div class="profile-info__tile-error">Projects list cannot be empty</div>
+      }
+      <div formArrayName="projectsList" class="profile-info__tile-projects">
+        @for (projects of projectsListControlArray.controls; track projects; let i = $index) {
+          <div [formGroupName]="i" class="profile-info__tile-projects-group">
+            <label for="project-name-{{ i }}" class="profile-info__tile-label">Name:</label>
+            <input
+              id="project-name-{{ i }}"
+              formControlName="name"
+              placeholder="Project Name"
+              class="profile-info__tile-projects-group-element profile-info__tile-projects-group-element--inline"
+            />
+
+            @if (projects.get('name')!.hasError('required')) {
+              <div class="profile-info__tile-error">Name is required!</div>
+            }
+            <label for="project-description-{{ i }}" class="profile-info__tile-label">Description:</label>
+            <textarea
+              id="project-description-{{ i }}"
+              formControlName="description"
+              placeholder="Description"
+              class="profile-info__tile-projects-group-element--big profile-info__tile-projects-group-element"
+            ></textarea>
+            @if (projects.get('description')!.hasError('required')) {
+              <div class="profile-info__tile-error">Description is required!</div>
+            }
+            <button
+              class="profile-info__tile-button--delete profile-info__tile-button"
+              type="button"
+              (click)="deleteProject(i)"
+            >
+              <i class="fa fa-trash"></i>
+            </button>
+          </div>
+        }
+
+        <button type="button" class="profile-info__tile-button" (click)="addProject()">Add Project</button>
+      </div>
+    </div>
+
+    <div class="profile-info__tile">
+      <div class="profile-info__tile-label">Manager:</div>
+      <select class="profile-info__tile-select" id="managers" formControlName="manager">
+        @if (!employee.manager) {
+          <option value="default" disabled selected hidden>Choose manager</option>
+        }
+
+        @for (manager of managers; track manager) {
+          <option [selected]="employee.manager && employee.manager.id === manager.id">
+            {{ manager | fullName }}
+          </option>
+        }
+        S
+      </select>
+      @if (employeeForm.controls.manager.hasError('required')) {
+        <div class="profile-info__tile-error">Manager is required!</div>
+      }
+    </div>
+
+    <div class="profile-info__button-row">
+      <button type="button" class="profile-info__button-row-element" (click)="onReset()">reset</button>
+      <button class="profile-info__button-row-element" [disabled]="employeeForm.invalid" type="submit">submit</button>
+    </div>
+  </form>
+</div>

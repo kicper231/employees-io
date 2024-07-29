@@ -11,10 +11,48 @@ import { Employee } from '../../models/employee.model';
 export class EmployeesListComponent {
   @Input() listOfEmployees?: Employee[];
   @Output() selectEmployee: EventEmitter<Employee> = new EventEmitter<Employee>();
-  selectedEmployee?: Employee;
+  @Output() deleteEmployeeEmitter: EventEmitter<Employee[]> = new EventEmitter<Employee[]>();
+  @Output() creatingEmployeeEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  onSelect(employee: Employee) {
+  @Input() selectedEmployee?: Employee;
+  @Input() creatingEmployee = false;
+
+  onSelect(employee?: Employee) {
+    if (this.creatingEmployee && employee != this.listOfEmployees!.at(-1)) {
+      this.creatingEmployee = false;
+      this.creatingEmployeeEmitter.emit(false);
+      this.listOfEmployees?.pop();
+      this.deleteEmployeeEmitter.emit(this.listOfEmployees);
+    }
+
     this.selectedEmployee = employee;
     this.selectEmployee.emit(employee);
+  }
+
+  addEmployee() {
+    if (!this.creatingEmployee) {
+      const newEmployee: Employee = {
+        id: crypto.randomUUID(),
+        name: '',
+        surname: '',
+        hireDate: new Date(),
+        manager: null,
+        skillsList: [],
+        projectsList: [],
+      };
+      this.creatingEmployee = true;
+      this.creatingEmployeeEmitter.emit(this.creatingEmployee);
+      this.listOfEmployees!.push(newEmployee);
+      this.onSelect(newEmployee);
+    }
+  }
+
+  deleteEmployee() {
+    if (this.selectEmployee) {
+      console.log(this.selectEmployee);
+      this.listOfEmployees = this.listOfEmployees?.filter((item) => item.id != this.selectedEmployee!.id);
+      this.onSelect();
+      this.deleteEmployeeEmitter.emit(this.listOfEmployees);
+    }
   }
 }

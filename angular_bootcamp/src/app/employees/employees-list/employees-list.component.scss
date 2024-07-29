@@ -1,23 +1,49 @@
 @import '../../../styles';
 
 .employees-list {
-  margin: 0 0 2rem 0;
+  margin: 0 0 0 0;
   list-style-type: none;
-  padding: 0;
-  width: 15rem;
-  &__button {
-    width: 200px;
-    flex: 1;
-    cursor: pointer;
-    position: relative;
-    left: 0;
-    border: 1px solid $border;
-    margin: 1rem;
-    padding: 1rem;
-    border-radius: $border-radius-size;
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    background-color: $menu;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    height: 2rem;
+    text-align: left;
     display: flex;
+    align-items: center;
+    border-bottom: $border-default;
+  }
+
+  &__buttons-group {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__button {
+    width: calc(100% - 2rem);
+    padding: 1rem;
+    box-sizing: border-box;
+    cursor: pointer;
+    margin: 1rem;
+    border: $border-default;
+    display: flex;
+    border-radius: $border-radius-size;
     height: 1.8rem;
     align-items: center;
+
+    &-add {
+      align-self: flex-end;
+      margin: 0.5rem;
+      border-radius: 50%;
+      width: 2rem;
+      height: 2rem;
+      justify-content: center;
+      align-items: center;
+    }
+
     &--selected {
       background-color: $primary;
       color: $background;

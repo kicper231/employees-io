@@ -1,9 +1,10 @@
 <ul class="employees-list">
+  <div class="employees-list__header">Employees list</div>
   @for (employee of listOfEmployees; track employee.id) {
     <li>
       <button
         type="button"
-        [class.employees-list__button--selected]="employee === selectedEmployee"
+        [class.employees-list__button--selected]="employee.id === selectedEmployee?.id!"
         class="employees-list__button"
         (click)="onSelect(employee)"
       >
@@ -11,4 +12,10 @@
       </button>
     </li>
   }
+  <div class="employees-list__buttons-group">
+    <button class="employees-list__button-add" type="button" (click)="deleteEmployee()">
+      <i class="fa fa-trash"></i>
+    </button>
+    <button class="employees-list__button-add" type="button" (click)="addEmployee()"><i class="fa fa-plus"></i></button>
+  </div>
 </ul>

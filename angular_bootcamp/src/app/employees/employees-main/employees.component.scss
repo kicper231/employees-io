@@ -3,5 +3,23 @@
 .employees {
   color: $text;
   font-size: 1rem;
-  margin: 2% 20% 0 20%;
+  margin: 2% 15% 0 15%;
+  display: flex;
+  align-items: flex-start;
+
+  &__details {
+    width: 65%;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 $box-shadow-size rgba(0, 0, 0, 0.1);
+  }
+
+  &__list {
+    width: 30%;
+    margin-right: 5%;
+    display: inline-block;
+    align-content: start;
+    border: $border-default;
+    box-shadow: 0 0 $box-shadow-size rgba(0, 0, 0, 0.1);
+  }
 }

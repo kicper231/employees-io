@@ -1,4 +1,4 @@
-import { SkillModel } from './skill.model';
+import { Skill } from './skill.model';
 import { Project } from './project.model';
 
 export interface Employee {
@@ -6,7 +6,7 @@ export interface Employee {
   surname: string;
   id: string;
   hireDate: Date;
-  skillsList: SkillModel[];
+  skillsList: Skill[];
   projectsList: Project[];
   manager: Employee | null;
 }
