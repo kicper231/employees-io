@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Employee } from '../../models/employee.model';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-employees-list',
   standalone: true,
-  imports: [],
+  imports: [TranslateModule],
   templateUrl: './employees-list.component.html',
   styleUrl: './employees-list.component.scss',
 })

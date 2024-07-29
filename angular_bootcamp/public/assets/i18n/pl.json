@@ -1,0 +1,72 @@
+{
+  "languages": {
+    "en": "Angielski",
+    "pl": "Polski"
+  },
+
+  "header": {
+    "title": "Pracownicy.io"
+  },
+  "footer": {
+    "privacy.policy": "Polityka prywatności 2024, wszystkie prawa zastrzeżone @"
+  },
+  "employees": {
+    "list": {
+      "title": "Lista pracowników"
+    },
+    "details": {
+      "title": {
+        "editing": "Edytuj szczególy pracownika",
+        "creating": "Stwórz nowego pracownika"
+      },
+      "name": {
+        "label": "Imię:",
+        "placeholder": "imię"
+      },
+      "surname": {
+        "label": "Nazwisko:",
+        "placeholder": "nazwisko"
+      },
+      "date.of.hire": "Data zatrudnienia",
+      "skills": {
+        "label": "Umiejętności:",
+        "add.skill": "Dodaj umiejętność",
+        "proficiency": {
+          "begginer": "początkujący",
+          "intermediate": "średnio zaawansowany",
+          "advanced": "zaawansowany"
+        },
+        "name.placeholder": "Nazwa umięjetności"
+      },
+      "add.skill": "Dodaj",
+      "projects": {
+        "label": "Projekty:",
+        "add.project": "Dodaj projekt",
+        "name.label": "Nazwa:",
+        "name.placeholder": "Tytuł projektu",
+        "description.label": "Opis:",
+        "description.placeholder": "Opis projektu"
+      },
+      "manager": {
+        "placeholder": "menager",
+        "label": "Menager:"
+      },
+      "buttons": {
+        "submit": "zapisz",
+        "reset": "resetuj"
+      },
+
+      "validation": {
+        "employee.name": "Imię jest wymagane!",
+        "employee.surname": "Nazwisko jest wymagane!",
+        "employee.date.of.hire": "Data zatrudnienia jest wymagana!",
+        "skill.name": "Nazwa umiejętności jest wymagana!",
+        "skills": "Lista umiejętności nie może byc pusta!",
+        "projects": "Lista projektów nie może byc pusta!",
+        "project.name": "Nazwa projektu jest wymagana!",
+        "project.description": "Opis projektu jest wymagany!",
+        "employee.manager": "Menager jest wymagany!"
+      }
+    }
+  }
+}

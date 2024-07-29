@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Employee } from '../../models/employee.model';
 import { FormsModule } from '@angular/forms';
 import { DatePipe, JsonPipe, NgForOf, NgIf, UpperCasePipe } from '@angular/common';
-import { EMPLOYESS } from '../../mocks/mock-employees';
+import { EMPLOYESS } from '../../employees-mocks/mock-employees';
 import { EmployeesListComponent } from '../employees-list/employees-list.component';
 import { EmployeeDetailsComponent } from '../employee-details/employee-details.component';
 

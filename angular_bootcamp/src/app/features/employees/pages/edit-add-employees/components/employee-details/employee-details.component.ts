@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DatePipe, NgForOf, UpperCasePipe } from '@angular/common';
+import { DatePipe, LowerCasePipe, NgForOf, UpperCasePipe } from '@angular/common';
 
 import {
   FormArray,
@@ -12,16 +12,26 @@ import {
 } from '@angular/forms';
 import { Employee } from '../../models/employee.model';
 
-import { ProficiencyLevelsEnums } from '../../enums/proficiency-levels.enums';
-import { MANAGERS } from '../../mocks/mock-managers';
+import { ProficiencyLevelsEnums } from '../../models/enums/proficiency-levels.enums';
+import { MANAGERS } from '../../employees-mocks/mock-managers';
 import { Skill } from '../../models/skill.model';
 import { Project } from '../../models/project.model';
-import { FullName } from '../../utils/full-name.pipe';
+import { FullName } from '../../pipes/full-name.pipe';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-employee-details',
   standalone: true,
-  imports: [DatePipe, ReactiveFormsModule, UpperCasePipe, FormsModule, NgForOf, FullName],
+  imports: [
+    DatePipe,
+    ReactiveFormsModule,
+    UpperCasePipe,
+    FormsModule,
+    NgForOf,
+    FullName,
+    TranslateModule,
+    LowerCasePipe,
+  ],
   templateUrl: './employee-details.component.html',
   styleUrl: './employee-details.component.scss',
   providers: [DatePipe],
@@ -31,6 +41,7 @@ export class EmployeeDetailsComponent {
   @Input() managers: Employee[] = MANAGERS;
   @Input() isCreating = false;
   proficiencyValues = Object.values(ProficiencyLevelsEnums);
+
   employeeForm!: FormGroup<{
     id: FormControl<string | null>;
     name: FormControl<string | null>;
