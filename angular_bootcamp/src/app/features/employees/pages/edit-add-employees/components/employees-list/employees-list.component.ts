@@ -1,7 +1,7 @@
 import { Component, DestroyRef, EventEmitter, inject, Input, Output } from '@angular/core';
 
 import { TranslateModule } from '@ngx-translate/core';
-import { EmployeesService } from '../../../../../../services/employees.service';
+import { EmployeesService } from '../../../../../../services/employees-service/employees.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Employee } from '../../../../../../models/employee.model';
 
@@ -14,29 +14,24 @@ import { Employee } from '../../../../../../models/employee.model';
 })
 export class EmployeesListComponent {
   @Input() listOfEmployees?: Employee[];
-  @Output() selectEmployee: EventEmitter<Employee> = new EventEmitter<Employee>();
-  @Output() creatingEmployeeEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  @Input() selectedEmployee?: Employee;
-  @Input() creatingEmployee = false;
+  selectedEmployee?: Employee;
 
   private readonly destroyRef = inject(DestroyRef);
 
   constructor(private employeesService: EmployeesService) {}
 
   onSelect(employee?: Employee) {
-    if (this.creatingEmployee && employee != this.listOfEmployees!.at(-1)) {
-      this.creatingEmployee = false;
-      this.creatingEmployeeEmitter.emit(false);
+    if (this.employeesService.creatingEmployee.value && employee != this.listOfEmployees!.at(-1)) {
+      this.employeesService.setCreatingEmployee(false);
       this.listOfEmployees?.pop();
     }
 
-    this.selectedEmployee = employee;
-    this.selectEmployee.emit(employee);
+    this.employeesService.setSelectedEmployee(employee);
   }
 
   addEmployee() {
-    if (!this.creatingEmployee) {
+    if (!this.employeesService.creatingEmployee.value) {
       const newEmployee: Employee = {
         id: crypto.randomUUID(),
         name: '',
@@ -46,8 +41,7 @@ export class EmployeesListComponent {
         skillsList: [],
         projectsList: [],
       };
-      this.creatingEmployee = true;
-      this.creatingEmployeeEmitter.emit(this.creatingEmployee);
+      this.employeesService.setCreatingEmployee(true);
       this.employeesService
         .addEmployee(newEmployee)
         .pipe(takeUntilDestroyed(this.destroyRef))

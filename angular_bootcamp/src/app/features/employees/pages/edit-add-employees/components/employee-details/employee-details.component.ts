@@ -1,4 +1,4 @@
-import { Component, DestroyRef, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
 import { DatePipe, LowerCasePipe, NgForOf, UpperCasePipe } from '@angular/common';
 
 import {
@@ -15,7 +15,7 @@ import { FullName } from '../../pipes/full-name.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { EmployeesService } from '../../../../../../services/employees.service';
+import { EmployeesService } from '../../../../../../services/employees-service/employees.service';
 import { ProficiencyLevelsEnums } from '../../../../../../enums/proficiency-levels.enums';
 import { Employee } from '../../../../../../models/employee.model';
 import { Skill } from '../../../../../../models/skill.model';
@@ -40,9 +40,8 @@ import { Project } from '../../../../../../models/project.model';
 })
 export class EmployeeDetailsComponent implements OnInit {
   managers: Employee[] = [];
-  @Input() isCreating = false;
   proficiencyValues = Object.values(ProficiencyLevelsEnums);
-
+  creatingEmployee: boolean = false;
   employeeForm!: FormGroup<{
     id: FormControl<string | null>;
     name: FormControl<string | null>;
@@ -62,6 +61,7 @@ export class EmployeeDetailsComponent implements OnInit {
     >;
     manager: FormControl<Employee | null>;
   }>;
+
   private _employee!: Employee;
   private readonly destroyRef = inject(DestroyRef);
 
@@ -126,6 +126,11 @@ export class EmployeeDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getManagersData();
+
+    this.employeesService
+      .getCreatingEmployee()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((creatingEmployee) => (this.creatingEmployee = creatingEmployee));
   }
 
   createSkillGroup(skill?: Skill): FormGroup {

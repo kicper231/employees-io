@@ -1,6 +1,6 @@
 <div class="profile-info">
   <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
-    @if (isCreating) {
+    @if (creatingEmployee) {
       <div class="profile-info__title">{{ "employees.details.title.creating" | translate }}</div>
     } @else {
       <div class="profile-info__title">{{ "employees.details.title.editing" | translate }}</div>
