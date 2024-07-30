@@ -41,7 +41,7 @@ import { Project } from '../../../../../../models/project.model';
 export class EmployeeDetailsComponent implements OnInit {
   managers: Employee[] = [];
   proficiencyValues = Object.values(ProficiencyLevelsEnums);
-  creatingEmployee: boolean = false;
+  creatingEmployee = false;
   employeeForm!: FormGroup<{
     id: FormControl<string | null>;
     name: FormControl<string | null>;

@@ -1,4 +1,4 @@
-import { Component, DestroyRef, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, DestroyRef, inject, Input } from '@angular/core';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { EmployeesService } from '../../../../../../services/employees-service/employees.service';
@@ -19,14 +19,14 @@ export class EmployeesListComponent {
 
   private readonly destroyRef = inject(DestroyRef);
 
-  constructor(private employeesService: EmployeesService) {}
+  constructor(public employeesService: EmployeesService) {}
 
   onSelect(employee?: Employee) {
     if (this.employeesService.creatingEmployee.value && employee != this.listOfEmployees!.at(-1)) {
       this.employeesService.setCreatingEmployee(false);
       this.listOfEmployees?.pop();
     }
-
+    this.selectedEmployee = employee;
     this.employeesService.setSelectedEmployee(employee);
   }
 
