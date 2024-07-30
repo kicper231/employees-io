@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { DatePipe, LowerCasePipe, NgForOf, UpperCasePipe } from '@angular/common';
 
 import {
@@ -10,14 +10,16 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Employee } from '../../models/employee.model';
 
-import { ProficiencyLevelsEnums } from '../../models/enums/proficiency-levels.enums';
-import { MANAGERS } from '../../employees-mocks/mock-managers';
-import { Skill } from '../../models/skill.model';
-import { Project } from '../../models/project.model';
 import { FullName } from '../../pipes/full-name.pipe';
 import { TranslateModule } from '@ngx-translate/core';
+
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { EmployeesService } from '../../../../../../services/employees.service';
+import { ProficiencyLevelsEnums } from '../../../../../../enums/proficiency-levels.enums';
+import { Employee } from '../../../../../../models/employee.model';
+import { Skill } from '../../../../../../models/skill.model';
+import { Project } from '../../../../../../models/project.model';
 
 @Component({
   selector: 'app-employee-details',
@@ -36,9 +38,8 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './employee-details.component.scss',
   providers: [DatePipe],
 })
-export class EmployeeDetailsComponent {
-  @Output() updatedEmployee: EventEmitter<Employee> = new EventEmitter<Employee>();
-  @Input() managers: Employee[] = MANAGERS;
+export class EmployeeDetailsComponent implements OnInit {
+  managers: Employee[] = [];
   @Input() isCreating = false;
   proficiencyValues = Object.values(ProficiencyLevelsEnums);
 
@@ -62,6 +63,7 @@ export class EmployeeDetailsComponent {
     manager: FormControl<Employee | null>;
   }>;
   private _employee!: Employee;
+  private readonly destroyRef = inject(DestroyRef);
 
   @Input()
   public set employee(employee: Employee) {
@@ -108,7 +110,8 @@ export class EmployeeDetailsComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private employeesService: EmployeesService
   ) {
     this.employeeForm = this.formBuilder.group({
       id: [''],
@@ -119,6 +122,10 @@ export class EmployeeDetailsComponent {
       projectsList: this.formBuilder.array([this.createProjectGroup()], [Validators.minLength(1), Validators.required]),
       manager: [new FormControl<Employee | null>(null), Validators.required],
     });
+  }
+
+  ngOnInit(): void {
+    this.getManagersData();
   }
 
   createSkillGroup(skill?: Skill): FormGroup {
@@ -138,9 +145,9 @@ export class EmployeeDetailsComponent {
   public onSubmit() {
     if (this.employeeForm.valid) {
       const formValue = this.employeeForm.getRawValue();
-      this.updatedEmployee.emit({ ...formValue, hireDate: new Date(formValue.hireDate!) } as Employee);
+      this.employeesService.updateEmployee({ ...formValue, hireDate: new Date(formValue.hireDate!) } as Employee);
     } else {
-      alert('The form contains errors');
+      alert('The form contain s errors');
     }
   }
 
@@ -170,5 +177,12 @@ export class EmployeeDetailsComponent {
   }
   public deleteProject(index: number) {
     this.projectsListControlArray.removeAt(index);
+  }
+
+  getManagersData(): void {
+    this.employeesService
+      .getManagers()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((next) => (this.managers = next));
   }
 }

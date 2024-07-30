@@ -6,10 +6,10 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-language-picker-component',
   standalone: true,
   imports: [FormsModule, TranslateModule],
-  templateUrl: './language-picker-component.component.html',
-  styleUrl: './language-picker-component.component.scss',
+  templateUrl: './language-picker-component.html',
+  styleUrl: './language-picker-component.scss',
 })
-export class LanguagePickerComponentComponent {
+export class LanguagePickerComponent {
   constructor(public translate: TranslateService) {
     this.translate.addLangs(['en', 'pl']);
     this.translate.use('pl');

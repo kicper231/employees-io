@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
-import { Employee } from '../../models/employee.model';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatePipe, JsonPipe, NgForOf, NgIf, UpperCasePipe } from '@angular/common';
-import { EMPLOYESS } from '../../employees-mocks/mock-employees';
 import { EmployeesListComponent } from '../employees-list/employees-list.component';
 import { EmployeeDetailsComponent } from '../employee-details/employee-details.component';
+import { EmployeesService } from '../../../../../../services/employees.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { take } from 'rxjs';
+import { Employee } from '../../../../../../models/employee.model';
 
 @Component({
   selector: 'app-employees',
@@ -22,10 +24,26 @@ import { EmployeeDetailsComponent } from '../employee-details/employee-details.c
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.scss',
 })
-export class EmployeesComponent {
+export class EmployeesComponent implements OnInit {
   selectedEmployee?: Employee;
-  listOfEmployees: Employee[] = EMPLOYESS;
+  listOfEmployees: Employee[] = [];
   isCreatingEmployee = false;
+  private readonly destroyRef = inject(DestroyRef);
+
+  constructor(private employeesService: EmployeesService) {}
+
+  ngOnInit() {
+    this.getEmployeesData();
+  }
+
+  getEmployeesData(): void {
+    this.employeesService
+      .getEmployees()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((next) => {
+        this.listOfEmployees = next;
+      });
+  }
 
   onSelectEmployee(employee: Employee) {
     this.selectedEmployee = employee;
@@ -44,7 +62,5 @@ export class EmployeesComponent {
     if (index != -1) {
       this.listOfEmployees[index] = updatedEmployee;
     }
-    console.log(this.selectedEmployee);
-    console.log(this.listOfEmployees);
   }
 }
