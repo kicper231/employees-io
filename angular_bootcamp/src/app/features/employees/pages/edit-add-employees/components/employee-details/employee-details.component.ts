@@ -20,6 +20,7 @@ import { ProficiencyLevelsEnums } from '../../../../../../enums/proficiency-leve
 import { Employee } from '../../../../../../models/employee.model';
 import { Skill } from '../../../../../../models/skill.model';
 import { Project } from '../../../../../../models/project.model';
+import { MatCard, MatCardContent, MatCardHeader } from '@angular/material/card';
 
 @Component({
   selector: 'app-employee-details',
@@ -33,6 +34,9 @@ import { Project } from '../../../../../../models/project.model';
     FullName,
     TranslateModule,
     LowerCasePipe,
+    MatCard,
+    MatCardHeader,
+    MatCardContent,
   ],
   templateUrl: './employee-details.component.html',
   styleUrl: './employee-details.component.scss',

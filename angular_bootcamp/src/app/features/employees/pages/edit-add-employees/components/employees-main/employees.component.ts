@@ -7,6 +7,7 @@ import { EmployeesService } from '../../../../../../services/employees-service/e
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Employee } from '../../../../../../models/employee.model';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-employees',
@@ -20,6 +21,7 @@ import { Employee } from '../../../../../../models/employee.model';
     EmployeesListComponent,
     EmployeeDetailsComponent,
     JsonPipe,
+    MatSlideToggleModule,
   ],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.scss',

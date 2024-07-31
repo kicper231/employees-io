@@ -1,7 +1,7 @@
-<ul class="employees-list">
-  <div class="employees-list__header">{{ "employees.list.title" | translate }}</div>
-  @for (employee of listOfEmployees; track employee.id) {
-    <li>
+<mat-card appearance="outlined">
+  <mat-card-header class="employees-list__header">{{ "employees.list.title" | translate }}</mat-card-header>
+  <mat-card-content>
+    @for (employee of listOfEmployees; track employee.id) {
       <button
         type="button"
         [class.employees-list__button--selected]="employee.id === selectedEmployee?.id!"
@@ -10,12 +10,16 @@
       >
         <span class="employees-list__button__name-surname">{{ employee.name }} {{ employee.surname }}</span>
       </button>
-    </li>
-  }
-  <div class="employees-list__buttons-group">
-    <button class="employees-list__button-add" type="button" (click)="deleteEmployee()">
-      <i class="fa fa-trash"></i>
-    </button>
-    <button class="employees-list__button-add" type="button" (click)="addEmployee()"><i class="fa fa-plus"></i></button>
-  </div>
-</ul>
+    }
+  </mat-card-content>
+  <mat-card-footer>
+    <div class="employees-list__buttons-group">
+      <button class="employees-list__button-add" type="button" (click)="deleteEmployee()">
+        <i class="fa fa-trash"></i>
+      </button>
+      <button class="employees-list__button-add" type="button" (click)="addEmployee()">
+        <i class="fa fa-plus"></i>
+      </button>
+    </div>
+  </mat-card-footer>
+</mat-card>

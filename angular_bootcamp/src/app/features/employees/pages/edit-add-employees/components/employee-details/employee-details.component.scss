@@ -2,6 +2,7 @@
 
 .profile-info {
   margin: 0 0 0 0;
+  padding: 0 1rem;
 
   &__row {
     display: flex;
@@ -41,11 +42,11 @@
   &__title {
     height: 2rem;
     background-color: $menu;
-    border-bottom: $border-default;
     text-align: left;
     display: flex;
     align-items: center;
     font-weight: bold;
+    margin: 0.5rem;
     padding: 0.5rem 1rem;
   }
 

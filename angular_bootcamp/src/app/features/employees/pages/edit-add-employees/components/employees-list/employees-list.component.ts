@@ -4,11 +4,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { EmployeesService } from '../../../../../../services/employees-service/employees.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Employee } from '../../../../../../models/employee.model';
+import { MatCard, MatCardContent, MatCardFooter, MatCardHeader } from '@angular/material/card';
 
 @Component({
   selector: 'app-employees-list',
   standalone: true,
-  imports: [TranslateModule],
+  imports: [TranslateModule, MatCard, MatCardHeader, MatCardContent, MatCardFooter],
   templateUrl: './employees-list.component.html',
   styleUrl: './employees-list.component.scss',
 })

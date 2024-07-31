@@ -7,14 +7,14 @@
   flex-direction: column;
 
   &__header {
-    background-color: $menu;
     font-weight: bold;
+    background-color: $menu;
+    margin: 0.5rem;
     padding: 0.5rem 1rem;
     height: 2rem;
     text-align: left;
     display: flex;
     align-items: center;
-    border-bottom: $border-default;
   }
 
   &__buttons-group {

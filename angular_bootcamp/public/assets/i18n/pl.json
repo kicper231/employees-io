@@ -1,7 +1,8 @@
 {
   "languages": {
     "en": "Angielski",
-    "pl": "Polski"
+    "pl": "Polski",
+    "menu.option": "Języki"
   },
 
   "header": {
