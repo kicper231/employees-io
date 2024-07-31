@@ -21,6 +21,15 @@ import { Employee } from '../../../../../../models/employee.model';
 import { Skill } from '../../../../../../models/skill.model';
 import { Project } from '../../../../../../models/project.model';
 import { MatCard, MatCardContent, MatCardHeader } from '@angular/material/card';
+import { MatError, MatFormField, MatFormFieldModule, MatHint, MatLabel } from '@angular/material/form-field';
+import { MatInput, MatInputModule } from '@angular/material/input';
+import {
+  MatDatepicker,
+  MatDatepickerInput,
+  MatDatepickerModule,
+  MatDatepickerToggle,
+} from '@angular/material/datepicker';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-employee-details',
@@ -37,10 +46,23 @@ import { MatCard, MatCardContent, MatCardHeader } from '@angular/material/card';
     MatCard,
     MatCardHeader,
     MatCardContent,
+    MatFormField,
+    MatInput,
+    MatError,
+    MatHint,
+    MatLabel,
+    MatDatepickerInput,
+    MatFormField,
+    MatInput,
+    MatDatepicker,
+    MatDatepickerToggle,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
   ],
   templateUrl: './employee-details.component.html',
   styleUrl: './employee-details.component.scss',
-  providers: [DatePipe],
+  providers: [DatePipe, provideNativeDateAdapter()],
 })
 export class EmployeeDetailsComponent implements OnInit {
   managers: Employee[] = [];

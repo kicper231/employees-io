@@ -3,8 +3,8 @@
   <p>Messages:</p>
   <!--{{ this.messageService.messages }}-->
 
-  @for (message of this.messageService.messages; track message) {
-    {{ message }}
+  @for (message of this.messageService.messages; track message.id) {
+    {{ message.message }}
     <br />
   }
 </footer>

@@ -1,24 +1,26 @@
 <mat-card appearance="outlined">
   <mat-card-header class="employees-list__header">{{ "employees.list.title" | translate }}</mat-card-header>
   <mat-card-content>
-    @for (employee of listOfEmployees; track employee.id) {
-      <button
-        type="button"
-        [class.employees-list__button--selected]="employee.id === selectedEmployee?.id!"
-        class="employees-list__button"
-        (click)="onSelect(employee)"
-      >
-        <span class="employees-list__button__name-surname">{{ employee.name }} {{ employee.surname }}</span>
-      </button>
-    }
+    <mat-selection-list #shoes [multiple]="false" [hideSingleSelectionIndicator]="true">
+      @for (employee of listOfEmployees; track employee) {
+        <mat-list-option
+          [value]="employee"
+          (click)="onSelect(employee)"
+          [class.employees-list__button--selected]="employee.id === selectedEmployee?.id!"
+        >
+          <span class="employees-list__button__name-surname">{{ employee.name }} {{ employee.surname }}</span>
+        </mat-list-option>
+      }
+      <!--      //TODO dodaj zmiane koloru przy kliknieciu-->
+    </mat-selection-list>
   </mat-card-content>
   <mat-card-footer>
     <div class="employees-list__buttons-group">
-      <button class="employees-list__button-add" type="button" (click)="deleteEmployee()">
-        <i class="fa fa-trash"></i>
+      <button mat-mini-fab class="employees-list__button-list" type="button" (click)="deleteEmployee()">
+        <mat-icon>delete</mat-icon>
       </button>
-      <button class="employees-list__button-add" type="button" (click)="addEmployee()">
-        <i class="fa fa-plus"></i>
+      <button mat-mini-fab class="employees-list__button-list" type="button" (click)="addEmployee()">
+        <mat-icon>add</mat-icon>
       </button>
     </div>
   </mat-card-footer>

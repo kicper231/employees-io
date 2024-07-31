@@ -41,12 +41,11 @@
 
   &__title {
     height: 2rem;
-    background-color: $menu;
     text-align: left;
     display: flex;
     align-items: center;
-    font-weight: bold;
-    margin: 0.5rem;
+    //font-weight: bold;
+    margin: 1rem 0;
     padding: 0.5rem 1rem;
   }
 
@@ -114,9 +113,10 @@
       &-group {
         height: 3rem;
         display: flex;
-        flex-wrap: nowrap;
+        width: 70%;
 
         &-element {
+          width: 100%;
           align-items: center;
           margin: 0.5rem;
           padding: 0 1rem;
@@ -147,7 +147,7 @@
       width: 100%;
       margin-bottom: 0.5rem;
       display: block;
-      padding: 0.3rem 0.7rem;
+
       font-weight: 400;
       line-height: 1.5;
       color: $text;
@@ -165,4 +165,8 @@
       display: block;
     }
   }
+}
+
+.example-full-width {
+  width: 100%;
 }

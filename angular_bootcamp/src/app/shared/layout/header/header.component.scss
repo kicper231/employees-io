@@ -13,4 +13,18 @@
     font-size: 2.5em;
     margin-left: 2rem;
   }
+  &__menu-button {
+    color: black !important;
+    background-color: white;
+    margin: 0 0.5rem;
+  }
+}
+
+.mat-button {
+  margin: 0 1rem;
+}
+
+.mat-success {
+  background-color: green;
+  color: #fff;
 }

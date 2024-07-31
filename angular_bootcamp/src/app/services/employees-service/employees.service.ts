@@ -61,6 +61,7 @@ export class EmployeesService {
   deleteEmployee(employeeId: string): Observable<Employee[]> {
     this.messagesService.add('EmployeesServices: deleteEmployees()');
     this.employees = this.employees.filter((employee) => employee.id !== employeeId);
-    return this.getManagers();
+
+    return of(this.employees);
   }
 }

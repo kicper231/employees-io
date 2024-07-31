@@ -5,11 +5,25 @@ import { EmployeesService } from '../../../../../../services/employees-service/e
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Employee } from '../../../../../../models/employee.model';
 import { MatCard, MatCardContent, MatCardFooter, MatCardHeader } from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
+import { MatButton, MatMiniFabButton } from '@angular/material/button';
+import { MatListOption, MatSelectionList } from '@angular/material/list';
 
 @Component({
   selector: 'app-employees-list',
   standalone: true,
-  imports: [TranslateModule, MatCard, MatCardHeader, MatCardContent, MatCardFooter],
+  imports: [
+    TranslateModule,
+    MatCard,
+    MatCardHeader,
+    MatCardContent,
+    MatCardFooter,
+    MatIcon,
+    MatMiniFabButton,
+    MatButton,
+    MatSelectionList,
+    MatListOption,
+  ],
   templateUrl: './employees-list.component.html',
   styleUrl: './employees-list.component.scss',
 })
@@ -59,6 +73,7 @@ export class EmployeesListComponent {
         .deleteEmployee(this.selectedEmployee.id)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe((employees) => {
+          console.log(employees);
           this.listOfEmployees = employees;
           this.onSelect();
         });
