@@ -151,6 +151,7 @@ export class EmployeeDetailsComponent implements OnInit {
     if (this.employeeForm.valid) {
       const formValue = this.employeeForm.getRawValue();
       this.employeesService.updateEmployee({ ...formValue, hireDate: new Date(formValue.hireDate!) } as Employee);
+      this.employeesService.setCreatingEmployee(false);
     } else {
       alert('The form contain s errors');
     }
@@ -188,6 +189,6 @@ export class EmployeeDetailsComponent implements OnInit {
     this.employeesService
       .getManagers()
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((next) => (this.managers = next));
+      .subscribe((employees: Employee[]) => (this.managers = employees));
   }
 }

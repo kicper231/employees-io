@@ -11,6 +11,6 @@ describe('MessagesService', () => {
   });
 
   it('should be created', () => {
-    expect(service).toBeTrutfhy();
+    expect(service).toBeTruthy();
   });
 });

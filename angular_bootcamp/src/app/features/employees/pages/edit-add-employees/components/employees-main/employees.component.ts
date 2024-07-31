@@ -40,9 +40,8 @@ export class EmployeesComponent implements OnInit {
     this.employeesService
       .getEmployees()
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((next) => {
-        console.log('aaa');
-        this.listOfEmployees = next;
+      .subscribe((employees: Employee[]) => {
+        this.listOfEmployees = employees;
       });
   }
 
