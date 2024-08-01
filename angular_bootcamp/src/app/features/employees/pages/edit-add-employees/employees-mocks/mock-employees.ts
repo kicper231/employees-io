@@ -6,7 +6,7 @@ export const EMPLOYESS: Employee[] = [
   {
     name: 'Karol',
     hireDate: new Date(Date.now()),
-    id: crypto.randomUUID(),
+    id: '1',
     projectsList: [
       {
         name: 'Project a',
@@ -34,7 +34,7 @@ export const EMPLOYESS: Employee[] = [
   {
     name: 'Kupila',
     hireDate: new Date('11/03/2023'),
-    id: crypto.randomUUID(),
+    id: '2',
     projectsList: [],
     skillsList: [],
     surname: 'Krolowa',
@@ -43,7 +43,7 @@ export const EMPLOYESS: Employee[] = [
   {
     name: 'Karolina',
     hireDate: new Date('11/12/1900'),
-    id: crypto.randomUUID(),
+    id: '3',
     projectsList: [],
     skillsList: [],
     surname: 'Koralowaa',
@@ -52,7 +52,7 @@ export const EMPLOYESS: Employee[] = [
   {
     name: 'Koloru',
     hireDate: new Date(Date.now()),
-    id: crypto.randomUUID(),
+    id: '4',
     projectsList: [],
     skillsList: [],
     surname: 'Kolarowa',

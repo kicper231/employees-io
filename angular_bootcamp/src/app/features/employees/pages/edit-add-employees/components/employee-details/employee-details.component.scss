@@ -55,12 +55,14 @@
       padding: 0.5rem;
 
       &--delete {
+        width: 2.5rem;
+        height: 2.5rem;
         align-self: center;
         color: $error;
         border: none;
         position: absolute;
-        right: -4rem;
-        top: 0;
+        right: -3rem;
+        top: 0.5rem;
       }
     }
 
@@ -90,11 +92,12 @@
         }
 
         &-button--delete {
+          width: 2.5rem;
+          height: 2.5rem;
           background-color: white;
           border: none;
           position: absolute;
           top: 40%;
-          right: -1rem;
           color: $error;
         }
       }
