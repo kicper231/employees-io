@@ -8,6 +8,7 @@ import { MatCard, MatCardContent, MatCardFooter, MatCardHeader } from '@angular/
 import { MatIcon } from '@angular/material/icon';
 import { MatButton, MatMiniFabButton } from '@angular/material/button';
 import { MatListOption, MatSelectionList } from '@angular/material/list';
+import { BasicButtonComponent } from '../../../../../../shared/components/basic-button/basic-button.component';
 
 @Component({
   selector: 'app-employees-list',
@@ -23,6 +24,7 @@ import { MatListOption, MatSelectionList } from '@angular/material/list';
     MatButton,
     MatSelectionList,
     MatListOption,
+    BasicButtonComponent,
   ],
   templateUrl: './employees-list.component.html',
   styleUrl: './employees-list.component.scss',

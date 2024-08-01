@@ -11,12 +11,17 @@
   </mat-card-content>
   <mat-card-footer>
     <div class="employees-list__buttons-group">
-      <button mat-mini-fab class="employees-list__button-list" type="button" (click)="deleteEmployee()">
+      <app-basic-button
+        class="employees-list__button-list"
+        [isSmall]="true"
+        (click)="deleteEmployee()"
+        [isDelete]="true"
+      >
         <mat-icon>delete</mat-icon>
-      </button>
-      <button mat-mini-fab class="employees-list__button-list" type="button" (click)="addEmployee()">
+      </app-basic-button>
+      <app-basic-button class="employees-list__button-list" [isSmall]="true" (click)="addEmployee()">
         <mat-icon>add</mat-icon>
-      </button>
+      </app-basic-button>
     </div>
   </mat-card-footer>
 </mat-card>

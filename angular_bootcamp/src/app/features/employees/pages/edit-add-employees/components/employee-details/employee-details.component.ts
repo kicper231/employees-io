@@ -33,6 +33,7 @@ import { MatOption, provideNativeDateAdapter } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { MatButton, MatFabButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { BasicButtonComponent } from '../../../../../../shared/components/basic-button/basic-button.component';
 
 @Component({
   selector: 'app-employee-details',
@@ -67,6 +68,7 @@ import { MatIcon } from '@angular/material/icon';
     MatButton,
     MatIcon,
     MatFabButton,
+    BasicButtonComponent,
   ],
   templateUrl: './employee-details.component.html',
   styleUrl: './employee-details.component.scss',

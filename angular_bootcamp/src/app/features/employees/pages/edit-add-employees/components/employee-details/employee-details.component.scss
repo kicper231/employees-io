@@ -17,15 +17,9 @@
   }
 
   &__button-row {
-    display: flex;
     gap: 1rem;
-
-    &-element {
-      flex: 1;
-      background-color: white;
-      margin: 1rem;
-      color: $text;
-    }
+    justify-content: center;
+    display: flex;
   }
 
   &__title {
@@ -42,28 +36,16 @@
     margin-bottom: 1rem;
     padding: 0.5rem;
     flex: 1;
+
     &-managers {
       flex-direction: column;
       display: flex;
       margin-bottom: 2rem;
       width: 100%;
     }
+
     &-button {
       align-self: flex-end;
-      background-color: white;
-      color: $text;
-      padding: 0.5rem;
-
-      &--delete {
-        width: 2.5rem;
-        height: 2.5rem;
-        align-self: center;
-        color: $error;
-        border: none;
-        position: absolute;
-        right: -3rem;
-        top: 0.5rem;
-      }
     }
 
     &-projects {
@@ -92,11 +74,9 @@
         }
 
         &-button--delete {
-          width: 2.5rem;
-          height: 2.5rem;
-          background-color: white;
           border: none;
           position: absolute;
+          right: 0;
           top: 40%;
           color: $error;
         }
@@ -151,7 +131,6 @@
       line-height: 1.5;
       color: $text;
       background-clip: padding-box;
-      background-color: white;
       transition:
         border-color 0.15s ease-in-out,
         box-shadow 0.15s ease-in-out;
