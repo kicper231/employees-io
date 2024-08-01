@@ -1,6 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Employee } from '../../models/employee.model';
+import { Component, DestroyRef, inject, Input } from '@angular/core';
+
 import { TranslateModule } from '@ngx-translate/core';
+import { EmployeesService } from '../../../../../../services/employees-service/employees.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Employee } from '../../../../../../models/employee.model';
 
 @Component({
   selector: 'app-employees-list',
@@ -11,27 +14,24 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class EmployeesListComponent {
   @Input() listOfEmployees?: Employee[];
-  @Output() selectEmployee: EventEmitter<Employee> = new EventEmitter<Employee>();
-  @Output() deleteEmployeeEmitter: EventEmitter<Employee[]> = new EventEmitter<Employee[]>();
-  @Output() creatingEmployeeEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  @Input() selectedEmployee?: Employee;
-  @Input() creatingEmployee = false;
+  selectedEmployee?: Employee;
+
+  private readonly destroyRef = inject(DestroyRef);
+
+  constructor(public employeesService: EmployeesService) {}
 
   onSelect(employee?: Employee) {
-    if (this.creatingEmployee && employee != this.listOfEmployees!.at(-1)) {
-      this.creatingEmployee = false;
-      this.creatingEmployeeEmitter.emit(false);
+    if (this.employeesService.creatingEmployee.value && employee != this.listOfEmployees!.at(-1)) {
+      this.employeesService.setCreatingEmployee(false);
       this.listOfEmployees?.pop();
-      this.deleteEmployeeEmitter.emit(this.listOfEmployees);
     }
-
     this.selectedEmployee = employee;
-    this.selectEmployee.emit(employee);
+    this.employeesService.setSelectedEmployee(employee);
   }
 
   addEmployee() {
-    if (!this.creatingEmployee) {
+    if (!this.employeesService.creatingEmployee.value) {
       const newEmployee: Employee = {
         id: crypto.randomUUID(),
         name: '',
@@ -41,19 +41,26 @@ export class EmployeesListComponent {
         skillsList: [],
         projectsList: [],
       };
-      this.creatingEmployee = true;
-      this.creatingEmployeeEmitter.emit(this.creatingEmployee);
-      this.listOfEmployees!.push(newEmployee);
+      this.employeesService.setCreatingEmployee(true);
+      this.employeesService
+        .addEmployee(newEmployee)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((employees) => {
+          this.listOfEmployees = employees;
+        });
       this.onSelect(newEmployee);
     }
   }
 
   deleteEmployee() {
-    if (this.selectEmployee) {
-      console.log(this.selectEmployee);
-      this.listOfEmployees = this.listOfEmployees?.filter((item) => item.id != this.selectedEmployee!.id);
-      this.onSelect();
-      this.deleteEmployeeEmitter.emit(this.listOfEmployees);
+    if (this.selectedEmployee) {
+      this.employeesService
+        .deleteEmployee(this.selectedEmployee.id)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((employees) => {
+          this.listOfEmployees = employees;
+          this.onSelect();
+        });
     }
   }
 }

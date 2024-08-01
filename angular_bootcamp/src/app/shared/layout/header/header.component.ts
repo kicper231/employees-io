@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { LanguagePickerComponentComponent } from '../../language-picker/language-picker-component.component';
+import { LanguagePickerComponent } from '../../language-picker/language-picker-component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [FormsModule, TranslateModule, LanguagePickerComponentComponent],
+  imports: [FormsModule, TranslateModule, LanguagePickerComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })

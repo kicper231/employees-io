@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { EmployeesComponent } from './features/employees/pages/edit-add-employees/components/employees-main/employees.component';
+
 import { HeaderComponent } from './shared/layout/header/header.component';
+import { EmployeesComponent } from './features/employees/pages/edit-add-employees/components/employees-main/employees.component';
+import { FooterComponent } from './shared/layout/footer/footer.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, EmployeesComponent, HeaderComponent],
+  imports: [RouterOutlet, EmployeesComponent, HeaderComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

@@ -1,20 +1,10 @@
 <div class="employees">
   <div class="employees__list">
-    <app-employees-list
-      [listOfEmployees]="listOfEmployees"
-      (selectEmployee)="onSelectEmployee($event)"
-      (deleteEmployeeEmitter)="onDeleteEmployee($event)"
-      (creatingEmployeeEmitter)="onCreatingEmployee($event)"
-      [creatingEmployee]="isCreatingEmployee"
-    ></app-employees-list>
+    <app-employees-list [listOfEmployees]="listOfEmployees"></app-employees-list>
   </div>
   @if (selectedEmployee) {
     <div class="employees__details">
-      <app-employee-details
-        [isCreating]="isCreatingEmployee"
-        [employee]="selectedEmployee"
-        (updatedEmployee)="onUpdateEmployee($event)"
-      ></app-employee-details>
+      <app-employee-details [employee]="selectedEmployee"></app-employee-details>
     </div>
   }
 </div>
