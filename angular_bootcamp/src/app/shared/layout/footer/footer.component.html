@@ -1,10 +1,7 @@
 <footer class="footer">
-  <p>footer works!</p>
-  <p>Messages:</p>
-  <!--{{ this.messageService.messages }}-->
-
   @for (message of this.messageService.messages; track message.id) {
-    {{ message.message }}
+    {{ message.message | translate }}
     <br />
   }
+  <button mat-button (click)="messageService.clear()">Clear</button>
 </footer>

@@ -5,9 +5,9 @@
   list-style-type: none;
   display: flex;
   flex-direction: column;
-
+  background-color: $secondary;
   &__header {
-    //font-weight: bold;
+    font-weight: bold;
     padding: 0.5rem 1rem;
     height: 2rem;
     text-align: left;

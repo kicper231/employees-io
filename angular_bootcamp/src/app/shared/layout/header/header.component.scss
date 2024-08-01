@@ -12,19 +12,11 @@
     flex: 1;
     font-size: 2.5em;
     margin-left: 2rem;
+    color: $text;
   }
   &__menu-button {
-    color: black !important;
+    color: $text !important;
     background-color: white;
     margin: 0 0.5rem;
   }
-}
-
-.mat-button {
-  margin: 0 1rem;
-}
-
-.mat-success {
-  background-color: green;
-  color: #fff;
 }

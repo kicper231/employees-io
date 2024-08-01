@@ -1,4 +1,14 @@
 {
+  "footer": {
+    "privacy.policy": "Privacy Policy 2024, All rights reserved @"
+  },
+  "messages": {
+    "employee_added": "Employee has been added.",
+    "employee_deleted": "Employee has been deleted.",
+    "employee_updated": "Employee has been updated.",
+    "get_employees": "Fetching employee list.",
+    "get_managers": "Fetching manager list."
+  },
   "languages": {
     "en": "English",
     "pl": "Polish",
@@ -7,9 +17,6 @@
 
   "header": {
     "title": "Employees.io"
-  },
-  "footer": {
-    "privacy.policy": "Privacy Policy 2024, All rights reserved @"
   },
 
   "employees": {

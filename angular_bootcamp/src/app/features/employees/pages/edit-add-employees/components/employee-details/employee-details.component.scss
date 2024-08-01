@@ -3,16 +3,16 @@
 .profile-info {
   margin: 0 0 0 0;
   padding: 0 1rem;
+  background-color: $secondary;
 
   &__row {
     display: flex;
     gap: 1rem;
+    margin: 1rem 0;
+    padding: 0.5rem;
 
     & > .profile-info__tile {
       flex: 1;
-      margin-right: 1rem;
-      padding-bottom: 1rem;
-      height: 2.5rem;
     }
   }
 
@@ -22,20 +22,9 @@
 
     &-element {
       flex: 1;
-      padding: 0.5rem 1rem;
-      border-radius: $border-radius-size;
-      border: 1px solid $border;
-      transition: background-color 0.3s ease;
-      cursor: pointer;
-      box-sizing: border-box;
+      background-color: white;
       margin: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      &:hover {
-        background-color: $secondary;
-      }
+      color: $text;
     }
   }
 
@@ -44,7 +33,7 @@
     text-align: left;
     display: flex;
     align-items: center;
-    //font-weight: bold;
+    font-weight: bold;
     margin: 1rem 0;
     padding: 0.5rem 1rem;
   }
@@ -53,20 +42,25 @@
     margin-bottom: 1rem;
     padding: 0.5rem;
     flex: 1;
-
+    &-managers {
+      flex-direction: column;
+      display: flex;
+      margin-bottom: 2rem;
+      width: 100%;
+    }
     &-button {
       align-self: flex-end;
       background-color: white;
-      border-radius: 1rem;
-      border: $border-button;
+      color: $text;
       padding: 0.5rem;
 
       &--delete {
-        margin-left: auto;
-        display: inline-block;
         align-self: center;
         color: $error;
         border: none;
+        position: absolute;
+        right: -4rem;
+        top: 0;
       }
     }
 
@@ -81,24 +75,27 @@
         flex-direction: column;
         display: flex;
         margin-bottom: 2rem;
-        width: 90%;
+        width: 100%;
+        position: relative;
 
         &-element {
-          margin-bottom: 0.5rem;
           display: block;
-          padding: 0.5rem 1rem;
-          border-radius: $border-radius-size;
-          border: $border-default;
-
-          &--big {
-            height: 2rem;
-            max-lines: 5;
-            width: calc(100% - 2rem);
-          }
+          padding: 0;
+          margin-bottom: 0.5rem;
+          width: 90%;
 
           &--inline {
             display: inline-block;
           }
+        }
+
+        &-button--delete {
+          background-color: white;
+          border: none;
+          position: absolute;
+          top: 40%;
+          right: -1rem;
+          color: $error;
         }
       }
     }
@@ -111,17 +108,14 @@
       padding: 0.5rem;
 
       &-group {
-        height: 3rem;
         display: flex;
-        width: 70%;
+        width: 90%;
+        margin-bottom: 1rem;
+        position: relative;
 
         &-element {
           width: 100%;
-          align-items: center;
-          margin: 0.5rem;
-          padding: 0 1rem;
-          border-radius: $border-radius-size;
-          border: $border-default;
+          margin: 0 0.5rem;
         }
       }
     }
@@ -137,6 +131,7 @@
     &-label {
       display: block;
       font-size: 0.8rem;
+      margin-bottom: 1rem;
 
       &--bigger {
         font-size: 1.2rem;
@@ -147,13 +142,13 @@
       width: 100%;
       margin-bottom: 0.5rem;
       display: block;
-
+      align-self: center;
+      justify-self: center;
       font-weight: 400;
       line-height: 1.5;
       color: $text;
       background-clip: padding-box;
-      border: $border-width solid $border;
-      border-radius: $border-radius-size;
+      background-color: white;
       transition:
         border-color 0.15s ease-in-out,
         box-shadow 0.15s ease-in-out;

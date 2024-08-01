@@ -29,7 +29,10 @@ import {
   MatDatepickerModule,
   MatDatepickerToggle,
 } from '@angular/material/datepicker';
-import { provideNativeDateAdapter } from '@angular/material/core';
+import { MatOption, provideNativeDateAdapter } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
+import { MatButton, MatFabButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-employee-details',
@@ -59,6 +62,11 @@ import { provideNativeDateAdapter } from '@angular/material/core';
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
+    MatSelect,
+    MatOption,
+    MatButton,
+    MatIcon,
+    MatFabButton,
   ],
   templateUrl: './employee-details.component.html',
   styleUrl: './employee-details.component.scss',

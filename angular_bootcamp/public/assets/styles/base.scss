@@ -4,6 +4,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  color: $text;
 }
 
 * {
@@ -15,4 +16,8 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+
+.mat-mdc-form-field-focus-overlay {
+  background-color: $background;
 }

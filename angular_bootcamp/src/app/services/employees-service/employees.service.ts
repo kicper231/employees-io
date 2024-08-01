@@ -5,6 +5,7 @@ import { MANAGERS } from '../../features/employees/pages/edit-add-employees/empl
 import { EMPLOYESS } from '../../features/employees/pages/edit-add-employees/employees-mocks/mock-employees';
 import { Employee } from '../../models/employee.model';
 import { MessagesService } from '../messages-service/messages.service';
+import { MessagesTypes } from '../../enums/messages-types';
 
 @Injectable({
   providedIn: 'root',
@@ -19,12 +20,12 @@ export class EmployeesService {
   constructor(private messagesService: MessagesService) {}
 
   getEmployees(): Observable<Employee[]> {
-    this.messagesService.add('EmployeesServices: getEmployees()');
+    this.messagesService.add(MessagesTypes.GetEmployees);
     return of(this.employees);
   }
 
   getManagers(): Observable<Employee[]> {
-    this.messagesService.add('EmployeesServices: getManagers()');
+    this.messagesService.add(MessagesTypes.GetManagers);
     return of(this.managers);
   }
 
@@ -44,13 +45,13 @@ export class EmployeesService {
   }
 
   addEmployee(newEmployee: Employee): Observable<Employee[]> {
-    this.messagesService.add('EmployeesServices: addEmployee()');
+    this.messagesService.add(MessagesTypes.EmployeeAdded);
     this.employees.push(newEmployee);
     return of(this.employees);
   }
 
   updateEmployee(updatedEmployee: Employee): Observable<Employee[]> {
-    this.messagesService.add('EmployeesServices: updateEmployees()');
+    this.messagesService.add(MessagesTypes.EmployeeUpdated);
     const index = this.employees.findIndex((employee) => employee.id === updatedEmployee.id);
     if (index !== -1) {
       this.employees[index] = updatedEmployee;
@@ -59,7 +60,7 @@ export class EmployeesService {
   }
 
   deleteEmployee(employeeId: string): Observable<Employee[]> {
-    this.messagesService.add('EmployeesServices: deleteEmployees()');
+    this.messagesService.add(MessagesTypes.EmployeeDeleted);
     this.employees = this.employees.filter((employee) => employee.id !== employeeId);
 
     return of(this.employees);

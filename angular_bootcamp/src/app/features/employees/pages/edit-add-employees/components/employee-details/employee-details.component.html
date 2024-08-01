@@ -1,177 +1,3 @@
-<!--<div class="profile-info">-->
-<!--  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">-->
-<!--    @if (creatingEmployee) {-->
-<!--      <div class="profile-info__title">{{ "employees.details.title.creating" | translate }}</div>-->
-<!--    } @else {-->
-<!--      <div class="profile-info__title">{{ "employees.details.title.editing" | translate }}</div>-->
-<!--    }-->
-
-<!--    <div class="profile-info__row">-->
-<!--      <div class="profile-info__tile">-->
-<!--        <label for="name" class="profile-info__tile-label">{{ "employees.details.name.label" | translate }}</label>-->
-<!--        <input-->
-<!--          id="name"-->
-<!--          class="profile-info__tile-input"-->
-<!--          type="text"-->
-<!--          formControlName="name"-->
-<!--          placeholder="{{ 'employees.details.name.placeholder' | translate }}"-->
-<!--        />-->
-<!--        @if (employeeForm.controls.name.hasError("required")) {-->
-<!--          <div class="profile-info__tile-error">{{ "employees.details.validation.employee.name" | translate }}</div>-->
-<!--        }-->
-<!--      </div>-->
-
-<!--      <div class="profile-info__tile">-->
-<!--        <label for="surname" class="profile-info__tile-label">-->
-<!--          {{ "employees.details.surname.label" | translate }}-->
-<!--        </label>-->
-<!--        <input-->
-<!--          id="surname"-->
-<!--          class="profile-info__tile-input"-->
-<!--          type="text"-->
-<!--          formControlName="surname"-->
-<!--          placeholder="{{ 'employees.details.surname.placeholder' | translate }}"-->
-<!--        />-->
-<!--        @if (employeeForm.controls.surname.hasError("required")) {-->
-<!--          <div class="profile-info__tile-error">{{ "employees.details.validation.employee.surname" | translate }}</div>-->
-<!--        }-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="profile-info__tile">-->
-<!--      <label for="hire-date" class="profile-info__tile-label">-->
-<!--        {{ "employees.details.date.of.hire" | translate }}:-->
-<!--      </label>-->
-<!--      <input-->
-<!--        type="date"-->
-<!--        id="hire-date"-->
-<!--        class="profile-info__tile-input"-->
-<!--        formControlName="hireDate"-->
-<!--        placeholder="hireDate"-->
-<!--      />-->
-<!--      @if (employeeForm.controls.hireDate.hasError("required")) {-->
-<!--        <div class="profile-info__tile-error">-->
-<!--          {{ "employees.details.validation.employee.date.of.hire" | translate }}-->
-<!--        </div>-->
-<!--      }-->
-<!--    </div>-->
-
-<!--    <div class="profile-info__tile">-->
-<!--      <div class="profile-info__tile-label&#45;&#45;bigger">{{ "employees.details.skills.label" | translate }}</div>-->
-<!--      <div formArrayName="skillsList" class="profile-info__tile-skills">-->
-<!--        @if (skillsListControlArray.hasError("required")) {-->
-<!--          <div class="profile-info__tile-error">-->
-<!--            {{ "employees.details.validation.skills" | translate }}-->
-<!--          </div>-->
-<!--        }-->
-
-<!--        @for (skill of skillsListControlArray.controls; track skill; let i = $index) {-->
-<!--          <div [formGroupName]="i" class="profile-info__tile-skills-group">-->
-<!--            <input formControlName="name" placeholder="Skill Name" class="profile-info__tile-skills-group-element" />-->
-
-<!--            <select formControlName="proficiency" class="profile-info__tile-skills-group-element">-->
-<!--              @for (element of proficiencyValues; track element) {-->
-<!--                <option [value]="element" [selected]="element === skill.value.proficiency">-->
-<!--                  {{ "employees.details.skills.proficiency." + element | translate }}-->
-<!--                </option>-->
-<!--              }-->
-<!--            </select>-->
-<!--            <button-->
-<!--              class="profile-info__tile-button&#45;&#45;delete profile-info__tile-button"-->
-<!--              type="button"-->
-<!--              (click)="deleteSkill(i)"-->
-<!--            >-->
-<!--              <i class="fa fa-trash"></i>-->
-<!--            </button>-->
-<!--          </div>-->
-<!--          @if (skill.get("name")!.hasError("required")) {-->
-<!--            <div class="profile-info__tile-error">{{ "employees.details.validation.skill.name" | translate }}</div>-->
-<!--          }-->
-<!--        }-->
-<!--        <button type="button" class="profile-info__tile-button" (click)="addSkill()">-->
-<!--          {{ "employees.details.skills.add.skill" | translate }}-->
-<!--        </button>-->
-<!--      </div>-->
-<!--    </div>-->
-
-<!--    <div class="profile-info__tile">-->
-<!--      <div class="profile-info__tile-label&#45;&#45;bigger">{{ "employees.details.projects.label" | translate }}</div>-->
-<!--      @if (projectsListControlArray.hasError("required")) {-->
-<!--        <div class="profile-info__tile-error">{{ "employees.details.validation.projects" | translate }}</div>-->
-<!--      }-->
-<!--      <div formArrayName="projectsList" class="profile-info__tile-projects">-->
-<!--        @for (projects of projectsListControlArray.controls; track projects; let i = $index) {-->
-<!--          <div [formGroupName]="i" class="profile-info__tile-projects-group">-->
-<!--            <label for="project-name-{{ i }}" class="profile-info__tile-label">-->
-<!--              {{ "employees.details.projects.name.label" | translate }}-->
-<!--            </label>-->
-<!--            <input-->
-<!--              id="project-name-{{ i }}"-->
-<!--              formControlName="name"-->
-<!--              placeholder="{{ 'employees.details.projects.name.placeholder' | translate }}"-->
-<!--              class="profile-info__tile-projects-group-element profile-info__tile-projects-group-element&#45;&#45;inline"-->
-<!--            />-->
-
-<!--            @if (projects.get("name")!.hasError("required")) {-->
-<!--              <div class="profile-info__tile-error">{{ "employees.details.validation.skill.name" | translate }}</div>-->
-<!--            }-->
-<!--            <label for="project-description-{{ i }}" class="profile-info__tile-label">Description:</label>-->
-<!--            <textarea-->
-<!--              id="project-description-{{ i }}"-->
-<!--              formControlName="description"-->
-<!--              placeholder="{{ 'employees.details.projects.description.placeholder' | translate }}"-->
-<!--              class="profile-info__tile-projects-group-element&#45;&#45;big profile-info__tile-projects-group-element"-->
-<!--            ></textarea>-->
-<!--            @if (projects.get("description")!.hasError("required")) {-->
-<!--              <div class="profile-info__tile-error">-->
-<!--                {{ "employees.details.validation.project.description" | translate }}-->
-<!--              </div>-->
-<!--            }-->
-<!--            <button-->
-<!--              class="profile-info__tile-button&#45;&#45;delete profile-info__tile-button"-->
-<!--              type="button"-->
-<!--              (click)="deleteProject(i)"-->
-<!--            >-->
-<!--              <i class="fa fa-trash"></i>-->
-<!--            </button>-->
-<!--          </div>-->
-<!--        }-->
-
-<!--        <button type="button" class="profile-info__tile-button" (click)="addProject()">-->
-<!--          {{ "employees.details.projects.add.project" | translate }}-->
-<!--        </button>-->
-<!--      </div>-->
-<!--    </div>-->
-
-<!--    <div class="profile-info__tile">-->
-<!--      <div class="profile-info__tile-label">{{ "employees.details.manager.label" | translate }}</div>-->
-<!--      <select class="profile-info__tile-select" id="managers" formControlName="manager">-->
-<!--        @if (!employee.manager) {-->
-<!--          <option value="default" disabled selected hidden>Choose manager</option>-->
-<!--        }-->
-
-<!--        @for (manager of managers; track manager) {-->
-<!--          <option [selected]="employee.manager && employee.manager.id === manager.id">-->
-<!--            {{ manager | fullName }}-->
-<!--          </option>-->
-<!--        }-->
-<!--        S-->
-<!--      </select>-->
-<!--      @if (employeeForm.controls.manager.hasError("required")) {-->
-<!--        <div class="profile-info__tile-error">{{ "employees.details.validation.employee.manager" | translate }}</div>-->
-<!--      }-->
-<!--    </div>-->
-
-<!--    <div class="profile-info__button-row">-->
-<!--      <button type="button" class="profile-info__button-row-element" (click)="onReset()">-->
-<!--        {{ "employees.details.buttons.reset" | translate }}-->
-<!--      </button>-->
-<!--      <button class="profile-info__button-row-element" [disabled]="employeeForm.invalid" type="submit">-->
-<!--        {{ "employees.details.buttons.submit" | translate }}-->
-<!--      </button>-->
-<!--    </div>-->
-<!--  </form>-->
-<!--</div>-->
-
 <mat-card appearance="outlined" class="profile-info">
   <mat-card-header>
     @if (creatingEmployee) {
@@ -183,7 +9,7 @@
   <mat-card-content>
     <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
       <div class="profile-info__row">
-        <mat-form-field class="example-full-width">
+        <mat-form-field appearance="outline" class="example-full-width">
           <mat-label>{{ "employees.details.name.label" | translate }}</mat-label>
           <input
             class="profile-info__tile-input"
@@ -200,13 +26,13 @@
           }
         </mat-form-field>
 
-        <mat-form-field class="example-full-width">
+        <mat-form-field appearance="outline" class="example-full-width">
           <mat-label>{{ "employees.details.surname.label" | translate }}</mat-label>
           <input
             class="profile-info__tile-input"
             type="text"
             matInput
-            formControlName="name"
+            formControlName="surname"
             placeholder="{{ 'employees.details.surname.placeholder' | translate }}"
           />
 
@@ -217,61 +43,78 @@
           }
         </mat-form-field>
       </div>
+      <div class="profile-info__tile">
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>{{ "employees.details.date.of.hire" | translate }}</mat-label>
+          <input
+            [matDatepicker]="datepicker"
+            matInput
+            type="text"
+            class="profile-info__tile-input"
+            formControlName="hireDate"
+            placeholder="hireDate"
+          />
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+          <mat-datepicker #datepicker></mat-datepicker>
 
-      <mat-form-field class="example-full-width">
-        <mat-label>{{ "employees.details.date.of.hire" | translate }}</mat-label>
-        <input
-          [matDatepicker]="datepicker"
-          matInput
-          type="text"
-          class="profile-info__tile-input"
-          formControlName="hireDate"
-          placeholder="hireDate"
-        />
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
-        <mat-datepicker #datepicker></mat-datepicker>
-
-        @if (employeeForm.controls.hireDate.hasError("required")) {
-          <mat-error>
-            {{ "employees.details.validation.employee.date.of.hire" | translate }}
-          </mat-error>
-        }
-      </mat-form-field>
+          @if (employeeForm.controls.hireDate.hasError("required")) {
+            <mat-error>
+              {{ "employees.details.validation.employee.date.of.hire" | translate }}
+            </mat-error>
+          }
+        </mat-form-field>
+      </div>
 
       <div class="profile-info__tile">
         <div class="profile-info__tile-label--bigger">{{ "employees.details.skills.label" | translate }}</div>
         <div formArrayName="skillsList" class="profile-info__tile-skills">
           @if (skillsListControlArray.hasError("required")) {
-            <div class="profile-info__tile-error">
+            <mat-error>
               {{ "employees.details.validation.skills" | translate }}
-            </div>
+            </mat-error>
           }
 
           @for (skill of skillsListControlArray.controls; track skill; let i = $index) {
             <div [formGroupName]="i" class="profile-info__tile-skills-group">
-              <input formControlName="name" placeholder="Skill Name" class="profile-info__tile-skills-group-element" />
+              <mat-form-field appearance="outline" class="profile-info__tile-skills-group-element">
+                <input
+                  class="profile-info__tile-input"
+                  type="text"
+                  matInput
+                  formControlName="name"
+                  placeholder="{{ 'employees.details.skills.name.placeholder' | translate }}"
+                />
 
-              <select formControlName="proficiency" class="profile-info__tile-skills-group-element">
-                @for (element of proficiencyValues; track element) {
-                  <option [value]="element" [selected]="element === skill.value.proficiency">
-                    {{ "employees.details.skills.proficiency." + element | translate }}
-                  </option>
+                @if (skill.get("name")!.hasError("required")) {
+                  <mat-error>
+                    {{ "employees.details.validation.skill.name" | translate }}
+                  </mat-error>
                 }
-              </select>
+              </mat-form-field>
+              <!--              <input formControlName="name" placeholder="Skill Name" class="profile-info__tile-skills-group-element" />-->
+              <mat-form-field class="profile-info__tile-skills-group-element" appearance="outline">
+                <mat-select [value]="skill.value.proficiency">
+                  @for (element of proficiencyValues; track element) {
+                    <mat-option [value]="element">
+                      {{ "employees.details.skills.proficiency." + element | translate }}
+                    </mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+
               <button
+                mat-fab
                 class="profile-info__tile-button--delete profile-info__tile-button"
                 type="button"
                 (click)="deleteSkill(i)"
               >
-                <i class="fa fa-trash"></i>
+                <mat-icon>delete</mat-icon>
               </button>
             </div>
-            @if (skill.get("name")!.hasError("required")) {
-              <div class="profile-info__tile-error">{{ "employees.details.validation.skill.name" | translate }}</div>
-            }
           }
-          <button type="button" class="profile-info__tile-button" (click)="addSkill()">
+
+          <button mat-button type="button" class="profile-info__tile-button" (click)="addSkill()">
             {{ "employees.details.skills.add.skill" | translate }}
           </button>
         </div>
@@ -282,74 +125,79 @@
         @if (projectsListControlArray.hasError("required")) {
           <div class="profile-info__tile-error">{{ "employees.details.validation.projects" | translate }}</div>
         }
+
         <div formArrayName="projectsList" class="profile-info__tile-projects">
           @for (projects of projectsListControlArray.controls; track projects; let i = $index) {
             <div [formGroupName]="i" class="profile-info__tile-projects-group">
-              <label for="project-name-{{ i }}" class="profile-info__tile-label">
-                {{ "employees.details.projects.name.label" | translate }}
-              </label>
-              <input
-                id="project-name-{{ i }}"
-                formControlName="name"
-                placeholder="{{ 'employees.details.projects.name.placeholder' | translate }}"
-                class="profile-info__tile-projects-group-element profile-info__tile-projects-group-element--inline"
-              />
+              <mat-form-field class="profile-info__tile-projects-group-element" appearance="outline">
+                <mat-label>{{ "employees.details.projects.name.label" | translate }}</mat-label>
+                <input
+                  matInput
+                  id="project-name-{{ i }}"
+                  formControlName="name"
+                  placeholder="{{ 'employees.details.projects.name.placeholder' | translate }}"
+                  class="profile-info__tile-projects-group-element profile-info__tile-projects-group-element--inline"
+                />
+                @if (projects.get("name")!.hasError("required")) {
+                  <mat-error>{{ "employees.details.validation.skill.name" | translate }}</mat-error>
+                }
+              </mat-form-field>
 
-              @if (projects.get("name")!.hasError("required")) {
-                <div class="profile-info__tile-error">{{ "employees.details.validation.skill.name" | translate }}</div>
-              }
-              <label for="project-description-{{ i }}" class="profile-info__tile-label">Description:</label>
-              <textarea
-                id="project-description-{{ i }}"
-                formControlName="description"
-                placeholder="{{ 'employees.details.projects.description.placeholder' | translate }}"
-                class="profile-info__tile-projects-group-element--big profile-info__tile-projects-group-element"
-              ></textarea>
+              <mat-form-field class="profile-info__tile-projects-group-element" appearance="outline">
+                <mat-label>{{ "employees.details.projects.description.label" | translate }}</mat-label>
+                <textarea
+                  matInput
+                  id="project-description-{{ i }}"
+                  formControlName="description"
+                  placeholder="{{ 'employees.details.projects.description.placeholder' | translate }}"
+                  class="profile-info__tile-projects-group-element--big profile-info__tile-projects-group-element"
+                ></textarea>
+              </mat-form-field>
+
               @if (projects.get("description")!.hasError("required")) {
-                <div class="profile-info__tile-error">
+                <mat-error>
                   {{ "employees.details.validation.project.description" | translate }}
-                </div>
+                </mat-error>
               }
+
               <button
-                class="profile-info__tile-button--delete profile-info__tile-button"
+                mat-fab
+                class="profile-info__tile-projects-group-button--delete profile-info__tile-button"
                 type="button"
                 (click)="deleteProject(i)"
               >
-                <i class="fa fa-trash"></i>
+                <mat-icon>delete</mat-icon>
               </button>
             </div>
           }
 
-          <button type="button" class="profile-info__tile-button" (click)="addProject()">
+          <button type="button" mat-button class="profile-info__tile-button" (click)="addProject()">
             {{ "employees.details.projects.add.project" | translate }}
           </button>
         </div>
       </div>
 
       <div class="profile-info__tile">
-        <div class="profile-info__tile-label">{{ "employees.details.manager.label" | translate }}</div>
-        <select class="profile-info__tile-select" id="managers" formControlName="manager">
-          @if (!employee.manager) {
-            <option value="default" disabled selected hidden>Choose manager</option>
+        <mat-form-field class="profile-info__tile-managers" appearance="outline">
+          <mat-label>{{ "employees.details.manager.label" | translate }}</mat-label>
+          <mat-select [value]="employee.manager" required [formControl]="employeeForm.controls.manager">
+            @for (manager of managers; track manager) {
+              <mat-option [value]="manager">
+                {{ manager | fullName }}
+              </mat-option>
+            }
+          </mat-select>
+          @if (employeeForm.controls.manager.hasError("required")) {
+            <mat-error>{{ "employees.details.validation.employee.manager" | translate }}</mat-error>
           }
-
-          @for (manager of managers; track manager) {
-            <option [selected]="employee.manager && employee.manager.id === manager.id">
-              {{ manager | fullName }}
-            </option>
-          }
-          S
-        </select>
-        @if (employeeForm.controls.manager.hasError("required")) {
-          <div class="profile-info__tile-error">{{ "employees.details.validation.employee.manager" | translate }}</div>
-        }
+        </mat-form-field>
       </div>
 
       <div class="profile-info__button-row">
-        <button type="button" class="profile-info__button-row-element" (click)="onReset()">
+        <button mat-button type="button" class="profile-info__button-row-element" (click)="onReset()">
           {{ "employees.details.buttons.reset" | translate }}
         </button>
-        <button class="profile-info__button-row-element" [disabled]="employeeForm.invalid" type="submit">
+        <button mat-button class="profile-info__button-row-element" [disabled]="employeeForm.invalid" type="submit">
           {{ "employees.details.buttons.submit" | translate }}
         </button>
       </div>
