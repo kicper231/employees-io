@@ -35,13 +35,4 @@ $angular_bootcamp-theme: mat.define-theme(
 
 // Comment out the line below if you want to use the deprecated `color` inputs.
 // @include mat.color-variants-backwards-compatibility($angular_bootcamp-theme);
-@import "../public/assets/styles/base.scss";
-
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-}
+@import "../public/assets/styles/styles";

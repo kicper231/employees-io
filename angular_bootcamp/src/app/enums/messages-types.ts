@@ -1,7 +1,7 @@
 export enum MessagesTypes {
-  EmployeeAdded = 'messages.employee_added',
-  EmployeeDeleted = 'messages.employee_deleted',
-  EmployeeUpdated = 'messages.employee_updated',
-  GetEmployees = 'messages.get_employees',
-  GetManagers = 'messages.get_managers',
+  EmployeeAdded = 'messages.employee.added',
+  EmployeeDeleted = 'messages.employee.deleted',
+  EmployeeUpdated = 'messages.employee.updated',
+  GetEmployees = 'messages.get.employees',
+  GetManagers = 'messages.get.managers',
 }
