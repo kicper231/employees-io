@@ -75,7 +75,6 @@ export class EmployeesListComponent {
         .deleteEmployee(this.selectedEmployee.id)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe((employees) => {
-          console.log(employees);
           this.listOfEmployees = employees;
           this.onSelect();
         });

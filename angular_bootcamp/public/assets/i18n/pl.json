@@ -1,10 +1,11 @@
 {
   "messages": {
-    "employee_added": "Pracownik został dodany.",
-    "employee_deleted": "Pracownik został usunięty.",
-    "employee_updated": "Pracownik został zaktualizowany.",
-    "get_employees": "Pobieranie listy pracowników.",
-    "get_managers": "Pobieranie listy menedżerów."
+    "clear": "Resetuj wiadomości",
+    "employee.added": "Pracownik został dodany.",
+    "employee.deleted": "Pracownik został usunięty.",
+    "employee.updated": "Pracownik został zaktualizowany.",
+    "get.employees": "Pobieranie listy pracowników.",
+    "get.managers": "Pobieranie listy menedżerów."
   },
   "footer": {
     "privacy.policy": "Polityka prywatności 2024, wszystkie prawa zastrzeżone @"
@@ -17,7 +18,9 @@
   },
 
   "header": {
-    "title": "Pracownicy.io"
+    "title": "Pracownicy.io",
+    "home": "strona główna",
+    "employees": "pracownicy"
   },
 
   "employees": {

@@ -34,6 +34,7 @@ import { MatSelect } from '@angular/material/select';
 import { MatButton, MatFabButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { BasicButtonComponent } from '../../../../../../shared/components/basic-button/basic-button.component';
+import { InputComponent } from '../../../../../../shared/components/basic-input/basic-input/basic-input.component';
 
 @Component({
   selector: 'app-employee-details',
@@ -69,6 +70,7 @@ import { BasicButtonComponent } from '../../../../../../shared/components/basic-
     MatIcon,
     MatFabButton,
     BasicButtonComponent,
+    InputComponent,
   ],
   templateUrl: './employee-details.component.html',
   styleUrl: './employee-details.component.scss',

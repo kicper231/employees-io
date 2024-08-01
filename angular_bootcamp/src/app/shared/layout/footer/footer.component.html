@@ -3,5 +3,6 @@
     {{ message.message | translate }}
     <br />
   }
-  <button mat-button (click)="messageService.clear()">Clear</button>
+
+  <app-basic-button (click)="messageService.clear()">{{ "messages.clear" | translate }}</app-basic-button>
 </footer>

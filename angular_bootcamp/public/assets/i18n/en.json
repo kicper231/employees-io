@@ -3,11 +3,12 @@
     "privacy.policy": "Privacy Policy 2024, All rights reserved @"
   },
   "messages": {
-    "employee_added": "Employee has been added.",
-    "employee_deleted": "Employee has been deleted.",
-    "employee_updated": "Employee has been updated.",
-    "get_employees": "Fetching employee list.",
-    "get_managers": "Fetching manager list."
+    "clear": "Reset messages",
+    "employee.added": "Employee has been added.",
+    "employee.deleted": "Employee has been deleted.",
+    "employee.updated": "Employee has been updated.",
+    "get.employees": "Fetching employee list.",
+    "get.managers": "Fetching manager list."
   },
   "languages": {
     "en": "English",
@@ -16,7 +17,9 @@
   },
 
   "header": {
-    "title": "Employees.io"
+    "title": "Employees.io",
+    "home": "home",
+    "employees": "employees"
   },
 
   "employees": {
