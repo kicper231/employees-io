@@ -17,6 +17,7 @@ body {
   display: flex;
   flex-direction: column;
   margin: 0 15%;
+  min-height: calc(100vh - 20rem);
 }
 
 @media only screen and (max-width: $mobile-breakpoint) {

@@ -1,7 +1,9 @@
 <mat-toolbar class="header">
   <h1 class="header__page-title">{{ "header.title" | translate }}</h1>
-  <app-basic-button>{{ "header.employees" | translate }}</app-basic-button>
-  <app-basic-button>{{ "header.home" | translate }}</app-basic-button>
+  <app-basic-button routerLink="/employees" routerLinkActive="active" ariaCurrentWhenActive="page">
+    {{ "header.employees" | translate }}
+  </app-basic-button>
+  <app-basic-button>{{ "header.dashboard" | translate }}</app-basic-button>
 
   <app-menu></app-menu>
 </mat-toolbar>

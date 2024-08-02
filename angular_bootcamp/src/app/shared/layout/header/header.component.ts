@@ -7,6 +7,7 @@ import { MatToolbar } from '@angular/material/toolbar';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { BasicButtonComponent } from '../../components/basic-button/basic-button.component';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -20,6 +21,9 @@ import { BasicButtonComponent } from '../../components/basic-button/basic-button
     MatIcon,
     MatIconButton,
     BasicButtonComponent,
+    RouterLink,
+    RouterLinkActive,
+    RouterOutlet,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
