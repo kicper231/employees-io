@@ -16,6 +16,7 @@ export class MenuComponent {
     this.translate.addLangs(['en', 'pl']);
     this.translate.use('pl');
   }
+
   setLanguage(value: string) {
     this.translate.use(value);
   }
