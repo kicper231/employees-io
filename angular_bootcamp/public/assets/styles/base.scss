@@ -1,0 +1,26 @@
+@import "./variables";
+
+body {
+  font-size: $font-size-body;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  color: $text;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.website-wrapper {
+  margin: 0 15%;
+  min-height: calc(100vh - $header-footer-height);
+}
+
+@media only screen and (max-width: $mobile-breakpoint) {
+  .website-wrapper {
+    margin: 0 2%;
+    min-height: calc(100vh - $header-footer-height);
+  }
+}

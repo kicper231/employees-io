@@ -1,0 +1,10 @@
+<div class="employees">
+  <div class="employees__list">
+    <app-employees-list [listOfEmployees]="listOfEmployees"></app-employees-list>
+  </div>
+  @if (selectedEmployee) {
+    <div class="employees__details">
+      <app-employee-details [employee]="selectedEmployee"></app-employee-details>
+    </div>
+  }
+</div>

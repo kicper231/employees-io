@@ -1,0 +1,13 @@
+<button
+  [ngClass]="{
+    'basic-button--big': fullWidth,
+    'basic-button': true,
+    'basic-button--delete': isDelete,
+    'basic-button--small': isSmall,
+  }"
+  mat-button
+  [type]="type"
+  (click)="onClick($event)"
+>
+  <ng-content></ng-content>
+</button>

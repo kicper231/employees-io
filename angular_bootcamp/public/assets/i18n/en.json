@@ -1,0 +1,82 @@
+{
+  "footer": {
+    "privacy.policy": "Privacy Policy 2024, All rights reserved @"
+  },
+  "messages": {
+    "clear": "Reset messages",
+    "employee.added": "Employee has been added.",
+    "employee.deleted": "Employee has been deleted.",
+    "employee.updated": "Employee has been updated.",
+    "get.employees": "Fetching employee list.",
+    "get.managers": "Fetching manager list."
+  },
+  "languages": {
+    "en": "English",
+    "pl": "Polish",
+    "menu.option": "languages"
+  },
+
+  "header": {
+    "title": "Employees.io",
+    "home": "home",
+    "employees": "employees"
+  },
+
+  "employees": {
+    "list": {
+      "title": "Employee List"
+    },
+    "details": {
+      "title": {
+        "editing": "Edit Employee Details",
+        "creating": "Create New Employee"
+      },
+      "name": {
+        "label": "Name:",
+        "placeholder": "name"
+      },
+      "surname": {
+        "label": "Surname:",
+        "placeholder": "surname"
+      },
+      "date.of.hire": "Date of Hire",
+      "skills": {
+        "label": "Skills:",
+        "add.skill": "Add Skill",
+        "proficiency": {
+          "begginer": "Beginner",
+          "intermediate": "Intermediate",
+          "advanced": "Advanced"
+        },
+        "name.placeholder": "Skill Name"
+      },
+      "projects": {
+        "label": "Projects:",
+        "add.project": "Add Project",
+        "name.label": "Name:",
+        "name.placeholder": "Project Title",
+        "description.label": "Description:",
+        "description.placeholder": "Project Description"
+      },
+      "manager": {
+        "placeholder": "manager",
+        "label": "Manager:"
+      },
+      "buttons": {
+        "submit": "submit",
+        "reset": "reset"
+      },
+      "validation": {
+        "employee.name": "Name is required!",
+        "employee.surname": "Surname is required!",
+        "employee.date.of.hire": "Date of hire is required!",
+        "skill.name": "Skill name is required!",
+        "skills": "Skill list cannot be empty",
+        "projects": "Projects list cannot be empty!",
+        "project.name": "Project name is required!",
+        "project.description": "Project description is required!",
+        "employee.manager": "Manager is required!"
+      }
+    }
+  }
+}

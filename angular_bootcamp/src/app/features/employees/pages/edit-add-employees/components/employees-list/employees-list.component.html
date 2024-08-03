@@ -1,0 +1,27 @@
+<mat-card appearance="outlined" class="employees-list">
+  <mat-card-header class="employees-list__header">{{ "employees.list.title" | translate }}</mat-card-header>
+  <mat-card-content>
+    <mat-selection-list #shoes [multiple]="false" [hideSingleSelectionIndicator]="true">
+      @for (employee of listOfEmployees; track employee) {
+        <mat-list-option [value]="employee" (click)="onSelect(employee)">
+          <span class="employees-list__button__name-surname">{{ employee.name }} {{ employee.surname }}</span>
+        </mat-list-option>
+      }
+    </mat-selection-list>
+  </mat-card-content>
+  <mat-card-footer>
+    <div class="employees-list__buttons-group">
+      <app-basic-button
+        class="employees-list__button-list"
+        [isSmall]="true"
+        (click)="deleteEmployee()"
+        [isDelete]="true"
+      >
+        <mat-icon>delete</mat-icon>
+      </app-basic-button>
+      <app-basic-button class="employees-list__button-list" [isSmall]="true" (click)="addEmployee()">
+        <mat-icon>add</mat-icon>
+      </app-basic-button>
+    </div>
+  </mat-card-footer>
+</mat-card>

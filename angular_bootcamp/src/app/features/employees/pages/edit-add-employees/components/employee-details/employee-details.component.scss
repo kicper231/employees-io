@@ -1,0 +1,148 @@
+@import "../../../../../../../../public/assets/styles/styles";
+
+.profile-info {
+  margin: 0 0 0 0;
+  padding: 0 1rem;
+  background-color: $secondary;
+
+  &__row {
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem;
+
+    & > .profile-info__tile {
+      flex: 1;
+    }
+  }
+
+  &__button-row {
+    gap: 1rem;
+    justify-content: center;
+    display: flex;
+  }
+
+  &__title {
+    height: 2rem;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    margin: 1rem 0;
+    padding: 0.5rem 1rem;
+  }
+
+  &__tile {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    flex: 1;
+
+    &-managers {
+      flex-direction: column;
+      display: flex;
+      margin-bottom: 2rem;
+      width: 100%;
+    }
+
+    &-button {
+      align-self: flex-end;
+    }
+
+    &-projects {
+      padding: 0.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      align-content: flex-start;
+
+      &-group {
+        flex-direction: column;
+        display: flex;
+        margin-bottom: 2rem;
+        width: 100%;
+        position: relative;
+
+        &-element {
+          display: block;
+          padding: 0;
+          margin-bottom: 0.5rem;
+          width: 90%;
+
+          &--inline {
+            display: inline-block;
+          }
+        }
+
+        &-button--delete {
+          border: none;
+          position: absolute;
+          right: 0;
+          top: 40%;
+          color: $error;
+        }
+      }
+    }
+
+    &-skills {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      align-content: flex-start;
+      padding: 0.5rem;
+
+      &-group {
+        display: flex;
+        width: 90%;
+        margin-bottom: 1rem;
+        position: relative;
+
+        &-element {
+          width: 100%;
+          margin: 0 0.5rem;
+        }
+      }
+    }
+
+    &-select {
+      padding: 0.5rem;
+      width: 100%;
+      display: block;
+      border: $border-width solid $border;
+      border-radius: $border-radius-size;
+    }
+
+    &-label {
+      display: block;
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+
+      &--bigger {
+        font-size: 1.2rem;
+      }
+    }
+    &-input {
+      box-sizing: border-box;
+      width: 100%;
+      margin-bottom: 0.5rem;
+      display: block;
+      align-self: center;
+      justify-self: center;
+      font-weight: 400;
+      line-height: 1.5;
+      color: $text;
+      background-clip: padding-box;
+      transition:
+        border-color 0.15s ease-in-out,
+        box-shadow 0.15s ease-in-out;
+
+      &--full-width {
+        width: 100%;
+      }
+    }
+
+    &-error {
+      color: $error;
+      font-size: 0.8rem;
+      display: block;
+    }
+  }
+}

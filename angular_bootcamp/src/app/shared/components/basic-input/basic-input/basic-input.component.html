@@ -1,0 +1,27 @@
+<div class="input form-classic" [formGroup]="parentFormGroup.form">
+  <mat-form-field appearance="outline">
+    @if (label) {
+      <mat-label>{{ label }}</mat-label>
+    }
+
+    <div class="input__input-container">
+      <input
+        #inputField
+        (blur)="formControl.dirty ? leaveField.emit(formControl.value) : null"
+        [attr.maxlength]="maxLength"
+        [formControl]="formControl"
+        [id]="fieldId"
+        [placeholder]="placeholder"
+        [type]="type"
+        class="input__input-container-input-field"
+        matInput
+      />
+    </div>
+    <mat-error *ngIf="formControl.hasError('required') && !formControl.untouched">
+      {{ validationMessage }}
+    </mat-error>
+    <mat-hint class="input__limit-info" *ngIf="maxLength && maxLengthError()">
+      {{ "Limit of " + maxLength + " characters reached" }}
+    </mat-hint>
+  </mat-form-field>
+</div>
