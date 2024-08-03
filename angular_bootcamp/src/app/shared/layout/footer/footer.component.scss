@@ -1,6 +1,9 @@
 @import "../../../../../public/assets/styles/styles.scss";
 .footer {
-  background: $menu;
+  background: $header-footer;
   min-height: 5rem;
-  margin-top: 2rem;
+  margin-top: 4rem;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: row;
 }

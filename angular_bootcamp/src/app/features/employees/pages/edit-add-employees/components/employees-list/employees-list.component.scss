@@ -5,21 +5,23 @@
   list-style-type: none;
   display: flex;
   flex-direction: column;
+  background-color: $secondary;
 
   &__header {
-    background-color: $menu;
     font-weight: bold;
     padding: 0.5rem 1rem;
     height: 2rem;
     text-align: left;
     display: flex;
     align-items: center;
-    border-bottom: $border-default;
+    margin: 1rem 0;
+    align-self: center;
   }
 
   &__buttons-group {
     display: flex;
     justify-content: flex-end;
+    margin: 1rem 0;
   }
 
   &__button {
@@ -34,25 +36,16 @@
     height: 1.8rem;
     align-items: center;
 
-    &-add {
+    &-list {
       align-self: flex-end;
-      margin: 0.5rem;
-      border-radius: 50%;
-      width: 2rem;
-      height: 2rem;
-      justify-content: center;
-      align-items: center;
     }
 
-    &--selected {
-      background-color: $primary;
-      color: $background;
-    }
     &:hover {
       background-color: $secondary;
     }
 
     &__name-surname {
+      font-weight: normal;
       margin: 0 auto;
     }
   }

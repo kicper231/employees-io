@@ -20,6 +20,21 @@ import { ProficiencyLevelsEnums } from '../../../../../../enums/proficiency-leve
 import { Employee } from '../../../../../../models/employee.model';
 import { Skill } from '../../../../../../models/skill.model';
 import { Project } from '../../../../../../models/project.model';
+import { MatCard, MatCardContent, MatCardHeader } from '@angular/material/card';
+import { MatError, MatFormField, MatFormFieldModule, MatHint, MatLabel } from '@angular/material/form-field';
+import { MatInput, MatInputModule } from '@angular/material/input';
+import {
+  MatDatepicker,
+  MatDatepickerInput,
+  MatDatepickerModule,
+  MatDatepickerToggle,
+} from '@angular/material/datepicker';
+import { MatOption, provideNativeDateAdapter } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
+import { MatButton, MatFabButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { BasicButtonComponent } from '../../../../../../shared/components/basic-button/basic-button.component';
+import { InputComponent } from '../../../../../../shared/components/basic-input/basic-input/basic-input.component';
 
 @Component({
   selector: 'app-employee-details',
@@ -33,10 +48,31 @@ import { Project } from '../../../../../../models/project.model';
     FullName,
     TranslateModule,
     LowerCasePipe,
+    MatCard,
+    MatCardHeader,
+    MatCardContent,
+    MatInput,
+    MatError,
+    MatHint,
+    MatLabel,
+    MatDatepickerInput,
+    MatFormField,
+    MatDatepicker,
+    MatDatepickerToggle,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatSelect,
+    MatOption,
+    MatButton,
+    MatIcon,
+    MatFabButton,
+    BasicButtonComponent,
+    InputComponent,
   ],
   templateUrl: './employee-details.component.html',
   styleUrl: './employee-details.component.scss',
-  providers: [DatePipe],
+  providers: [DatePipe, provideNativeDateAdapter()],
 })
 export class EmployeeDetailsComponent implements OnInit {
   managers: Employee[] = [];

@@ -1,0 +1,43 @@
+@import "./variables";
+
+.form-basic {
+  .mat-mdc-form-field-error {
+    color: $primary;
+  }
+
+  .mdc-text-field--filled.mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-line-ripple::after,
+  .mdc-text-field--filled:not(.mdc-text-field--disabled),
+  .mdc-text-field--invalid .mdc-line-ripple::before {
+    border-bottom-color: $primary !important;
+  }
+
+  .mat-mdc-form-field-error-wrapper,
+  .mat-mdc-form-field-hint-wrapper {
+    padding: 0;
+  }
+
+  .mat-mdc-text-field-wrapper {
+    height: 4rem;
+  }
+}
+
+.form-classic {
+  .mat-mdc-form-field-error {
+    color: $error;
+  }
+
+  .mdc-text-field--filled.mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-line-ripple::after,
+  .mdc-text-field--filled:not(.mdc-text-field--disabled),
+  .mdc-text-field--invalid .mdc-line-ripple::before {
+    border-bottom-color: $error !important;
+  }
+
+  .mat-mdc-form-field-error-wrapper,
+  .mat-mdc-form-field-hint-wrapper {
+    padding: 0;
+  }
+
+  .mat-mdc-text-field-wrapper {
+    height: 4rem;
+  }
+}

@@ -4,11 +4,28 @@ import { TranslateModule } from '@ngx-translate/core';
 import { EmployeesService } from '../../../../../../services/employees-service/employees.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Employee } from '../../../../../../models/employee.model';
+import { MatCard, MatCardContent, MatCardFooter, MatCardHeader } from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
+import { MatButton, MatMiniFabButton } from '@angular/material/button';
+import { MatListOption, MatSelectionList } from '@angular/material/list';
+import { BasicButtonComponent } from '../../../../../../shared/components/basic-button/basic-button.component';
 
 @Component({
   selector: 'app-employees-list',
   standalone: true,
-  imports: [TranslateModule],
+  imports: [
+    TranslateModule,
+    MatCard,
+    MatCardHeader,
+    MatCardContent,
+    MatCardFooter,
+    MatIcon,
+    MatMiniFabButton,
+    MatButton,
+    MatSelectionList,
+    MatListOption,
+    BasicButtonComponent,
+  ],
   templateUrl: './employees-list.component.html',
   styleUrl: './employees-list.component.scss',
 })

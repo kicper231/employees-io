@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LanguagePickerComponent } from './language-picker-component';
+import { BasicInputComponent } from './basic-input.component';
 
-describe('LanguagePickerComponent', () => {
-  let component: LanguagePickerComponent;
-  let fixture: ComponentFixture<LanguagePickerComponent>;
+describe('BasicInputComponent', () => {
+  let component: BasicInputComponent;
+  let fixture: ComponentFixture<BasicInputComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LanguagePickerComponent],
+      imports: [BasicInputComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LanguagePickerComponent);
+    fixture = TestBed.createComponent(BasicInputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

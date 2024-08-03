@@ -4,7 +4,7 @@ export const MANAGERS: Employee[] = [
   {
     name: 'Karol ',
     hireDate: new Date(Date.now()),
-    id: crypto.randomUUID(),
+    id: '1',
     projectsList: [],
     skillsList: [],
     surname: 'Menagerski',
@@ -13,7 +13,7 @@ export const MANAGERS: Employee[] = [
   {
     name: 'Kinga',
     hireDate: new Date('11/03/2023'),
-    id: crypto.randomUUID(),
+    id: '2',
     projectsList: [],
     skillsList: [],
     surname: 'Rozsądna',
@@ -22,7 +22,7 @@ export const MANAGERS: Employee[] = [
   {
     name: 'Karolina',
     hireDate: new Date('11/12/1900'),
-    id: crypto.randomUUID(),
+    id: '3',
     projectsList: [],
     skillsList: [],
     surname: 'Szefowa',

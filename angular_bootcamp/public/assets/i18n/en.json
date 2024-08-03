@@ -1,14 +1,25 @@
 {
+  "footer": {
+    "privacy.policy": "Privacy Policy 2024, All rights reserved @"
+  },
+  "messages": {
+    "clear": "Reset messages",
+    "employee.added": "Employee has been added.",
+    "employee.deleted": "Employee has been deleted.",
+    "employee.updated": "Employee has been updated.",
+    "get.employees": "Fetching employee list.",
+    "get.managers": "Fetching manager list."
+  },
   "languages": {
     "en": "English",
-    "pl": "Polish"
+    "pl": "Polish",
+    "menu.option": "languages"
   },
 
   "header": {
-    "title": "Employees.io"
-  },
-  "footer": {
-    "privacy.policy": "Privacy Policy 2024, All rights reserved @"
+    "title": "Employees.io",
+    "home": "home",
+    "employees": "employees"
   },
 
   "employees": {
