@@ -1,0 +1,25 @@
+@import "../../../../public/assets/styles/styles";
+.error-card {
+  margin: 0 0 0 0;
+  padding: 0 1rem;
+  background-color: white;
+  border: $border-default;
+  box-shadow: 0 0 10px 1px $secondary !important;
+  justify-items: center !important;
+  align-items: center;
+
+  &__title {
+    height: 2rem;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    margin: 1rem 0;
+    padding: 0.5rem 1rem;
+    font-size: 2rem;
+  }
+
+  &__image {
+    width: 50%;
+  }
+}

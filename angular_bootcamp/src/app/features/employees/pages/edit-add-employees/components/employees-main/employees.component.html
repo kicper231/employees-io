@@ -1,10 +1,7 @@
 <div class="employees">
-  <div class="employees__list">
-    <app-employees-list [listOfEmployees]="listOfEmployees"></app-employees-list>
+  <div class="employees__list"><app-employees-list [listOfEmployees]="listOfEmployees"></app-employees-list></div>
+
+  <div class="employees__details">
+    <router-outlet></router-outlet>
   </div>
-  @if (selectedEmployee) {
-    <div class="employees__details">
-      <app-employee-details></app-employee-details>
-    </div>
-  }
 </div>

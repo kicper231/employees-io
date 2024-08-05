@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { BasicButtonComponent } from '../../../../../shared/components/basic-button/basic-button.component';
 import { MatCard, MatCardContent, MatCardFooter, MatCardHeader } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
@@ -57,7 +57,7 @@ export class DashboardComponent implements OnInit {
   }
 
   employeeSelected(employee: Employee) {
-    this.employeesService.setSelectedEmployee(employee);
-    this.router.navigate(['/employee', employee.id]);
+    //  this.employeesService.setSelectedEmployee(employee);
+    this.router.navigate(['/employees', employee.id]);
   }
 }

@@ -15,7 +15,6 @@ export class EmployeesService {
   private managers: Employee[] = MANAGERS;
 
   public creatingEmployee: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  public selectedEmployee: BehaviorSubject<Employee | undefined> = new BehaviorSubject<Employee | undefined>(undefined);
 
   constructor(private messagesService: MessagesService) {}
 
@@ -29,20 +28,20 @@ export class EmployeesService {
     return of(this.managers);
   }
 
-  getCreatingEmployee(): Observable<boolean> {
-    return this.creatingEmployee.asObservable();
-  }
+  // getCreatingEmployee(): Observable<boolean> {
+  //   return this.creatingEmployee.asObservable();
+  // }
 
   setCreatingEmployee(value: boolean): void {
     this.creatingEmployee.next(value);
   }
-  getSelectedEmployee(): Observable<Employee | undefined> {
-    return this.selectedEmployee.asObservable();
+  getEmployee(employeeId: string): Observable<Employee | undefined> {
+    return of(this.employees.find((employee: Employee) => employee.id == employeeId));
   }
 
-  setSelectedEmployee(value: Employee | undefined) {
-    this.selectedEmployee.next(value);
-  }
+  // setSelectedEmployee(value: Employee | undefined) {
+  //   this.selectedEmployee.next(value);
+  // }
 
   addEmployee(newEmployee: Employee): Observable<Employee[]> {
     this.messagesService.add(MessagesTypes.EmployeeAdded);

@@ -16,10 +16,10 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class InputComponent extends AbstractFormFields {
   @Input() label?: string;
-  @Input() placeholder: string = 'basic';
-  @Input() type: string = 'text';
-  @Input() maxLength: number = 100;
-  @Input() validationMessage: string = 'Field required';
+  @Input() placeholder = 'basic';
+  @Input() type = 'text';
+  @Input() maxLength = 100;
+  @Input() validationMessage = 'Field required';
 
   @Output() leaveField: EventEmitter<string> = new EventEmitter<string>();
 

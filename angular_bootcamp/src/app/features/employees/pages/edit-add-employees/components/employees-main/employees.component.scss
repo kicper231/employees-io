@@ -1,16 +1,17 @@
 .employees {
   font-size: 1rem;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
 
   &__details {
     display: inline-block;
+    width: 60%;
+    margin-left: 2rem;
   }
 
   &__list {
     width: 40%;
-
     display: inline-block;
     align-content: start;
   }

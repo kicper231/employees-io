@@ -1,12 +1,17 @@
 <mat-card appearance="outlined" class="employees-list">
   <mat-card-header class="employees-list__header">{{ "employees.list.title" | translate }}</mat-card-header>
   <mat-card-content>
-    <mat-selection-list #shoes [multiple]="false" [hideSingleSelectionIndicator]="true">
+    <mat-selection-list [multiple]="false" [hideSingleSelectionIndicator]="true">
       @for (employee of listOfEmployees; track employee) {
-        <mat-list-option [value]="employee" (click)="onSelect(employee)" class="employee-option">
+        <mat-list-option
+          [value]="employee"
+          (click)="onSelect(employee)"
+          class="employee-option"
+          [routerLink]="[employee.id]"
+          [selected]="selectedEmployee?.id === undefined ? false : selectedEmployee!.id === employee.id"
+        >
           <span class="employees-list__button__name-surname">{{ employee.name }} {{ employee.surname }}</span>
         </mat-list-option>
-        <mat-icon (click)="goToEmployee(employee)" class="employees-list__button__icon">keyboard_arrow_right</mat-icon>
       }
     </mat-selection-list>
   </mat-card-content>

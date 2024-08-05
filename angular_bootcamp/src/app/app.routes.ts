@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { EmployeesComponent } from './features/employees/pages/edit-add-employees/components/employees-main/employees.component';
 import { DashboardComponent } from './features/employees/pages/dashboard/dashboard/dashboard.component';
 import { EmployeeDetailsComponent } from './features/employees/pages/edit-add-employees/components/employee-details/employee-details.component';
+import { ErrorComponent } from './core/error/error.component';
 
 // import * as ROUTES from './core/routes.config';
 
@@ -14,8 +15,12 @@ import { EmployeeDetailsComponent } from './features/employees/pages/edit-add-em
 // ];
 export const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: 'employees', component: EmployeesComponent },
+  {
+    path: 'employees',
+    component: EmployeesComponent,
+    children: [{ path: ':id', component: EmployeeDetailsComponent }],
+  },
+
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'employees/:id', component: EmployeeDetailsComponent },
-  { path: '**', component: DashboardComponent },
+  { path: '**', component: ErrorComponent },
 ];

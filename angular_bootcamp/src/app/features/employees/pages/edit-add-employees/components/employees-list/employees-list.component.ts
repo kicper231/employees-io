@@ -1,5 +1,4 @@
-import { Component, DestroyRef, inject, Input } from '@angular/core';
-
+import { Component, DestroyRef, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { EmployeesService } from '../../../../../../services/employees-service/employees.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -9,7 +8,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatButton, MatMiniFabButton } from '@angular/material/button';
 import { MatListOption, MatSelectionList } from '@angular/material/list';
 import { BasicButtonComponent } from '../../../../../../shared/components/basic-button/basic-button.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-employees-list',
@@ -26,21 +25,40 @@ import { Router } from '@angular/router';
     MatSelectionList,
     MatListOption,
     BasicButtonComponent,
+    RouterLink,
   ],
   templateUrl: './employees-list.component.html',
   styleUrl: './employees-list.component.scss',
 })
-export class EmployeesListComponent {
+export class EmployeesListComponent implements OnDestroy, OnInit {
   @Input() listOfEmployees?: Employee[];
 
   selectedEmployee?: Employee;
 
-  private readonly destroyRef = inject(DestroyRef);
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   constructor(
+    private route: ActivatedRoute,
     public employeesService: EmployeesService,
     private router: Router
   ) {}
+
+  ngOnInit(): void {
+    const employeeId: string | null = this.route.snapshot.paramMap.get('id');
+    console.log(this.route.snapshot.paramMap);
+    if (employeeId) {
+      this.employeesService.getEmployee(employeeId).subscribe((employee) => {
+        this.selectedEmployee = employee;
+      });
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.employeesService.creatingEmployee.value) {
+      this.employeesService.setCreatingEmployee(false);
+      this.listOfEmployees?.pop();
+    }
+  }
 
   onSelect(employee?: Employee) {
     if (this.employeesService.creatingEmployee.value && employee != this.listOfEmployees!.at(-1)) {
@@ -48,12 +66,9 @@ export class EmployeesListComponent {
       this.listOfEmployees?.pop();
     }
     this.selectedEmployee = employee;
-    this.employeesService.setSelectedEmployee(employee);
-  }
-
-  goToEmployee(employee: Employee) {
-    this.employeesService.setSelectedEmployee(employee);
-    this.router.navigate(['/employee', employee!.id]);
+    if (employee) {
+      this.router.navigate(['/employees', employee.id]);
+    }
   }
 
   addEmployee() {
@@ -68,14 +83,9 @@ export class EmployeesListComponent {
         projectsList: [],
       };
       this.employeesService.setCreatingEmployee(true);
-      this.employeesService
-        .addEmployee(newEmployee)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe((employees) => {
-          this.listOfEmployees = employees;
-        });
+      this.employeesService.addEmployee(newEmployee);
+
       this.onSelect(newEmployee);
-      this.router.navigate(['/employee', newEmployee!.id]);
     }
   }
 
@@ -84,10 +94,10 @@ export class EmployeesListComponent {
       this.employeesService
         .deleteEmployee(this.selectedEmployee.id)
         .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe((employees) => {
+        .subscribe((employees: Employee[]) => {
           this.listOfEmployees = employees;
-          this.onSelect();
         });
+      this.router.navigate(['/employees']);
     }
   }
 }

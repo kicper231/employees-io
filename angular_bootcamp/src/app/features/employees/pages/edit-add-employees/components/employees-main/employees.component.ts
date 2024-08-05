@@ -8,6 +8,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Employee } from '../../../../../../models/employee.model';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-employees',
@@ -22,6 +23,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     EmployeeDetailsComponent,
     JsonPipe,
     MatSlideToggleModule,
+    RouterOutlet,
   ],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.scss',
@@ -35,7 +37,7 @@ export class EmployeesComponent implements OnInit {
 
   ngOnInit() {
     this.getEmployeesData();
-    this.getSelectedEmployee();
+    // this.getSelectedEmployee();
   }
 
   getEmployeesData(): void {
@@ -47,7 +49,7 @@ export class EmployeesComponent implements OnInit {
       });
   }
 
-  getSelectedEmployee() {
-    this.employeesService.getSelectedEmployee().subscribe((employee) => (this.selectedEmployee = employee));
-  }
+  // getSelectedEmployee() {
+  //   this.employeesService.getSelectedEmployee().subscribe((employee) => (this.selectedEmployee = employee));
+  // }
 }

@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { DatePipe, LowerCasePipe, NgForOf, UpperCasePipe, Location } from '@angular/common';
 
 import {
@@ -35,6 +35,7 @@ import { MatButton, MatFabButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { BasicButtonComponent } from '../../../../../../shared/components/basic-button/basic-button.component';
 import { InputComponent } from '../../../../../../shared/components/basic-input/basic-input/basic-input.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-employee-details',
@@ -144,6 +145,7 @@ export class EmployeeDetailsComponent implements OnInit {
   }
 
   constructor(
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
     private employeesService: EmployeesService,
@@ -162,16 +164,22 @@ export class EmployeeDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getManagersData();
-    this.employeesService
-      .getCreatingEmployee()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((creatingEmployee) => (this.creatingEmployee = creatingEmployee));
 
-    this.getSelectedEmployee();
+    this.route.params.subscribe(() => {
+      this.getEmployee();
+    });
+
+    this.getEmployee();
   }
 
-  getSelectedEmployee() {
-    this.employeesService.getSelectedEmployee().subscribe((employee) => (this.employee = employee!));
+  getEmployee() {
+    const employeeId: string | null = this.route.snapshot.paramMap.get('id');
+    this.employeesService.getEmployee(employeeId!).subscribe((value: Employee | undefined) => {
+      if (value) {
+        this.employee = value;
+        console.log(value);
+      }
+    });
   }
 
   createSkillGroup(skill?: Skill): FormGroup {
