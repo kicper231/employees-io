@@ -1,4 +1,3 @@
-// export const DASHBOARD = 'dashboard';
-// export const EMPLOYEES = 'employees';
-// export const EMPLOYEE_DETAILS = 'employee/:id';
-// export const WILDCARD = '**';
+export const DASHBOARD = 'dashboard';
+export const EMPLOYEES = 'employees';
+export const EMPLOYEES_DETAILS = ':id';

@@ -9,6 +9,7 @@ import { MatIcon } from '@angular/material/icon';
 import { BasicButtonComponent } from '../../components/basic-button/basic-button.component';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { NgOptimizedImage } from '@angular/common';
+import * as ROUTES from '../../../core/routes.config';
 
 @Component({
   selector: 'app-header',
@@ -31,4 +32,6 @@ import { NgOptimizedImage } from '@angular/common';
   styleUrl: './header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderComponent {}
+export class HeaderComponent {
+  readonly ROUTES = ROUTES;
+}

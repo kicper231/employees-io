@@ -4,9 +4,13 @@
   align-items: flex-start;
   justify-content: flex-start;
 
+  &__button {
+    margin-right: 2rem;
+  }
+
   &__details {
     display: inline-block;
-    width: 60%;
+    width: 55%;
     margin-left: 2rem;
   }
 

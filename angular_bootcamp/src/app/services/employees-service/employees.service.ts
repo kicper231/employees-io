@@ -28,20 +28,12 @@ export class EmployeesService {
     return of(this.managers);
   }
 
-  // getCreatingEmployee(): Observable<boolean> {
-  //   return this.creatingEmployee.asObservable();
-  // }
-
   setCreatingEmployee(value: boolean): void {
     this.creatingEmployee.next(value);
   }
   getEmployee(employeeId: string): Observable<Employee | undefined> {
     return of(this.employees.find((employee: Employee) => employee.id == employeeId));
   }
-
-  // setSelectedEmployee(value: Employee | undefined) {
-  //   this.selectedEmployee.next(value);
-  // }
 
   addEmployee(newEmployee: Employee): Observable<Employee[]> {
     this.messagesService.add(MessagesTypes.EmployeeAdded);

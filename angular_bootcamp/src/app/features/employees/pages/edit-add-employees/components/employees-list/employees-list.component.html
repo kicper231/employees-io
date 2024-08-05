@@ -8,7 +8,7 @@
           (click)="onSelect(employee)"
           class="employee-option"
           [routerLink]="[employee.id]"
-          [selected]="selectedEmployee?.id === undefined ? false : selectedEmployee!.id === employee.id"
+          [selected]="selectedEmployee?.id === employee.id"
         >
           <span class="employees-list__button__name-surname">{{ employee.name }} {{ employee.surname }}</span>
         </mat-list-option>
