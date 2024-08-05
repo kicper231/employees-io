@@ -1,17 +1,14 @@
-<!--<div class="employees-dashboard">-->
-<mat-card appearance="outlined" class="employees-dashboard__card">
-  <mat-card-header class="employees-dashboard__header">Pracownicy miesiąca</mat-card-header>
-  <mat-card-content class="employees-dashboard__content">
-    <!--    <mat-chip class="employees-dashboard__content-chips">One fish</mat-chip>-->
-    <!--    <mat-chip class="employees-dashboard__content-chips">Two fish</mat-chip>-->
-    <!--    <mat-chip class="employees-dashboard__content-chips">Three fish</mat-chip>-->
-    <!--    <mat-chip class="employees-dashboard__content-chips">Three fish</mat-chip>-->
-
-    @for (employee of listOfBestEmployees; track employee) {
-      <mat-chip class="employees-dashboard__content-chips" (click)="employeeSelected(employee)">
-        {{ employee | fullName }}
-      </mat-chip>
-    }
-  </mat-card-content>
-</mat-card>
-<!--</div>-->
+<div class="employees-dashboard">
+  <mat-card appearance="outlined" class="employees-dashboard__card">
+    <mat-card-header class="employees-dashboard__header">
+      {{ "dashboard.best.employees" | translate }}
+    </mat-card-header>
+    <mat-card-content class="employees-dashboard__content">
+      @for (employee of listOfBestEmployees; track employee) {
+        <mat-chip class="employees-dashboard__content-chips" (click)="employeeSelected(employee)">
+          {{ employee | fullName }}
+        </mat-chip>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -11,6 +11,7 @@ import { Employee } from '../../../../../models/employee.model';
 import { map } from 'rxjs';
 import { FullName } from '../../edit-add-employees/pipes/full-name.pipe';
 import { Router } from '@angular/router';
+import * as ROUTES from '../../../../../core/routes.config';
 
 @Component({
   selector: 'app-dashboard',
@@ -57,7 +58,6 @@ export class DashboardComponent implements OnInit {
   }
 
   employeeSelected(employee: Employee) {
-    //  this.employeesService.setSelectedEmployee(employee);
-    this.router.navigate(['/employees', employee.id]);
+    this.router.navigate([ROUTES.EMPLOYEES, employee.id]);
   }
 }

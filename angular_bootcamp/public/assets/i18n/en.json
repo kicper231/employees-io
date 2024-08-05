@@ -16,6 +16,13 @@
     "menu.option": "languages"
   },
 
+  "errors": {
+    "page.not.exist": "This site does not exist!"
+  },
+  "dashboard": {
+    "best.employees": "Employees of the month"
+  },
+
   "header": {
     "title": "Employees.io",
     "dashboard": "Panel",
@@ -27,6 +34,7 @@
       "title": "Employee List"
     },
     "details": {
+      "error": "This employee does not exist!",
       "title": {
         "editing": "Edit Employee Details",
         "creating": "Create New Employee"

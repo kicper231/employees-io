@@ -11,6 +11,13 @@
     "privacy.policy": "Polityka prywatności 2024, wszystkie prawa zastrzeżone @"
   },
 
+  "errors": {
+    "page.not.exist": "Taka strona nie istnieje!"
+  },
+  "dashboard": {
+    "best.employees": "Pracowicy miesiąca"
+  },
+
   "languages": {
     "en": "Angielski",
     "pl": "Polski",
@@ -28,6 +35,7 @@
       "title": "Lista pracowników"
     },
     "details": {
+      "error": "Taki pracownik nie istnieje!",
       "title": {
         "editing": "Edytuj szczególy pracownika",
         "creating": "Stwórz nowego pracownika"

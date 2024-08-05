@@ -165,7 +165,7 @@ export class EmployeeDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.getManagersData();
 
-    this.route.params.subscribe(() => {
+    this.route.params.subscribe((): void => {
       this.getEmployee();
     });
 
@@ -177,7 +177,6 @@ export class EmployeeDetailsComponent implements OnInit {
     this.employeesService.getEmployee(employeeId!).subscribe((value: Employee | undefined) => {
       if (value) {
         this.employee = value;
-        console.log(value);
       }
     });
   }
@@ -239,9 +238,5 @@ export class EmployeeDetailsComponent implements OnInit {
       .getManagers()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((employees: Employee[]) => (this.managers = employees));
-  }
-
-  goBack(): void {
-    this.location.back();
   }
 }

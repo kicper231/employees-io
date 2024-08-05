@@ -68,7 +68,12 @@ export const EMPLOYESS: Employee[] = [
     name: 'Koloru',
     hireDate: new Date(Date.now()),
     id: '4',
-    projectsList: [],
+    projectsList: [
+      {
+        name: 'Project b',
+        description: 'Lorem ipsum dolor sit amet, consectetur',
+      },
+    ],
     skillsList: [
       {
         name: 'Angular',
