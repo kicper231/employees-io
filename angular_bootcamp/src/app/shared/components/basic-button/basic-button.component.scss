@@ -1,12 +1,11 @@
 @import "../../../../../public/assets/styles/styles";
 
 .basic-button {
-  background-color: $buttons;
+  background-color: $secondary;
   color: $text !important;
   padding: 0.5rem;
   margin: 0.5rem;
   &--big {
-    background-color: $buttons;
     color: $text !important;
     width: 12rem;
   }
@@ -16,5 +15,11 @@
   &--small {
     padding: 0.5rem !important;
     min-width: 2rem;
+  }
+  &--active {
+    background-color: $primary !important;
+  }
+  &--header {
+    background-color: $buttons;
   }
 }

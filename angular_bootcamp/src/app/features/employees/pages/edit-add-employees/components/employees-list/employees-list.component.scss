@@ -5,7 +5,10 @@
   list-style-type: none;
   display: flex;
   flex-direction: column;
-  background-color: $secondary;
+
+  background-color: white;
+  border: $border-default;
+  box-shadow: 0 0 10px 1px $secondary !important;
 
   &__header {
     font-weight: bold;
@@ -43,10 +46,18 @@
     &:hover {
       background-color: $secondary;
     }
-
+    &__icon {
+      margin-left: auto;
+    }
     &__name-surname {
       font-weight: normal;
-      margin: 0 auto;
+
+      flex: 1;
     }
   }
+}
+
+.employee-option {
+  display: flex;
+  align-items: center;
 }

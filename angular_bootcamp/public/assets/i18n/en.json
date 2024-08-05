@@ -18,8 +18,8 @@
 
   "header": {
     "title": "Employees.io",
-    "home": "home",
-    "employees": "employees"
+    "dashboard": "Panel",
+    "employees": "Employees"
   },
 
   "employees": {

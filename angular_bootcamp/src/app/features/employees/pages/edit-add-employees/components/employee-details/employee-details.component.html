@@ -1,5 +1,7 @@
+<button type="button" (click)="goBack()">GO BACK</button>
+
 <mat-card appearance="outlined" class="profile-info">
-  <mat-card-header>
+  <mat-card-header class="profile-info__title">
     @if (creatingEmployee) {
       <div class="profile-info__title">{{ "employees.details.title.creating" | translate }}</div>
     } @else {

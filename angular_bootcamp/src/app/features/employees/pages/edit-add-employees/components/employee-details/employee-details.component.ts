@@ -1,5 +1,5 @@
 import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
-import { DatePipe, LowerCasePipe, NgForOf, UpperCasePipe } from '@angular/common';
+import { DatePipe, LowerCasePipe, NgForOf, UpperCasePipe, Location } from '@angular/common';
 
 import {
   FormArray,
@@ -101,7 +101,6 @@ export class EmployeeDetailsComponent implements OnInit {
   private _employee!: Employee;
   private readonly destroyRef = inject(DestroyRef);
 
-  @Input()
   public set employee(employee: Employee) {
     this._employee = employee;
 
@@ -147,7 +146,8 @@ export class EmployeeDetailsComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
-    private employeesService: EmployeesService
+    private employeesService: EmployeesService,
+    private location: Location
   ) {
     this.employeeForm = this.formBuilder.group({
       id: [''],
@@ -162,11 +162,16 @@ export class EmployeeDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getManagersData();
-
     this.employeesService
       .getCreatingEmployee()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((creatingEmployee) => (this.creatingEmployee = creatingEmployee));
+
+    this.getSelectedEmployee();
+  }
+
+  getSelectedEmployee() {
+    this.employeesService.getSelectedEmployee().subscribe((employee) => (this.employee = employee!));
   }
 
   createSkillGroup(skill?: Skill): FormGroup {
@@ -226,5 +231,9 @@ export class EmployeeDetailsComponent implements OnInit {
       .getManagers()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((employees: Employee[]) => (this.managers = employees));
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }

@@ -15,6 +15,8 @@ export class BasicButtonComponent {
   @Input() fullWidth: boolean = false;
   @Input() isDelete: boolean = false;
   @Input() isSmall: boolean = false;
+  @Input() isRouterLinkActive: boolean = false;
+  @Input() isHeader: boolean = false;
 
   @Output() clickEvent = new EventEmitter<Event>();
 

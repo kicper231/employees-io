@@ -3,7 +3,9 @@
 .profile-info {
   margin: 0 0 0 0;
   padding: 0 1rem;
-  background-color: $secondary;
+  background-color: white;
+  border: $border-default;
+  box-shadow: 0 0 10px 1px $secondary !important;
 
   &__row {
     display: flex;
@@ -29,6 +31,7 @@
     font-weight: bold;
     margin: 1rem 0;
     padding: 0.5rem 1rem;
+    font-size: 1rem;
   }
 
   &__tile {

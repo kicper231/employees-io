@@ -18,7 +18,9 @@
   },
 
   "header": {
-    "title": "Pracownicy.io"
+    "title": "Pracownicy.io",
+    "dashboard": "Panel",
+    "employees": "Pracownicy"
   },
 
   "employees": {

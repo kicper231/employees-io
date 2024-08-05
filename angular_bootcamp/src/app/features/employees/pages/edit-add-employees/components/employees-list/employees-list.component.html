@@ -3,9 +3,10 @@
   <mat-card-content>
     <mat-selection-list #shoes [multiple]="false" [hideSingleSelectionIndicator]="true">
       @for (employee of listOfEmployees; track employee) {
-        <mat-list-option [value]="employee" (click)="onSelect(employee)">
+        <mat-list-option [value]="employee" (click)="onSelect(employee)" class="employee-option">
           <span class="employees-list__button__name-surname">{{ employee.name }} {{ employee.surname }}</span>
         </mat-list-option>
+        <mat-icon (click)="goToEmployee(employee)" class="employees-list__button__icon">keyboard_arrow_right</mat-icon>
       }
     </mat-selection-list>
   </mat-card-content>

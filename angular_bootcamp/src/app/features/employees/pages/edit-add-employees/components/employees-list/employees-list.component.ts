@@ -9,6 +9,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatButton, MatMiniFabButton } from '@angular/material/button';
 import { MatListOption, MatSelectionList } from '@angular/material/list';
 import { BasicButtonComponent } from '../../../../../../shared/components/basic-button/basic-button.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-employees-list',
@@ -36,7 +37,10 @@ export class EmployeesListComponent {
 
   private readonly destroyRef = inject(DestroyRef);
 
-  constructor(public employeesService: EmployeesService) {}
+  constructor(
+    public employeesService: EmployeesService,
+    private router: Router
+  ) {}
 
   onSelect(employee?: Employee) {
     if (this.employeesService.creatingEmployee.value && employee != this.listOfEmployees!.at(-1)) {
@@ -45,6 +49,11 @@ export class EmployeesListComponent {
     }
     this.selectedEmployee = employee;
     this.employeesService.setSelectedEmployee(employee);
+  }
+
+  goToEmployee(employee: Employee) {
+    this.employeesService.setSelectedEmployee(employee);
+    this.router.navigate(['/employee', employee!.id]);
   }
 
   addEmployee() {
@@ -66,6 +75,7 @@ export class EmployeesListComponent {
           this.listOfEmployees = employees;
         });
       this.onSelect(newEmployee);
+      this.router.navigate(['/employee', newEmployee!.id]);
     }
   }
 
