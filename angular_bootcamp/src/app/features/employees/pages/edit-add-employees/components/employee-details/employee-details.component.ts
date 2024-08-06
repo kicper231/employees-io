@@ -36,6 +36,7 @@ import { MatIcon } from '@angular/material/icon';
 import { BasicButtonComponent } from '../../../../../../shared/components/basic-button/basic-button.component';
 import { InputComponent } from '../../../../../../shared/components/basic-input/basic-input/basic-input.component';
 import { ActivatedRoute } from '@angular/router';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-employee-details',
@@ -70,6 +71,7 @@ import { ActivatedRoute } from '@angular/router';
     MatFabButton,
     BasicButtonComponent,
     InputComponent,
+    MatProgressSpinner,
   ],
   templateUrl: './employee-details.component.html',
   styleUrl: './employee-details.component.scss',
@@ -78,7 +80,9 @@ import { ActivatedRoute } from '@angular/router';
 export class EmployeeDetailsComponent implements OnInit {
   managers: Employee[] = [];
   proficiencyValues = Object.values(ProficiencyLevelsEnums);
-  creatingEmployee = false;
+  creatingEmployee: boolean = false;
+  loadingEmployee: boolean = false;
+
   employeeForm!: FormGroup<{
     id: FormControl<string | null>;
     name: FormControl<string | null>;
@@ -164,7 +168,6 @@ export class EmployeeDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getManagersData();
-
     this.route.params.subscribe((): void => {
       this.getEmployee();
     });
@@ -173,12 +176,33 @@ export class EmployeeDetailsComponent implements OnInit {
   }
 
   getEmployee() {
+    this.loadingEmployee = true;
     const employeeId: string | null = this.route.snapshot.paramMap.get('id');
-    this.employeesService.getEmployee(employeeId!).subscribe((value: Employee | undefined) => {
-      if (value) {
-        this.employee = value;
+
+    if (this.employeesService.creatingEmployee.value) {
+      this.employee = {
+        id: crypto.randomUUID(),
+        name: '',
+        surname: '',
+        hireDate: new Date(),
+        manager: null,
+        skillsList: [],
+        projectsList: [],
+      };
+      return;
+    }
+
+    this.employeesService.getEmployee(employeeId!).subscribe(
+      (value: Employee | undefined) => {
+        if (value) {
+          this.employee = value;
+        }
+      },
+      () => {},
+      () => {
+        this.loadingEmployee = false;
       }
-    });
+    );
   }
 
   createSkillGroup(skill?: Skill): FormGroup {
@@ -198,8 +222,14 @@ export class EmployeeDetailsComponent implements OnInit {
   public onSubmit() {
     if (this.employeeForm.valid) {
       const formValue = this.employeeForm.getRawValue();
-      this.employeesService.updateEmployee({ ...formValue, hireDate: new Date(formValue.hireDate!) } as Employee);
-      this.employeesService.setCreatingEmployee(false);
+      if (this.employeesService.creatingEmployee) {
+        this.employeesService
+          .addEmployee({ ...formValue, hireDate: new Date(formValue.hireDate!) } as Employee)
+          .subscribe(() => {});
+      } else {
+        this.employeesService.updateEmployee({ ...formValue, hireDate: new Date(formValue.hireDate!) } as Employee);
+        this.employeesService.setCreatingEmployee(false);
+      }
     } else {
       alert('The form contain s errors');
     }

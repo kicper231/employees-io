@@ -5,6 +5,8 @@ import { HeaderComponent } from './shared/layout/header/header.component';
 import { EmployeesComponent } from './features/employees/pages/edit-add-employees/components/employees-main/employees.component';
 import { FooterComponent } from './shared/layout/footer/footer.component';
 import { DashboardComponent } from './features/employees/pages/dashboard/dashboard/dashboard.component';
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryDataService } from './employees-mocks/in-memory-data.service';
 
 @Component({
   selector: 'app-root',

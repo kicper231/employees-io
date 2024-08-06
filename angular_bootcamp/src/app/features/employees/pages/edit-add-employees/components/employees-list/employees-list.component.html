@@ -2,7 +2,7 @@
   <mat-card-header class="employees-list__header">{{ "employees.list.title" | translate }}</mat-card-header>
   <mat-card-content>
     <mat-selection-list [multiple]="false" [hideSingleSelectionIndicator]="true">
-      @for (employee of listOfEmployees; track employee) {
+      @for (employee of listOfEmployees; track employee.id) {
         <mat-list-option
           [value]="employee"
           (click)="onSelect(employee)"

@@ -7,6 +7,9 @@
   border: $border-default;
   box-shadow: $border-default-shadow;
 
+  &__spinner {
+    margin-top: 5rem;
+  }
   &__row {
     display: flex;
     gap: 1rem;

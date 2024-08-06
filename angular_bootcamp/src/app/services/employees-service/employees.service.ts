@@ -1,26 +1,36 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, tap } from 'rxjs';
 
-import { MANAGERS } from '../../features/employees/pages/edit-add-employees/employees-mocks/mock-managers';
-import { EMPLOYESS } from '../../features/employees/pages/edit-add-employees/employees-mocks/mock-employees';
+import { MANAGERS } from '../../employees-mocks/mock-managers';
 import { Employee } from '../../models/employee.model';
 import { MessagesService } from '../messages-service/messages.service';
 import { MessagesTypes } from '../../enums/messages-types';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { EMPLOYEESURL } from '../../core/urls';
+import { EMPLOYESS } from '../../employees-mocks/mock-employees';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EmployeesService {
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+  };
+
   private employees: Employee[] = EMPLOYESS;
   private managers: Employee[] = MANAGERS;
 
   public creatingEmployee: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  constructor(private messagesService: MessagesService) {}
+  constructor(
+    private messagesService: MessagesService,
+    private http: HttpClient
+  ) {}
 
   getEmployees(): Observable<Employee[]> {
-    this.messagesService.add(MessagesTypes.GetEmployees);
-    return of(this.employees);
+    return this.http
+      .get<Employee[]>(EMPLOYEESURL)
+      .pipe(tap((_) => this.messagesService.add(MessagesTypes.GetEmployees)));
   }
 
   getManagers(): Observable<Employee[]> {
@@ -32,13 +42,20 @@ export class EmployeesService {
     this.creatingEmployee.next(value);
   }
   getEmployee(employeeId: string): Observable<Employee | undefined> {
-    return of(this.employees.find((employee: Employee) => employee.id == employeeId));
+    // return this.http.get<Employee>(EMPLOYEESURL);
+    const url = `${EMPLOYEESURL}/${employeeId}`;
+
+    return this.http.get<Employee>(url);
   }
 
-  addEmployee(newEmployee: Employee): Observable<Employee[]> {
-    this.messagesService.add(MessagesTypes.EmployeeAdded);
-    this.employees.push(newEmployee);
-    return of(this.employees);
+  addEmployee(newEmployee: Employee): Observable<Employee> {
+    // this.messagesService.add(MessagesTypes.EmployeeAdded);
+    // // this.employees.push(newEmployee);
+    // // return of(this.employees);
+
+    return this.http
+      .post<Employee>(EMPLOYEESURL, newEmployee, this.httpOptions)
+      .pipe(tap(() => this.messagesService.add(MessagesTypes.EmployeeAdded)));
   }
 
   updateEmployee(updatedEmployee: Employee): Observable<Employee[]> {

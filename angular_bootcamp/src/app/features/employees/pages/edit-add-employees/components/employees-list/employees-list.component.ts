@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, Input, OnDestroy } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { EmployeesService } from '../../../../../../services/employees-service/employees.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -8,7 +8,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatButton, MatMiniFabButton } from '@angular/material/button';
 import { MatListOption, MatSelectionList } from '@angular/material/list';
 import { BasicButtonComponent } from '../../../../../../shared/components/basic-button/basic-button.component';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import * as ROUTES from '../../../../../../core/routes.config';
 
 @Component({
@@ -31,7 +31,7 @@ import * as ROUTES from '../../../../../../core/routes.config';
   templateUrl: './employees-list.component.html',
   styleUrl: './employees-list.component.scss',
 })
-export class EmployeesListComponent implements OnDestroy {
+export class EmployeesListComponent implements OnDestroy, OnInit {
   @Input() listOfEmployees?: Employee[];
 
   selectedEmployee?: Employee;
@@ -40,8 +40,18 @@ export class EmployeesListComponent implements OnDestroy {
 
   constructor(
     public employeesService: EmployeesService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
+
+  ngOnInit(): void {
+    // dziwne ale dziala
+    const array: string[] = this.router.url.split('/');
+    if (array.length > 2) {
+      const id: string = array[array.length - 1];
+      this.employeesService.getEmployee(id).subscribe((employee) => (this.selectedEmployee = employee));
+    }
+  }
 
   ngOnDestroy(): void {
     if (this.employeesService.creatingEmployee.value) {
@@ -56,8 +66,11 @@ export class EmployeesListComponent implements OnDestroy {
       this.listOfEmployees?.pop();
     }
     this.selectedEmployee = employee;
+
     if (employee) {
-      this.router.navigate([ROUTES.EMPLOYEES, employee.id]);
+      this.employeesService.creatingEmployee.value
+        ? this.router.navigate([ROUTES.EMPLOYEES, 'creatingEmployee'])
+        : this.router.navigate([ROUTES.EMPLOYEES, employee.id]);
     }
   }
 
@@ -73,8 +86,7 @@ export class EmployeesListComponent implements OnDestroy {
         projectsList: [],
       };
       this.employeesService.setCreatingEmployee(true);
-      this.employeesService.addEmployee(newEmployee);
-
+      this.listOfEmployees?.push(newEmployee);
       this.onSelect(newEmployee);
     }
   }

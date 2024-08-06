@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getEmployeesData();
   }
 
@@ -50,14 +50,14 @@ export class DashboardComponent implements OnInit {
       .getEmployees()
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        map((employees: Employee[]) => employees.sort((a, b) => a.skillsList.length - b.skillsList.length).slice(0, 4))
+        map((employees: Employee[]) => employees.sort((a, b) => b.skillsList.length - a.skillsList.length).slice(0, 4))
       )
       .subscribe((employees: Employee[]) => {
         this.listOfBestEmployees = employees;
       });
   }
 
-  employeeSelected(employee: Employee) {
+  employeeSelected(employee: Employee): void {
     this.router.navigate([ROUTES.EMPLOYEES, employee.id]);
   }
 }
