@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, Input, OnDestroy, OnInit } from "@angular/core";
+import { Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { EmployeesService } from '../../../../../../services/employees-service/employees.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -8,9 +8,14 @@ import { MatIcon } from '@angular/material/icon';
 import { MatButton, MatMiniFabButton } from '@angular/material/button';
 import { MatListOption, MatSelectionList } from '@angular/material/list';
 import { BasicButtonComponent } from '../../../../../../shared/components/basic-button/basic-button.component';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import * as ROUTES from '../../../../../../core/routes.config';
 import { CREATING_EMPLOYEE } from '../../../../../../core/routes.config';
+import { MatError, MatFormField } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { ReactiveFormsModule } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-employees-list',
@@ -28,6 +33,12 @@ import { CREATING_EMPLOYEE } from '../../../../../../core/routes.config';
     MatListOption,
     BasicButtonComponent,
     RouterLink,
+    MatError,
+    MatFormField,
+    MatInput,
+    ReactiveFormsModule,
+    RouterLinkActive,
+    NgClass,
   ],
   templateUrl: './employees-list.component.html',
   styleUrl: './employees-list.component.scss',
@@ -36,6 +47,8 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
   listOfEmployees?: Employee[];
   selectedEmployee?: Employee;
 
+  private searchTerms = new Subject<string>();
+
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   constructor(
@@ -43,17 +56,9 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.getSelectedEmployee();
-  }
-
-  @Input() public set setListOfEmployees(employees: Employee[]) {
-    this.listOfEmployees = employees;
-  }
-
   getSelectedEmployee(): void {
-    //TODO("problem z sciezka nie moge inaczej pobrac id usera)
     const array: string[] = this.router.url.split('/');
+
     if (array.length > 2) {
       const id: string = array[array.length - 1];
       this.employeesService.getEmployee(id).subscribe((employee) => {
@@ -67,6 +72,40 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
       this.employeesService.setCreatingEmployee(false);
       this.listOfEmployees?.pop();
     }
+  }
+
+  ngOnInit(): void {
+    this.getEmployeesData();
+    this.getSelectedEmployee();
+
+    this.employeesService.getRefreshTrigger().subscribe((refreshTrigger: boolean) => {
+      if (refreshTrigger) {
+        this.getEmployeesData();
+
+        this.employeesService.setRefreshTrigger(false);
+      }
+    });
+
+    this.searchTerms
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((term: string) => this.employeesService.searchEmployee(term))
+      )
+      .subscribe((Employees: Employee[]) => (this.listOfEmployees = Employees));
+  }
+
+  search(term: string): void {
+    this.searchTerms.next(term);
+  }
+
+  getEmployeesData(): void {
+    this.employeesService
+      .getEmployees()
+      .pipe()
+      .subscribe((employees: Employee[]) => {
+        this.listOfEmployees = employees;
+      });
   }
 
   onSelect(employee?: Employee) {
@@ -102,13 +141,14 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
 
   deleteEmployee() {
     if (this.selectedEmployee) {
-      this.listOfEmployees = this.listOfEmployees!.filter((employee: Employee): boolean => employee.id !== this.selectedEmployee!.id);
+      this.listOfEmployees = this.listOfEmployees!.filter(
+        (employee: Employee): boolean => employee.id !== this.selectedEmployee!.id
+      );
       this.router.navigate([ROUTES.EMPLOYEES]);
       this.employeesService
         .deleteEmployee(this.selectedEmployee.id)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe();
-
     }
   }
 }

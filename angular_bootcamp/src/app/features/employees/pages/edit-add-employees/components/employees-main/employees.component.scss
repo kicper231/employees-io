@@ -1,4 +1,4 @@
-@import '../../../../../../../../public/assets/styles/styles';
+@import "../../../../../../../../public/assets/styles/styles";
 
 .employees {
   display: flex;
@@ -10,14 +10,14 @@
   }
 
   &__details {
-    width: 55%;
+    width: 60%;
     margin-left: $big-margin;
     display: flex;
     justify-content: center;
   }
 
   &__list {
-    width: 40%;
+    width: 20rem;
     display: inline-block;
     align-content: start;
   }

@@ -106,6 +106,34 @@ export class EmployeeDetailsComponent implements OnInit {
   private _employee!: Employee;
   private readonly destroyRef = inject(DestroyRef);
 
+  constructor(
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
+    private datePipe: DatePipe,
+    private employeesService: EmployeesService
+  ) {
+    this.employeeForm = this.formBuilder.group({
+      id: [''],
+      name: ['', Validators.required],
+      surname: ['', Validators.required],
+      hireDate: [new FormControl<string | null>(null), Validators.required],
+      skillsList: this.formBuilder.array([this.createSkillGroup()], Validators.required),
+      projectsList: this.formBuilder.array([this.createProjectGroup()], [Validators.minLength(1), Validators.required]),
+      manager: [new FormControl<Employee | null>(null), Validators.required],
+    });
+  }
+
+  get skillsListControlArray(): FormArray {
+    return this.employeeForm.get('skillsList') as FormArray;
+  }
+
+  get projectsListControlArray(): FormArray {
+    return this.employeeForm.get('projectsList') as FormArray;
+  }
+
+  get employee(): Employee {
+    return this._employee;
+  }
   public set employee(employee: Employee) {
     this._employee = employee;
 
@@ -139,35 +167,6 @@ export class EmployeeDetailsComponent implements OnInit {
       'projectsList',
       this.formBuilder.array(projectArray, [Validators.minLength(1), Validators.required])
     );
-  }
-
-  public get employee(): Employee {
-    return this._employee;
-  }
-
-  get skillsListControlArray(): FormArray {
-    return this.employeeForm.get('skillsList') as FormArray;
-  }
-
-  get projectsListControlArray(): FormArray {
-    return this.employeeForm.get('projectsList') as FormArray;
-  }
-
-  constructor(
-    private route: ActivatedRoute,
-    private formBuilder: FormBuilder,
-    private datePipe: DatePipe,
-    private employeesService: EmployeesService
-  ) {
-    this.employeeForm = this.formBuilder.group({
-      id: [''],
-      name: ['', Validators.required],
-      surname: ['', Validators.required],
-      hireDate: [new FormControl<string | null>(null), Validators.required],
-      skillsList: this.formBuilder.array([this.createSkillGroup()], Validators.required),
-      projectsList: this.formBuilder.array([this.createProjectGroup()], [Validators.minLength(1), Validators.required]),
-      manager: [new FormControl<Employee | null>(null), Validators.required],
-    });
   }
 
   ngOnInit(): void {

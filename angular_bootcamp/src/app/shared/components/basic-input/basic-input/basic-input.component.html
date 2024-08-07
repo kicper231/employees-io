@@ -6,7 +6,6 @@
 
     <div class="input__input-container">
       <input
-        #inputField
         (blur)="formControl.dirty ? leaveField.emit(formControl.value) : null"
         [attr.maxlength]="maxLength"
         [formControl]="formControl"

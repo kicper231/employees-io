@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, tap } from "rxjs";
-
+import { BehaviorSubject, Observable, of, tap } from 'rxjs';
 
 import { Employee } from '../../models/employee.model';
 import { MessagesService } from '../messages-service/messages.service';
 import { MessagesTypes } from '../../enums/messages-types';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { EMPLOYEESURL } from "../../core/urls";
-import { MANAGERS } from "../../employees-mocks/mock-managers";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { EMPLOYEESURL } from '../../core/urls';
+import { MANAGERS } from '../../employees-mocks/mock-managers';
 
 @Injectable({
   providedIn: 'root',
@@ -17,10 +16,10 @@ export class EmployeesService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
-  private managers: Employee[] = MANAGERS;
-
   public creatingEmployee: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public refreshTrigger: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  private managers: Employee[] = MANAGERS;
 
   constructor(
     private messagesService: MessagesService,
@@ -70,5 +69,15 @@ export class EmployeesService {
 
   deleteEmployee(employeeId: string): Observable<Employee> {
     return this.http.delete<Employee>(`${EMPLOYEESURL}/${employeeId}`, this.httpOptions);
+  }
+
+  searchEmployee(term: string): Observable<Employee[]> {
+    if (!term.trim()) {
+      return this.http
+        .get<Employee[]>(EMPLOYEESURL)
+        .pipe(tap(() => this.messagesService.add(MessagesTypes.GetEmployees)));
+    }
+
+    return this.http.get<Employee[]>(`${EMPLOYEESURL}/?name=${term}`).pipe();
   }
 }

@@ -20,7 +20,7 @@ $small-button-min-width: 2rem;
 
   &--small {
     padding: $small-padding !important;
-    min-width: $small-button-min-width
+    min-width: $small-button-min-width;
   }
 
   &--active {
