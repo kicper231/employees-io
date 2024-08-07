@@ -1,5 +1,5 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { DatePipe, LowerCasePipe, NgForOf, UpperCasePipe, Location } from '@angular/common';
+import { DatePipe, LowerCasePipe, NgForOf, UpperCasePipe } from '@angular/common';
 
 import {
   FormArray,
@@ -79,9 +79,9 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 })
 export class EmployeeDetailsComponent implements OnInit {
   managers: Employee[] = [];
-  proficiencyValues = Object.values(ProficiencyLevelsEnums);
-  creatingEmployee: boolean = false;
-  loadingEmployee: boolean = false;
+  proficiencyValues: ProficiencyLevelsEnums[] = Object.values(ProficiencyLevelsEnums);
+  creatingEmployee = false;
+  loadingEmployee = false;
 
   employeeForm!: FormGroup<{
     id: FormControl<string | null>;
@@ -115,11 +115,14 @@ export class EmployeeDetailsComponent implements OnInit {
         hireDate: this.datePipe.transform(employee.hireDate, 'yyyy-MM-dd'),
       });
     }
+
     const skillsArray: FormGroup<{
       name: FormControl<string | null>;
       proficiency: FormControl<ProficiencyLevelsEnums | null>;
     }>[] = [];
+
     employee.skillsList.forEach((skill) => skillsArray.push(this.createSkillGroup(skill)));
+
     this.employeeForm.setControl(
       'skillsList',
       this.formBuilder.array(skillsArray, [Validators.minLength(1), Validators.required])
@@ -129,7 +132,9 @@ export class EmployeeDetailsComponent implements OnInit {
       name: FormControl<string | null>;
       description: FormControl<string | null>;
     }>[] = [];
+
     employee.projectsList.forEach((project) => projectArray.push(this.createProjectGroup(project)));
+
     this.employeeForm.setControl(
       'projectsList',
       this.formBuilder.array(projectArray, [Validators.minLength(1), Validators.required])
@@ -152,8 +157,7 @@ export class EmployeeDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
-    private employeesService: EmployeesService,
-    private location: Location
+    private employeesService: EmployeesService
   ) {
     this.employeeForm = this.formBuilder.group({
       id: [''],
@@ -172,12 +176,15 @@ export class EmployeeDetailsComponent implements OnInit {
       this.getEmployee();
     });
 
-    this.getEmployee();
+    this.getCreatingEmployee();
+  }
+
+  getCreatingEmployee(): void {
+    this.employeesService.getCreatingEmployee().subscribe((value): boolean => (this.creatingEmployee = value));
   }
 
   getEmployee() {
     this.loadingEmployee = true;
-    const employeeId: string | null = this.route.snapshot.paramMap.get('id');
 
     if (this.employeesService.creatingEmployee.value) {
       this.employee = {
@@ -189,20 +196,27 @@ export class EmployeeDetailsComponent implements OnInit {
         skillsList: [],
         projectsList: [],
       };
+      this.loadingEmployee = false;
       return;
     }
 
-    this.employeesService.getEmployee(employeeId!).subscribe(
-      (value: Employee | undefined) => {
-        if (value) {
-          this.employee = value;
+    const employeeId: string | null = this.route.snapshot.paramMap.get('id');
+    this.employeesService
+      .getEmployee(employeeId!)
+      .pipe()
+      .subscribe(
+        (value: Employee | undefined) => {
+          if (value) {
+            this.employee = value;
+          }
+        },
+        () => {
+          this.loadingEmployee = false;
+        },
+        () => {
+          this.loadingEmployee = false;
         }
-      },
-      () => {},
-      () => {
-        this.loadingEmployee = false;
-      }
-    );
+      );
   }
 
   createSkillGroup(skill?: Skill): FormGroup {
@@ -222,14 +236,19 @@ export class EmployeeDetailsComponent implements OnInit {
   public onSubmit() {
     if (this.employeeForm.valid) {
       const formValue = this.employeeForm.getRawValue();
-      if (this.employeesService.creatingEmployee) {
+
+      if (this.employeesService.creatingEmployee.value) {
         this.employeesService
           .addEmployee({ ...formValue, hireDate: new Date(formValue.hireDate!) } as Employee)
-          .subscribe(() => {});
-      } else {
-        this.employeesService.updateEmployee({ ...formValue, hireDate: new Date(formValue.hireDate!) } as Employee);
+          .subscribe();
         this.employeesService.setCreatingEmployee(false);
+      } else {
+        this.employeesService
+          .updateEmployee({ ...formValue, hireDate: new Date(formValue.hireDate!) } as Employee)
+          .subscribe();
       }
+
+      this.employeesService.setRefreshTrigger(true);
     } else {
       alert('The form contain s errors');
     }

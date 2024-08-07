@@ -2,7 +2,7 @@
   <app-basic-button class="employees__button" (clickEvent)="goBack()">
     <mat-icon>keyboard_backspace</mat-icon>
   </app-basic-button>
-  <div class="employees__list"><app-employees-list [listOfEmployees]="listOfEmployees"></app-employees-list></div>
+  <div class="employees__list"><app-employees-list [setListOfEmployees]="listOfEmployees"></app-employees-list></div>
 
   <div class="employees__details">
     <router-outlet></router-outlet>

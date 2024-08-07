@@ -34,6 +34,7 @@ import { BasicButtonComponent } from '../../../../../../shared/components/basic-
 })
 export class EmployeesComponent implements OnInit {
   listOfEmployees: Employee[] = [];
+
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   constructor(
@@ -43,6 +44,12 @@ export class EmployeesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEmployeesData();
+    this.employeesService.getRefreshTrigger().subscribe((refreshTrigger: boolean) => {
+      if (refreshTrigger) {
+        this.getEmployeesData();
+        this.employeesService.setRefreshTrigger(false);
+      }
+    });
   }
 
   getEmployeesData(): void {
@@ -53,6 +60,7 @@ export class EmployeesComponent implements OnInit {
         this.listOfEmployees = employees;
       });
   }
+
   goBack(): void {
     this.location.back();
   }

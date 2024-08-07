@@ -8,8 +8,9 @@ import { MatIcon } from '@angular/material/icon';
 import { MatButton, MatMiniFabButton } from '@angular/material/button';
 import { MatListOption, MatSelectionList } from '@angular/material/list';
 import { BasicButtonComponent } from '../../../../../../shared/components/basic-button/basic-button.component';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import * as ROUTES from '../../../../../../core/routes.config';
+import { CREATING_EMPLOYEE } from '../../../../../../core/routes.config';
 
 @Component({
   selector: 'app-employees-list',
@@ -32,24 +33,32 @@ import * as ROUTES from '../../../../../../core/routes.config';
   styleUrl: './employees-list.component.scss',
 })
 export class EmployeesListComponent implements OnDestroy, OnInit {
-  @Input() listOfEmployees?: Employee[];
-
+  listOfEmployees?: Employee[];
   selectedEmployee?: Employee;
 
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   constructor(
     public employeesService: EmployeesService,
-    private router: Router,
-    private route: ActivatedRoute
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    // dziwne ale dziala
+    this.getSelectedEmployee();
+  }
+
+  @Input() public set setListOfEmployees(employees: Employee[]) {
+    this.listOfEmployees = employees;
+  }
+
+  getSelectedEmployee(): void {
+    //TODO("problem z sciezka nie moge inaczej pobrac id usera)
     const array: string[] = this.router.url.split('/');
     if (array.length > 2) {
       const id: string = array[array.length - 1];
-      this.employeesService.getEmployee(id).subscribe((employee) => (this.selectedEmployee = employee));
+      this.employeesService.getEmployee(id).subscribe((employee) => {
+        this.onSelect(employee);
+      });
     }
   }
 
@@ -66,10 +75,10 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
       this.listOfEmployees?.pop();
     }
     this.selectedEmployee = employee;
-
     if (employee) {
+      // eslint-disable-next-line
       this.employeesService.creatingEmployee.value
-        ? this.router.navigate([ROUTES.EMPLOYEES, 'creatingEmployee'])
+        ? this.router.navigate([ROUTES.EMPLOYEES, CREATING_EMPLOYEE])
         : this.router.navigate([ROUTES.EMPLOYEES, employee.id]);
     }
   }
@@ -93,13 +102,15 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
 
   deleteEmployee() {
     if (this.selectedEmployee) {
+      this.listOfEmployees = this.listOfEmployees!.filter((employee: Employee): boolean => employee.id !== this.selectedEmployee!.id);
+      this.router.navigate([ROUTES.EMPLOYEES]);
       this.employeesService
         .deleteEmployee(this.selectedEmployee.id)
         .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe((employees: Employee[]) => {
-          this.listOfEmployees = employees;
-        });
-      this.router.navigate([ROUTES.EMPLOYEES]);
+        .subscribe();
+
     }
+
+
   }
 }

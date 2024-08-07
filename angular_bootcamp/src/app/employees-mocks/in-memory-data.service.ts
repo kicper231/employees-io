@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { InMemoryDbService, RequestInfo } from 'angular-in-memory-web-api';
+import { InMemoryDbService } from 'angular-in-memory-web-api';
 import { Observable } from 'rxjs';
-import { EMPLOYESS } from './mock-employees';
 import { Employee } from '../models/employee.model';
 import { ProficiencyLevelsEnums } from '../enums/proficiency-levels.enums';
 import { MANAGERS } from './mock-managers';
@@ -10,6 +9,7 @@ import { MANAGERS } from './mock-managers';
   providedIn: 'root',
 })
 export class InMemoryDataService implements InMemoryDbService {
+  // eslint-disable-next-line
   createDb(): {} | Observable<{}> | Promise<{}> {
     const employees: Employee[] = [
       {
@@ -50,7 +50,12 @@ export class InMemoryDataService implements InMemoryDbService {
             description: 'Lorem ipsum dolor sit amet, consectetur',
           },
         ],
-        skillsList: [],
+        skillsList: [
+          {
+            name: 'Angular',
+            proficiency: ProficiencyLevelsEnums.begginer,
+          },
+        ],
         surname: 'Krolowa',
         manager: MANAGERS.at(2) ?? null,
       },

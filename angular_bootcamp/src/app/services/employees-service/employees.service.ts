@@ -21,6 +21,7 @@ export class EmployeesService {
   private managers: Employee[] = MANAGERS;
 
   public creatingEmployee: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public refreshTrigger: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(
     private messagesService: MessagesService,
@@ -30,7 +31,7 @@ export class EmployeesService {
   getEmployees(): Observable<Employee[]> {
     return this.http
       .get<Employee[]>(EMPLOYEESURL)
-      .pipe(tap((_) => this.messagesService.add(MessagesTypes.GetEmployees)));
+      .pipe(tap(() => this.messagesService.add(MessagesTypes.GetEmployees)));
   }
 
   getManagers(): Observable<Employee[]> {
@@ -41,36 +42,34 @@ export class EmployeesService {
   setCreatingEmployee(value: boolean): void {
     this.creatingEmployee.next(value);
   }
-  getEmployee(employeeId: string): Observable<Employee | undefined> {
-    // return this.http.get<Employee>(EMPLOYEESURL);
-    const url = `${EMPLOYEESURL}/${employeeId}`;
 
-    return this.http.get<Employee>(url);
+  getCreatingEmployee(): Observable<boolean> {
+    return this.creatingEmployee.asObservable();
+  }
+
+  getRefreshTrigger(): Observable<boolean> {
+    return this.refreshTrigger.asObservable();
+  }
+
+  setRefreshTrigger(value: boolean): void {
+    this.refreshTrigger.next(value);
+  }
+
+  getEmployee(employeeId: string): Observable<Employee | undefined> {
+    return this.http.get<Employee>(`${EMPLOYEESURL}/${employeeId}`);
   }
 
   addEmployee(newEmployee: Employee): Observable<Employee> {
-    // this.messagesService.add(MessagesTypes.EmployeeAdded);
-    // // this.employees.push(newEmployee);
-    // // return of(this.employees);
-
     return this.http
       .post<Employee>(EMPLOYEESURL, newEmployee, this.httpOptions)
       .pipe(tap(() => this.messagesService.add(MessagesTypes.EmployeeAdded)));
   }
 
-  updateEmployee(updatedEmployee: Employee): Observable<Employee[]> {
-    this.messagesService.add(MessagesTypes.EmployeeUpdated);
-    const index = this.employees.findIndex((employee) => employee.id === updatedEmployee.id);
-    if (index !== -1) {
-      this.employees[index] = updatedEmployee;
-    }
-    return of(this.employees);
+  updateEmployee(updatedEmployee: Employee): Observable<Employee> {
+    return this.http.put<Employee>(EMPLOYEESURL, updatedEmployee, this.httpOptions);
   }
 
-  deleteEmployee(employeeId: string): Observable<Employee[]> {
-    this.messagesService.add(MessagesTypes.EmployeeDeleted);
-    this.employees = this.employees.filter((employee) => employee.id !== employeeId);
-
-    return of(this.employees);
+  deleteEmployee(employeeId: string): Observable<Employee> {
+    return this.http.delete<Employee>(`${EMPLOYEESURL}/${employeeId}`, this.httpOptions);
   }
 }
