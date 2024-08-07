@@ -1,0 +1,30 @@
+@import "../../../../public/assets/styles/styles";
+
+$title-height: 2rem;
+$title-font-size: 2rem;
+$image-size: 50%;
+
+.error-card {
+  margin: 0 0 0 0;
+  padding: 0 $normal-padding;
+  background-color: $background-color;
+  border: $border-default;
+  box-shadow: $border-default-shadow;
+  justify-items: center !important;
+  align-items: center;
+
+  &__title {
+    height: $title-height;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    margin: $normal-margin 0;
+    padding: $small-padding $normal-padding;
+    font-size: $title-font-size;
+  }
+
+  &__image {
+    width: $image-size;
+  }
+}

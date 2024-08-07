@@ -1,5 +1,5 @@
-import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
-import { DatePipe, LowerCasePipe, NgForOf, UpperCasePipe } from '@angular/common';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { DatePipe, LowerCasePipe, NgForOf, UpperCasePipe, Location } from '@angular/common';
 
 import {
   FormArray,
@@ -35,6 +35,7 @@ import { MatButton, MatFabButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { BasicButtonComponent } from '../../../../../../shared/components/basic-button/basic-button.component';
 import { InputComponent } from '../../../../../../shared/components/basic-input/basic-input/basic-input.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-employee-details',
@@ -101,7 +102,6 @@ export class EmployeeDetailsComponent implements OnInit {
   private _employee!: Employee;
   private readonly destroyRef = inject(DestroyRef);
 
-  @Input()
   public set employee(employee: Employee) {
     this._employee = employee;
 
@@ -145,9 +145,11 @@ export class EmployeeDetailsComponent implements OnInit {
   }
 
   constructor(
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
-    private employeesService: EmployeesService
+    private employeesService: EmployeesService,
+    private location: Location
   ) {
     this.employeeForm = this.formBuilder.group({
       id: [''],
@@ -163,10 +165,20 @@ export class EmployeeDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.getManagersData();
 
-    this.employeesService
-      .getCreatingEmployee()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((creatingEmployee) => (this.creatingEmployee = creatingEmployee));
+    this.route.params.subscribe((): void => {
+      this.getEmployee();
+    });
+
+    this.getEmployee();
+  }
+
+  getEmployee() {
+    const employeeId: string | null = this.route.snapshot.paramMap.get('id');
+    this.employeesService.getEmployee(employeeId!).subscribe((value: Employee | undefined) => {
+      if (value) {
+        this.employee = value;
+      }
+    });
   }
 
   createSkillGroup(skill?: Skill): FormGroup {

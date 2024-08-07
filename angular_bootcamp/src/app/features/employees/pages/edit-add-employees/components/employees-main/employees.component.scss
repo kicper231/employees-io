@@ -1,16 +1,22 @@
+@import '../../../../../../../../public/assets/styles/styles';
+
 .employees {
-  font-size: 1rem;
   display: flex;
   align-items: flex-start;
+  justify-content: flex-start;
+
+  &__button {
+    margin-right: $big-margin;
+  }
 
   &__details {
-    width: 65%;
     display: inline-block;
+    width: 55%;
+    margin-left: $big-margin
   }
 
   &__list {
-    width: 30%;
-    margin-right: 5%;
+    width: 40%;
     display: inline-block;
     align-content: start;
   }

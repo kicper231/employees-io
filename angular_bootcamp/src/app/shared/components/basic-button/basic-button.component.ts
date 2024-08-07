@@ -10,13 +10,15 @@ import { NgClass } from '@angular/common';
   styleUrl: './basic-button.component.scss',
 })
 export class BasicButtonComponent {
-  @Input() type: string = 'button';
+  @Input() type: string= 'button';
   @Input() disabled: boolean = false;
   @Input() fullWidth: boolean = false;
   @Input() isDelete: boolean = false;
   @Input() isSmall: boolean = false;
+  @Input() isRouterLinkActive: boolean = false;
+  @Input() isHeader: boolean = false;
 
-  @Output() clickEvent = new EventEmitter<Event>();
+  @Output() clickEvent: EventEmitter<Event> = new EventEmitter<Event>();
 
   onClick($event: Event): void {
     this.clickEvent.emit($event);
