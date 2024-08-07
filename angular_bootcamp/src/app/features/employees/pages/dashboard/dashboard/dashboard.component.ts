@@ -34,7 +34,8 @@ import * as ROUTES from '../../../../../core/routes.config';
 })
 export class DashboardComponent implements OnInit {
   listOfBestEmployees?: Employee[];
-  private readonly destroyRef = inject(DestroyRef);
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
+  private numberOfBestEmployees = 4;
 
   constructor(
     private employeesService: EmployeesService,
@@ -50,7 +51,9 @@ export class DashboardComponent implements OnInit {
       .getEmployees()
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        map((employees: Employee[]) => employees.sort((a, b) => a.skillsList.length - b.skillsList.length).slice(0, 4))
+        map((employees: Employee[]) =>
+          employees.sort((a, b) => a.skillsList.length - b.skillsList.length).slice(0, this.numberOfBestEmployees)
+        )
       )
       .subscribe((employees: Employee[]) => {
         this.listOfBestEmployees = employees;
