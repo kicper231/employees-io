@@ -1,14 +1,17 @@
 @import "../../../../../public/assets/styles/styles";
 
+$big-button-width: 12rem;
+$small-button-min-width: 2rem;
+
 .basic-button {
   background-color: $secondary;
   color: $text !important;
-  padding: 0.5rem;
-  margin: 0.5rem;
+  padding: $small-padding;
+  margin: $small-margin;
 
   &--big {
     color: $text !important;
-    width: 12rem;
+    width: $big-button-width;
   }
 
   &--delete {
@@ -16,8 +19,8 @@
   }
 
   &--small {
-    padding: 0.5rem !important;
-    min-width: 2rem;
+    padding: $small-padding !important;
+    min-width: $small-button-min-width
   }
 
   &--active {

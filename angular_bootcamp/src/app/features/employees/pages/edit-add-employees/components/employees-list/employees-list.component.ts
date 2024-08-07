@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnDestroy, OnInit } from "@angular/core";
 import { TranslateModule } from '@ngx-translate/core';
 import { EmployeesService } from '../../../../../../services/employees-service/employees.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -110,7 +110,5 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
         .subscribe();
 
     }
-
-
   }
 }

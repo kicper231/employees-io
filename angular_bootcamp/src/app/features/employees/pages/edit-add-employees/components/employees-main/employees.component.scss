@@ -1,16 +1,17 @@
+@import '../../../../../../../../public/assets/styles/styles';
+
 .employees {
-  font-size: 1rem;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
 
   &__button {
-    margin-right: 2rem;
+    margin-right: $big-margin;
   }
 
   &__details {
     width: 55%;
-    margin-left: 2rem;
+    margin-left: $big-margin;
     display: flex;
     justify-content: center;
   }
