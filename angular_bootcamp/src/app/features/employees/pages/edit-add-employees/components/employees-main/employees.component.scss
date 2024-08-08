@@ -1,5 +1,8 @@
 @import "../../../../../../../../public/assets/styles/styles";
 
+$list-width: 20rem;
+$details-width: 60%;
+
 .employees {
   display: flex;
   align-items: flex-start;
@@ -10,14 +13,14 @@
   }
 
   &__details {
-    width: 60%;
+    width: $details-width;
     margin-left: $big-margin;
     display: flex;
     justify-content: center;
   }
 
   &__list {
-    width: 20rem;
+    width: $list-width;
     display: inline-block;
     align-content: start;
   }

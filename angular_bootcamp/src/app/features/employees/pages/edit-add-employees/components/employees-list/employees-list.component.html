@@ -3,9 +3,10 @@
   <mat-card-content>
     <mat-form-field appearance="outline" class="employees-list__search-input">
       <input
+        matInput
         class="profile-info__tile-input"
         type="text"
-        placeholder="Wyszukaj pracownika"
+        placeholder="{{ 'employees.list.search' | translate }}"
         #searchBox
         (input)="search(searchBox.value)"
       />
@@ -19,7 +20,7 @@
           [routerLink]="[employee.id]"
           routerLinkActive
           #rla="routerLinkActive"
-          [ngClass]="{ 'employees-list__option--selected': rla.isActive }"
+          [ngClass]="{ 'employees-list__option--selected': employee.id === selectedEmployee?.id }"
         >
           <span class="employees-list__button__name-surname">{{ employee.name }} {{ employee.surname }}</span>
         </mat-list-option>

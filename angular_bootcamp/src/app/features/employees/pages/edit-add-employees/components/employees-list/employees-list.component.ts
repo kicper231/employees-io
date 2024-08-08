@@ -47,8 +47,7 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
   listOfEmployees?: Employee[];
   selectedEmployee?: Employee;
 
-  private searchTerms = new Subject<string>();
-
+  private searchTerms: Subject<string> = new Subject<string>();
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   constructor(
@@ -68,8 +67,8 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
-    if (this.employeesService.creatingEmployee.value) {
-      this.employeesService.setCreatingEmployee(false);
+    if (this.employeesService.isEmployeeBeingCreated.value) {
+      this.employeesService.setIsEmployeeBeingCreated(false);
       this.listOfEmployees?.pop();
     }
   }
@@ -78,11 +77,10 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
     this.getEmployeesData();
     this.getSelectedEmployee();
 
-    this.employeesService.getRefreshTrigger().subscribe((refreshTrigger: boolean) => {
+    this.employeesService.getRefreshEmployeeListTrigger().subscribe((refreshTrigger: boolean) => {
       if (refreshTrigger) {
         this.getEmployeesData();
-
-        this.employeesService.setRefreshTrigger(false);
+        this.employeesService.setRefreshEmployeeListTrigger(false);
       }
     });
 
@@ -102,28 +100,28 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
   getEmployeesData(): void {
     this.employeesService
       .getEmployees()
-      .pipe()
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((employees: Employee[]) => {
         this.listOfEmployees = employees;
       });
   }
 
   onSelect(employee?: Employee) {
-    if (this.employeesService.creatingEmployee.value && employee != this.listOfEmployees!.at(-1)) {
-      this.employeesService.setCreatingEmployee(false);
+    if (this.employeesService.isEmployeeBeingCreated.value && employee != this.listOfEmployees!.at(-1)) {
+      this.employeesService.setIsEmployeeBeingCreated(false);
       this.listOfEmployees?.pop();
     }
     this.selectedEmployee = employee;
     if (employee) {
       // eslint-disable-next-line
-      this.employeesService.creatingEmployee.value
+      this.employeesService.isEmployeeBeingCreated.value
         ? this.router.navigate([ROUTES.EMPLOYEES, CREATING_EMPLOYEE])
         : this.router.navigate([ROUTES.EMPLOYEES, employee.id]);
     }
   }
 
   addEmployee() {
-    if (!this.employeesService.creatingEmployee.value) {
+    if (!this.employeesService.isEmployeeBeingCreated.value) {
       const newEmployee: Employee = {
         id: crypto.randomUUID(),
         name: '',
@@ -133,7 +131,7 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
         skillsList: [],
         projectsList: [],
       };
-      this.employeesService.setCreatingEmployee(true);
+      this.employeesService.setIsEmployeeBeingCreated(true);
       this.listOfEmployees?.push(newEmployee);
       this.onSelect(newEmployee);
     }
@@ -144,11 +142,11 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
       this.listOfEmployees = this.listOfEmployees!.filter(
         (employee: Employee): boolean => employee.id !== this.selectedEmployee!.id
       );
-      this.router.navigate([ROUTES.EMPLOYEES]);
+
       this.employeesService
         .deleteEmployee(this.selectedEmployee.id)
         .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe();
+        .subscribe(() => this.router.navigate([ROUTES.EMPLOYEES]));
     }
   }
 }

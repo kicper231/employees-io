@@ -4,6 +4,8 @@ $header-font-size: 1.1rem;
 $row-gap: 1rem;
 $title-height: 2rem;
 $label-bigger-font-size: 1.2rem;
+$profile-width: 40rem;
+$spinner-margin: 5rem;
 
 .profile-info {
   margin: 0 0 0 0;
@@ -11,10 +13,10 @@ $label-bigger-font-size: 1.2rem;
   background-color: $background-color;
   border: $border-default;
   box-shadow: $border-default-shadow;
-  width: 40rem;
+  width: $profile-width;
 
   &__spinner {
-    margin-top: 5rem;
+    margin-top: $spinner-margin;
   }
 
   &__row {

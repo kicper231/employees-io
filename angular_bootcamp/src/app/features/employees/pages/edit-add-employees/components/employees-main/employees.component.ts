@@ -39,6 +39,6 @@ export class EmployeesComponent {
 
   goBack(): void {
     this.location.back();
-    this.employeesService.setRefreshTrigger(true);
+    this.employeesService.setRefreshEmployeeListTrigger(true);
   }
 }
