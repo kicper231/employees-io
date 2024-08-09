@@ -7,6 +7,12 @@ import { Employee } from '../../models/employee.model';
 })
 export class FullName implements PipeTransform {
   transform(employee: Employee): string {
-    return employee.name + ' ' + employee.surname;
+    if (!employee || employee.name === undefined || employee.surname === undefined) {
+      throw new Error('Both name and surname are defined');
+    }
+
+    return employee.name != '' && employee.surname != ''
+      ? employee.name + ' ' + employee.surname
+      : employee.name + employee.surname;
   }
 }

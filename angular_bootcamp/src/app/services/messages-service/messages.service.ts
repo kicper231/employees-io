@@ -5,20 +5,20 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class MessagesService {
-  messages: Message[] = [];
-
   public messages$: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
 
   addMessage(message: string) {
-    const newMessage = { message: message, id: this.messages.length.toString() };
-    this.messages.push(newMessage);
+    if (!message || message.trim() === '') {
+      return;
+    }
 
-    this.messages$.next(this.messages);
+    const currentMessages: Message[] = this.messages$.getValue();
+    const newMessage: Message = { message: message, id: currentMessages.length.toString() };
+    this.messages$.next([...currentMessages, newMessage]);
   }
 
   clearMessages() {
-    this.messages = [];
-    this.messages$.next(this.messages);
+    this.messages$.next([]);
   }
 
   getMessages(): Observable<Message[]> {
