@@ -4,4 +4,5 @@ export enum MessagesTypes {
   EmployeeUpdated = 'messages.employee.updated',
   GetEmployees = 'messages.get.employees',
   GetManagers = 'messages.get.managers',
+  GetEmployee = 'messages.get.employee',
 }

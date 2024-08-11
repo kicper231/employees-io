@@ -5,7 +5,15 @@
     "employee.deleted": "Pracownik został usunięty.",
     "employee.updated": "Pracownik został zaktualizowany.",
     "get.employees": "Pobieranie listy pracowników.",
-    "get.managers": "Pobieranie listy menedżerów."
+    "get.managers": "Pobieranie listy menedżerów.",
+    "get.employee": "Pobranie użytkownika.",
+    "errors": {
+      "get.employee": "Błąd podczas pobierania pracownika.",
+      "add.employee": "Błąd podczas dodawania pracownika.",
+      "update.employee": "Błąd podczas aktualizacji pracownika.",
+      "delete.employee": "Błąd podczas usuwania pracownika.",
+      "search.employee": "Błąd podczas wyszukiwania pracownika."
+    }
   },
   "footer": {
     "privacy.policy": "Polityka prywatności 2024, wszystkie prawa zastrzeżone @"
@@ -32,6 +40,7 @@
 
   "employees": {
     "list": {
+      "search": "Wyszukaj pracownika",
       "title": "Lista pracowników"
     },
     "details": {

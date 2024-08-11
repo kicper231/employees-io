@@ -1,6 +1,6 @@
 {
   "footer": {
-    "privacy.policy": "Privacy Policy 2024, All rights reserved @"
+    "privacy.policy": "Privacy Policy 2024, All rights reserved @ ~~itsquad~~"
   },
   "messages": {
     "clear": "Reset messages",
@@ -8,7 +8,15 @@
     "employee.deleted": "Employee has been deleted.",
     "employee.updated": "Employee has been updated.",
     "get.employees": "Fetching employee list.",
-    "get.managers": "Fetching manager list."
+    "get.managers": "Fetching manager list.",
+    "get.employee": "Fetch employee.",
+    "errors": {
+      "get.employee": "Error retrieving employee.",
+      "add.employee": "Error adding employee.",
+      "update.employee": "Error updating employee.",
+      "delete.employee": "Error deleting employee.",
+      "search.employee": "Error searching for employee."
+    }
   },
   "languages": {
     "en": "English",
@@ -31,6 +39,7 @@
 
   "employees": {
     "list": {
+      "search": "Search for employee",
       "title": "Employee List"
     },
     "details": {

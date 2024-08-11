@@ -1,0 +1,11 @@
+<button mat-icon-button [matMenuTriggerFor]="messageMenu" class="menu__button">
+  <mat-icon>mail_outline</mat-icon>
+</button>
+
+<mat-menu #messageMenu="matMenu" class="menu">
+  @for (message of listOfMessages; track message.id) {
+    <div mat-menu-item class="menu__item">{{ message.message | translate }}</div>
+    <br />
+  }
+  <app-basic-button (click)="clearMessages()">{{ "messages.clear" | translate }}</app-basic-button>
+</mat-menu>

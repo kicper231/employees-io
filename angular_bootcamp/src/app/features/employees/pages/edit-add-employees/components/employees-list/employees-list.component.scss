@@ -12,6 +12,21 @@ $header-font-size: 1.1rem;
   border: $border-default;
   box-shadow: $border-default-shadow;
 
+  &__option {
+    display: flex;
+    align-items: center;
+
+    &--selected {
+      background-color: $primary !important;
+    }
+  }
+
+  &__search-input {
+    width: 90%;
+    align-self: center;
+    justify-self: center;
+  }
+
   &__header {
     font-weight: bold;
     padding: $small-padding $normal-padding;
@@ -29,9 +44,4 @@ $header-font-size: 1.1rem;
     justify-content: flex-end;
     margin: $normal-margin 0;
   }
-}
-
-.employee-option {
-  display: flex;
-  align-items: center;
 }

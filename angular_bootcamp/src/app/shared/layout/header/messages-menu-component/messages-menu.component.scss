@@ -1,0 +1,14 @@
+@import "../../../../../../public/assets/styles/styles";
+
+.menu {
+  background-color: $background-color !important;
+
+  &__item {
+    background-color: $background-color;
+  }
+
+  &__button {
+    margin: 0 $small-margin;
+    background-color: $buttons;
+  }
+}
