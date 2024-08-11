@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DashboardComponent } from './dashboard.component';
+import { TranslateModule } from "@ngx-translate/core";
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -8,7 +9,7 @@ describe('DashboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DashboardComponent],
+      imports: [DashboardComponent,TranslateModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DashboardComponent);

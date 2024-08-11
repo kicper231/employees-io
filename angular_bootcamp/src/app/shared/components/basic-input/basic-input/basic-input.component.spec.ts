@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { BasicInputComponent } from './basic-input.component';
+import { TranslateModule } from "@ngx-translate/core";
 
 describe('BasicInputComponent', () => {
   let component: BasicInputComponent;
@@ -8,7 +8,7 @@ describe('BasicInputComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BasicInputComponent],
+      imports: [BasicInputComponent,TranslateModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(BasicInputComponent);

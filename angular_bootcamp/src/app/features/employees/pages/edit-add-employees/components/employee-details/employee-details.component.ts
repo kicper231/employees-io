@@ -11,7 +11,7 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { FullName } from '../../pipes/full-name.pipe';
+import { FullName } from '../../../../../../shared/pipes/full-name.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -34,7 +34,7 @@ import { MatSelect } from '@angular/material/select';
 import { MatButton, MatFabButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { BasicButtonComponent } from '../../../../../../shared/components/basic-button/basic-button.component';
-import { InputComponent } from '../../../../../../shared/components/basic-input/basic-input/basic-input.component';
+import { BasicInputComponent } from '../../../../../../shared/components/basic-input/basic-input/basic-input.component';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -69,7 +69,7 @@ import { ActivatedRoute } from '@angular/router';
     MatIcon,
     MatFabButton,
     BasicButtonComponent,
-    InputComponent,
+    BasicInputComponent,
   ],
   templateUrl: './employee-details.component.html',
   styleUrl: './employee-details.component.scss',
