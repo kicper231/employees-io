@@ -77,12 +77,10 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
     this.getEmployeesData();
     this.getSelectedEmployee();
 
-    this.employeesService.getRefreshEmployeeListTrigger().subscribe((refreshTrigger: boolean) => {
-      if (refreshTrigger) {
-        this.getEmployeesData();
-        this.employeesService.setRefreshEmployeeListTrigger(false);
-      }
+    this.employeesService.employees$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((employees: Employee[]) => {
+      this.listOfEmployees = employees;
     });
+    this.employeesService.getEmployees();
 
     this.searchTerms
       .pipe(
@@ -98,12 +96,12 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
   }
 
   getEmployeesData(): void {
-    this.employeesService
-      .getEmployees()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((employees: Employee[]) => {
-        this.listOfEmployees = employees;
-      });
+    // this.employeesService
+    //   .getEmployees()
+    //   .pipe(takeUntilDestroyed(this.destroyRef))
+    //   .subscribe((employees: Employee[]) => {
+    //     this.listOfEmployees = employees;
+    //   });
   }
 
   onSelect(employee?: Employee) {
@@ -113,7 +111,6 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
     }
     this.selectedEmployee = employee;
     if (employee) {
-      // eslint-disable-next-line
       this.employeesService.isEmployeeBeingCreated.value
         ? this.router.navigate([ROUTES.EMPLOYEES, CREATING_EMPLOYEE])
         : this.router.navigate([ROUTES.EMPLOYEES, employee.id]);

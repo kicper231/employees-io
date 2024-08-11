@@ -31,3 +31,7 @@ body {
     flex-direction: column;
   }
 }
+
+.mat-mdc-menu-content {
+  background: $background-color;
+}

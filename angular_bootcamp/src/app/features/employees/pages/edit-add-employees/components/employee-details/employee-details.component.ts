@@ -35,7 +35,7 @@ import { MatButton, MatFabButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { BasicButtonComponent } from '../../../../../../shared/components/basic-button/basic-button.component';
 import { InputComponent } from '../../../../../../shared/components/basic-input/basic-input/basic-input.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
@@ -110,8 +110,7 @@ export class EmployeeDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
-    private employeesService: EmployeesService,
-    private router: Router
+    private employeesService: EmployeesService
   ) {
     this.employeeForm = this.formBuilder.group({
       id: [''],
@@ -135,9 +134,9 @@ export class EmployeeDetailsComponent implements OnInit {
   get employee(): Employee | undefined {
     return this._employee;
   }
+
   public set employee(employee: Employee | undefined) {
     this._employee = employee;
-
     if (employee) {
       this.employeeForm.patchValue({
         ...employee,
@@ -167,6 +166,9 @@ export class EmployeeDetailsComponent implements OnInit {
         'projectsList',
         this.formBuilder.array(projectArray, [Validators.minLength(1), Validators.required])
       );
+      if (employee.manager) {
+        this.employeeForm.get('manager')!.setValue(employee.manager);
+      }
     }
   }
 
@@ -185,8 +187,7 @@ export class EmployeeDetailsComponent implements OnInit {
 
   getEmployee() {
     this.loadingEmployee = true;
-
-    if (this.creatingEmployee) {
+    if (this.employeesService.isEmployeeBeingCreated.value) {
       this.employee = {
         id: crypto.randomUUID(),
         name: '',
@@ -239,7 +240,7 @@ export class EmployeeDetailsComponent implements OnInit {
         this.employeesService
           .addEmployee({ ...formValue, hireDate: new Date(formValue.hireDate!) } as Employee)
           .pipe(takeUntilDestroyed(this.destroyRef))
-          .subscribe((employee: Employee | undefined) => {});
+          .subscribe();
       } else {
         this.employeesService
           .updateEmployee({ ...formValue, hireDate: new Date(formValue.hireDate!) } as Employee)

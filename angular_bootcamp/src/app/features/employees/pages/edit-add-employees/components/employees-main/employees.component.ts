@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatePipe, JsonPipe, NgForOf, NgIf, UpperCasePipe, Location } from '@angular/common';
 import { EmployeesListComponent } from '../employees-list/employees-list.component';
@@ -30,8 +30,6 @@ import { BasicButtonComponent } from '../../../../../../shared/components/basic-
   styleUrl: './employees.component.scss',
 })
 export class EmployeesComponent {
-  private readonly destroyRef: DestroyRef = inject(DestroyRef);
-
   constructor(
     private location: Location,
     private employeesService: EmployeesService
@@ -39,6 +37,5 @@ export class EmployeesComponent {
 
   goBack(): void {
     this.location.back();
-    this.employeesService.setRefreshEmployeeListTrigger(true);
   }
 }
