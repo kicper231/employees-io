@@ -42,22 +42,32 @@ export class DashboardComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getEmployeesData();
-  }
 
-  getEmployeesData(): void {
-    this.employeesService
-      .getEmployees()
+    this.employeesService.employees$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         map((employees: Employee[]) =>
           employees.sort((a, b) => a.skillsList.length - b.skillsList.length).slice(0, this.numberOfBestEmployees)
         )
       )
-      .subscribe((employees: Employee[]) => {
-        this.listOfBestEmployees = employees;
-      });
+      .subscribe((value) => (this.listOfBestEmployees = value));
+    this.employeesService.getEmployees();
+  }
+
+  getEmployeesData(): void {
+    // this.employeesService
+    //   .getEmployees()
+    //   .pipe(
+    //     takeUntilDestroyed(this.destroyRef),
+    //     map((employees: Employee[]) =>
+    //       employees.sort((a, b) => a.skillsList.length - b.skillsList.length).slice(0, this.numberOfBestEmployees)
+    //     )
+    //   )
+    //   .subscribe((employees: Employee[]) => {
+    //     this.listOfBestEmployees = employees;
+    //   });
   }
 
   employeeSelected(employee: Employee) {

@@ -1,8 +1,3 @@
 <footer class="footer">
-  @for (message of this.messageService.messages; track message.id) {
-    {{ message.message | translate }}
-    <br />
-  }
-
-  <app-basic-button (click)="messageService.clear()">{{ "messages.clear" | translate }}</app-basic-button>
+  <div class="footer__item">{{ "footer.privacy.policy" | translate }}</div>
 </footer>

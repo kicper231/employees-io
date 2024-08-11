@@ -14,6 +14,8 @@ module.exports = tseslint.config(
     ],
     processor: angular.processInlineTemplates,
     rules: {
+      "@typescript-eslint/member-ordering": ["error"],
+
       "@angular-eslint/directive-selector": [
         "error",
         {
@@ -30,6 +32,9 @@ module.exports = tseslint.config(
           style: "kebab-case",
         },
       ],
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": ["error"],
+      "no-console": ["error", { allow: ["warn", "error"] }],
     },
   },
   {

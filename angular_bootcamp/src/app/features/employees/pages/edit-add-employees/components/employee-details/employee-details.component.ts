@@ -1,5 +1,5 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { DatePipe, LowerCasePipe, NgForOf, UpperCasePipe, Location } from '@angular/common';
+import { DatePipe, LowerCasePipe, NgForOf, UpperCasePipe } from '@angular/common';
 
 import {
   FormArray,
@@ -36,6 +36,7 @@ import { MatIcon } from '@angular/material/icon';
 import { BasicButtonComponent } from '../../../../../../shared/components/basic-button/basic-button.component';
 import { InputComponent } from '../../../../../../shared/components/basic-input/basic-input/basic-input.component';
 import { ActivatedRoute } from '@angular/router';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-employee-details',
@@ -70,6 +71,7 @@ import { ActivatedRoute } from '@angular/router';
     MatFabButton,
     BasicButtonComponent,
     InputComponent,
+    MatProgressSpinner,
   ],
   templateUrl: './employee-details.component.html',
   styleUrl: './employee-details.component.scss',
@@ -77,8 +79,10 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class EmployeeDetailsComponent implements OnInit {
   managers: Employee[] = [];
-  proficiencyValues = Object.values(ProficiencyLevelsEnums);
+  proficiencyValues: ProficiencyLevelsEnums[] = Object.values(ProficiencyLevelsEnums);
   creatingEmployee = false;
+  loadingEmployee = false;
+
   employeeForm!: FormGroup<{
     id: FormControl<string | null>;
     name: FormControl<string | null>;
@@ -99,57 +103,14 @@ export class EmployeeDetailsComponent implements OnInit {
     manager: FormControl<Employee | null>;
   }>;
 
-  private _employee!: Employee;
+  private _employee?: Employee;
   private readonly destroyRef = inject(DestroyRef);
-
-  public set employee(employee: Employee) {
-    this._employee = employee;
-
-    if (employee) {
-      this.employeeForm.patchValue({
-        ...employee,
-        hireDate: this.datePipe.transform(employee.hireDate, 'yyyy-MM-dd'),
-      });
-    }
-    const skillsArray: FormGroup<{
-      name: FormControl<string | null>;
-      proficiency: FormControl<ProficiencyLevelsEnums | null>;
-    }>[] = [];
-    employee.skillsList.forEach((skill) => skillsArray.push(this.createSkillGroup(skill)));
-    this.employeeForm.setControl(
-      'skillsList',
-      this.formBuilder.array(skillsArray, [Validators.minLength(1), Validators.required])
-    );
-
-    const projectArray: FormGroup<{
-      name: FormControl<string | null>;
-      description: FormControl<string | null>;
-    }>[] = [];
-    employee.projectsList.forEach((project) => projectArray.push(this.createProjectGroup(project)));
-    this.employeeForm.setControl(
-      'projectsList',
-      this.formBuilder.array(projectArray, [Validators.minLength(1), Validators.required])
-    );
-  }
-
-  public get employee(): Employee {
-    return this._employee;
-  }
-
-  get skillsListControlArray(): FormArray {
-    return this.employeeForm.get('skillsList') as FormArray;
-  }
-
-  get projectsListControlArray(): FormArray {
-    return this.employeeForm.get('projectsList') as FormArray;
-  }
 
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
-    private employeesService: EmployeesService,
-    private location: Location
+    private employeesService: EmployeesService
   ) {
     this.employeeForm = this.formBuilder.group({
       id: [''],
@@ -162,23 +123,99 @@ export class EmployeeDetailsComponent implements OnInit {
     });
   }
 
+  get skillsListControlArray(): FormArray {
+    return this.employeeForm.get('skillsList') as FormArray;
+  }
+
+  get projectsListControlArray(): FormArray {
+    return this.employeeForm.get('projectsList') as FormArray;
+  }
+
+  get employee(): Employee | undefined {
+    return this._employee;
+  }
+
+  public set employee(employee: Employee | undefined) {
+    this._employee = employee;
+    if (employee) {
+      this.employeeForm.patchValue({
+        ...employee,
+        hireDate: this.datePipe.transform(employee.hireDate, 'yyyy-MM-dd'),
+      });
+
+      const skillsArray: FormGroup<{
+        name: FormControl<string | null>;
+        proficiency: FormControl<ProficiencyLevelsEnums | null>;
+      }>[] = [];
+
+      employee.skillsList.forEach((skill) => skillsArray.push(this.createSkillGroup(skill)));
+
+      this.employeeForm.setControl(
+        'skillsList',
+        this.formBuilder.array(skillsArray, [Validators.minLength(1), Validators.required])
+      );
+
+      const projectArray: FormGroup<{
+        name: FormControl<string | null>;
+        description: FormControl<string | null>;
+      }>[] = [];
+
+      employee.projectsList.forEach((project) => projectArray.push(this.createProjectGroup(project)));
+
+      this.employeeForm.setControl(
+        'projectsList',
+        this.formBuilder.array(projectArray, [Validators.minLength(1), Validators.required])
+      );
+      if (employee.manager) {
+        this.employeeForm.get('manager')!.setValue(employee.manager);
+      }
+    }
+  }
+
   ngOnInit(): void {
     this.getManagersData();
-
     this.route.params.subscribe((): void => {
       this.getEmployee();
     });
 
-    this.getEmployee();
+    this.isEmployeeBeingCreated();
+  }
+
+  isEmployeeBeingCreated(): void {
+    this.employeesService.getIsEmployeeBeingCreated().subscribe((value): boolean => (this.creatingEmployee = value));
   }
 
   getEmployee() {
+    this.loadingEmployee = true;
+    if (this.employeesService.isEmployeeBeingCreated.value) {
+      this.employee = {
+        id: crypto.randomUUID(),
+        name: '',
+        surname: '',
+        hireDate: new Date(),
+        manager: null,
+        skillsList: [],
+        projectsList: [],
+      };
+      this.loadingEmployee = false;
+      return;
+    }
+
     const employeeId: string | null = this.route.snapshot.paramMap.get('id');
-    this.employeesService.getEmployee(employeeId!).subscribe((value: Employee | undefined) => {
-      if (value) {
-        this.employee = value;
-      }
-    });
+    this.employeesService
+      .getEmployee(employeeId!)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(
+        (value: Employee | undefined) => {
+          this.employee = value;
+        },
+        () => {
+          this.loadingEmployee = false;
+        },
+        () => {
+          this.loadingEmployee = false;
+        }
+      );
   }
 
   createSkillGroup(skill?: Skill): FormGroup {
@@ -198,8 +235,18 @@ export class EmployeeDetailsComponent implements OnInit {
   public onSubmit() {
     if (this.employeeForm.valid) {
       const formValue = this.employeeForm.getRawValue();
-      this.employeesService.updateEmployee({ ...formValue, hireDate: new Date(formValue.hireDate!) } as Employee);
-      this.employeesService.setCreatingEmployee(false);
+
+      if (this.creatingEmployee) {
+        this.employeesService
+          .addEmployee({ ...formValue, hireDate: new Date(formValue.hireDate!) } as Employee)
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe();
+      } else {
+        this.employeesService
+          .updateEmployee({ ...formValue, hireDate: new Date(formValue.hireDate!) } as Employee)
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe();
+      }
     } else {
       alert('The form contain s errors');
     }

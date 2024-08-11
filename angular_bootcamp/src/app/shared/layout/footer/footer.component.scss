@@ -10,4 +10,13 @@ $footer-font-size: 1rem;
   font-size: $footer-font-size;
   display: flex;
   flex-direction: row;
+  justify-items: center;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+
+  &__item {
+    align-self: center;
+    justify-self: center;
+  }
 }

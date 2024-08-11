@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { MenuComponent } from './menu-component/menu.component';
+import { MenuComponent } from './main-menu-component/menu.component';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -10,6 +10,7 @@ import { BasicButtonComponent } from '../../components/basic-button/basic-button
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { NgOptimizedImage } from '@angular/common';
 import * as ROUTES from '../../../core/routes.config';
+import { MessagesMenuComponent } from './messages-menu-component/messages-menu.component';
 
 @Component({
   selector: 'app-header',
@@ -27,6 +28,7 @@ import * as ROUTES from '../../../core/routes.config';
     RouterLinkActive,
     RouterOutlet,
     NgOptimizedImage,
+    MessagesMenuComponent,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
