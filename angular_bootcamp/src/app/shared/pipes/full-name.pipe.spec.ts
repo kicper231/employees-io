@@ -76,6 +76,7 @@ describe('FullNamePipe', () => {
     // assert
     expect(result).toBe(expectedFullName);
   });
+
   it('should return name only when surname is empty', () => {
     // arrange
     baseEmployee.name = 'Billy';
@@ -94,7 +95,7 @@ describe('FullNamePipe', () => {
     baseEmployee.name = 'Billie';
     baseEmployee.surname = 'Joe';
 
-    const expectedFullNameType: string = 'string';
+    const expectedFullNameType = 'string';
 
     // act
     const result: any = pipe.transform(baseEmployee);

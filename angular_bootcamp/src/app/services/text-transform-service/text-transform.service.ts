@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TextTransformService {
-
-  constructor() { }
-
-  toLowerCase(text:string):string{
+  toLowerCase(text: string): string {
     return text.toLowerCase();
   }
 
-  toUpperCase(text:string):string{
+  toUpperCase(text: string): string {
     return text.toUpperCase();
   }
 }

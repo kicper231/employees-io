@@ -8,7 +8,7 @@ import { Employee } from '../../models/employee.model';
 export class FullName implements PipeTransform {
   transform(employee: Employee): string {
     if (!employee || employee.name === undefined || employee.surname === undefined) {
-      throw new Error('Both name and surname are defined');
+      throw new Error('Name or surname are undefined!');
     }
 
     return employee.name != '' && employee.surname != ''

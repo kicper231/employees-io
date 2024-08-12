@@ -1,5 +1,5 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { DatePipe, LowerCasePipe, NgForOf, UpperCasePipe, Location } from '@angular/common';
+import { DatePipe, LowerCasePipe, NgForOf, UpperCasePipe } from '@angular/common';
 
 import {
   FormArray,
@@ -36,7 +36,7 @@ import { MatIcon } from '@angular/material/icon';
 import { BasicButtonComponent } from '../../../../../../shared/components/basic-button/basic-button.component';
 import { BasicInputComponent } from '../../../../../../shared/components/basic-input/basic-input/basic-input.component';
 import { ActivatedRoute } from '@angular/router';
-import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-employee-details',

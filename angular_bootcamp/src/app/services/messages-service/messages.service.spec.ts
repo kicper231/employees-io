@@ -5,9 +5,9 @@ import { Message } from '../../models/message.model';
 
 describe('MessagesService', () => {
   let service: MessagesService;
-  const message1: string = 'Kaczka';
-  const message2: string = 'Struś';
-  const message3: string = 'Zając';
+  const message1 = 'Kaczka';
+  const message2 = 'Struś';
+  const message3 = 'Zając';
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
@@ -116,8 +116,8 @@ describe('MessagesService', () => {
 
   it('should not add a empty message', () => {
     // arrange
-    const emptyMessage1: string = '';
-    const emptyMessage2: string = ' ';
+    const emptyMessage1 = '';
+    const emptyMessage2 = ' ';
 
     // act
     service.addMessage(emptyMessage1);
@@ -156,22 +156,4 @@ describe('MessagesService', () => {
     // assert
     expect(messageList.length).toBe(1);
   }));
-
-  // it('should properly emit updates when messages are cleared', () => {
-  //   // arrange
-  //   let messageList: Message[] = [];
-  //   service.addMessage(message2);
-  //   service.addMessage(message1);
-  //
-  //   service.getMessages().subscribe((value: Message[]) => {
-  //     messageList = value;
-  //   });
-  //
-  //   // act
-  //   service.addMessage(message2);
-  //   tick(100);
-  //
-  //   // assert
-  //   expect(messageList.length).toBe(1);
-  // });
 });

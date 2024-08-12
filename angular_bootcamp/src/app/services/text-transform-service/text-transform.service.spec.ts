@@ -16,8 +16,8 @@ describe('TextTransformService', () => {
 
   it('should transform strings correctly in uppercase', () => {
     // arrange
-    const inputText: string = 'kapiszon';
-    const expectedText: string = 'KAPISZON';
+    const inputText = 'kapiszon';
+    const expectedText = 'KAPISZON';
 
     // act assert
     expect(service.toUpperCase(inputText)).toBe(expectedText);
@@ -25,8 +25,8 @@ describe('TextTransformService', () => {
 
   it('should transform strings correctly in lowercase', () => {
     // arrange
-    const inputText: string = 'KAPISZON';
-    const expectedText: string = 'kapiszon';
+    const inputText = 'KAPISZON';
+    const expectedText = 'kapiszon';
 
     // act assert
     expect(service.toLowerCase(inputText)).toBe(expectedText);
@@ -34,8 +34,8 @@ describe('TextTransformService', () => {
 
   it('should handle strings with spaces between words in uppercase', () => {
     // arrange
-    const inputText: string = 'KaRol Stasiek';
-    const expectedText: string = 'KAROL STASIEK';
+    const inputText = 'KaRol Stasiek';
+    const expectedText = 'KAROL STASIEK';
 
     // act assert
     expect(service.toUpperCase(inputText)).toBe(expectedText);
@@ -43,8 +43,8 @@ describe('TextTransformService', () => {
 
   it('should handle strings with spaces between words in lowercase', () => {
     // arrange
-    const inputText: string = 'KaRol Stasiek';
-    const expectedText: string = 'karol stasiek';
+    const inputText = 'KaRol Stasiek';
+    const expectedText = 'karol stasiek';
 
     // act assert
     expect(service.toLowerCase(inputText)).toBe(expectedText);
@@ -52,8 +52,8 @@ describe('TextTransformService', () => {
 
   it('should handle mixed-case strings correctly in uppercase', () => {
     // arrange
-    const inputText: string = 'kApiSzoN';
-    const expectedText: string = 'KAPISZON';
+    const inputText = 'kApiSzoN';
+    const expectedText = 'KAPISZON';
 
     // act assert
     expect(service.toUpperCase(inputText)).toBe(expectedText);
@@ -61,8 +61,8 @@ describe('TextTransformService', () => {
 
   it('should handle strings with number correctly in uppercase', () => {
     // arrange
-    const inputText: string = 'kapiszon231';
-    const expectedText: string = 'KAPISZON231';
+    const inputText = 'kapiszon231';
+    const expectedText = 'KAPISZON231';
 
     // act assert
     expect(service.toUpperCase(inputText)).toBe(expectedText);
@@ -70,8 +70,8 @@ describe('TextTransformService', () => {
 
   it('should handle strings with numbers correctly in lowercase', () => {
     // arrange
-    const inputText: string = 'KAPISZON231';
-    const expectedText: string = 'kapiszon231';
+    const inputText = 'KAPISZON231';
+    const expectedText = 'kapiszon231';
 
     // act assert
     expect(service.toLowerCase(inputText)).toBe(expectedText);
@@ -79,8 +79,8 @@ describe('TextTransformService', () => {
 
   it('should handle strings with number correctly in uppercase', () => {
     // arrange
-    const inputText: string = 'kApiSzoN';
-    const expectedText: string = 'KAPISZON';
+    const inputText = 'kApiSzoN';
+    const expectedText = 'KAPISZON';
 
     // act assert
     expect(service.toUpperCase(inputText)).toBe(expectedText);
@@ -88,8 +88,8 @@ describe('TextTransformService', () => {
 
   it('should handle empty strings in uppercase', () => {
     // arrange
-    const inputText: string = '';
-    const expectedText: string = '';
+    const inputText = '';
+    const expectedText = '';
 
     // act assert
     expect(service.toUpperCase(inputText)).toBe(expectedText);
@@ -97,8 +97,8 @@ describe('TextTransformService', () => {
 
   it('should handle empty strings in lovercase', () => {
     // arrange
-    const inputText: string = '';
-    const expectedText: string = '';
+    const inputText = '';
+    const expectedText = '';
 
     // act assert
     expect(service.toUpperCase(inputText)).toBe(expectedText);
@@ -106,8 +106,8 @@ describe('TextTransformService', () => {
 
   it('should handle strings with special characters in uppercase', () => {
     // arrange
-    const inputText: string = 'kapiszon!@#';
-    const expectedText: string = 'KAPISZON!@#';
+    const inputText = 'kapiszon!@#';
+    const expectedText = 'KAPISZON!@#';
 
     // act assert
     expect(service.toUpperCase(inputText)).toBe(expectedText);
@@ -115,8 +115,8 @@ describe('TextTransformService', () => {
 
   it('should handle strings with special characters in lowercase', () => {
     // arrange
-    const inputText: string = 'KAPISZON!@#';
-    const expectedText: string = 'kapiszon!@#';
+    const inputText = 'KAPISZON!@#';
+    const expectedText = 'kapiszon!@#';
 
     // act assert
     expect(service.toLowerCase(inputText)).toBe(expectedText);
@@ -124,8 +124,8 @@ describe('TextTransformService', () => {
 
   it('should handle strings with diacritical characters in lowercase', () => {
     // arrange
-    const inputText: string = 'ZAŻÓŁĆ GĘŚLĄ JAŹŃ';
-    const expectedText: string = 'zażółć gęślą jaźń';
+    const inputText = 'ZAŻÓŁĆ GĘŚLĄ JAŹŃ';
+    const expectedText = 'zażółć gęślą jaźń';
 
     // act assert
     expect(service.toLowerCase(inputText)).toBe(expectedText);
@@ -133,8 +133,8 @@ describe('TextTransformService', () => {
 
   it('should handle strings with diacritical characters in uppercase', () => {
     // arrange
-    const inputText: string = 'zażółć gęślą jaźń';
-    const expectedText: string = 'ZAŻÓŁĆ GĘŚLĄ JAŹŃ';
+    const inputText = 'zażółć gęślą jaźń';
+    const expectedText = 'ZAŻÓŁĆ GĘŚLĄ JAŹŃ';
 
     // act assert
     expect(service.toUpperCase(inputText)).toBe(expectedText);
