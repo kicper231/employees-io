@@ -74,7 +74,6 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
-    this.getEmployeesData();
     this.getSelectedEmployee();
 
     this.employeesService.employees$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((employees: Employee[]) => {
@@ -93,15 +92,6 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
 
   search(term: string): void {
     this.searchTerms.next(term);
-  }
-
-  getEmployeesData(): void {
-    // this.employeesService
-    //   .getEmployees()
-    //   .pipe(takeUntilDestroyed(this.destroyRef))
-    //   .subscribe((employees: Employee[]) => {
-    //     this.listOfEmployees = employees;
-    //   });
   }
 
   onSelect(employee?: Employee) {

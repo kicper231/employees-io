@@ -104,7 +104,7 @@ describe('FullNamePipe', () => {
     expect(typeof result).toBe(expectedFullNameType);
   });
 
-  it('should handle null or undefined input gracefully', () => {
+  it('should gracefully throw error when null or undefined input', () => {
     // arrange
     const employee = {};
 

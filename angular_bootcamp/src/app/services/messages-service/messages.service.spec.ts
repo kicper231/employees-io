@@ -142,18 +142,16 @@ describe('MessagesService', () => {
     expect(service.messages$.getValue()).toEqual([]);
   });
 
-  it('should properly emit updates when messages are added', fakeAsync(() => {
+  it('should properly emit updates when messages are added', (done) => {
     // arrange
     let messageList: Message[] = [];
+    service.addMessage(message2);
+
+    // act assert
     service.getMessages().subscribe((value: Message[]) => {
       messageList = value;
+      expect(messageList.length).toBe(1);
+      done();
     });
-
-    // act
-    service.addMessage(message2);
-    tick(100);
-
-    // assert
-    expect(messageList.length).toBe(1);
-  }));
+  });
 });

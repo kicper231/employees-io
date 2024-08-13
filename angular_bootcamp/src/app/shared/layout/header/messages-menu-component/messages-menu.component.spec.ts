@@ -1,5 +1,4 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-
 import { MessagesMenuComponent } from './messages-menu.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { MessagesService } from '../../../../services/messages-service/messages.service';
@@ -49,9 +48,6 @@ describe('MessagesMenuComponent', () => {
 
     // act
     await menuHarness.open();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    tick(1000);
 
     const resetButtonDe = fixture.debugElement.query(By.css('app-basic-button'));
     expect(resetButtonDe).not.toBeNull();
