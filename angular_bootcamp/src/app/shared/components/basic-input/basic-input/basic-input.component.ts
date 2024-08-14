@@ -14,7 +14,7 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './basic-input.component.html',
   styleUrl: './basic-input.component.scss',
 })
-export class InputComponent extends AbstractFormFields {
+export class BasicInputComponent extends AbstractFormFields {
   @Input() label?: string;
   @Input() placeholder = 'basic';
   @Input() type = 'text';
