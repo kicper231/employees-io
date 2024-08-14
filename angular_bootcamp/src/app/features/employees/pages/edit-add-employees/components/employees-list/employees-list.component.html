@@ -1,9 +1,27 @@
 <mat-card appearance="outlined" class="employees-list">
   <mat-card-header class="employees-list__header">{{ "employees.list.title" | translate }}</mat-card-header>
   <mat-card-content>
-    <mat-selection-list #shoes [multiple]="false" [hideSingleSelectionIndicator]="true">
-      @for (employee of listOfEmployees; track employee) {
-        <mat-list-option [value]="employee" (click)="onSelect(employee)">
+    <mat-form-field appearance="outline" class="employees-list__search-input">
+      <input
+        matInput
+        class="profile-info__tile-input"
+        type="text"
+        placeholder="{{ 'employees.list.search' | translate }}"
+        #searchBox
+        (input)="search(searchBox.value)"
+      />
+    </mat-form-field>
+    <mat-selection-list [multiple]="false" [hideSingleSelectionIndicator]="true">
+      @for (employee of listOfEmployees; track employee.id) {
+        <mat-list-option
+          [value]="employee"
+          (click)="onSelect(employee)"
+          class="employees-list__option"
+          [routerLink]="[employee.id]"
+          routerLinkActive
+          #rla="routerLinkActive"
+          [ngClass]="{ 'employees-list__option--selected': employee.id === selectedEmployee?.id }"
+        >
           <span class="employees-list__button__name-surname">{{ employee.name }} {{ employee.surname }}</span>
         </mat-list-option>
       }

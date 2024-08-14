@@ -1,10 +1,10 @@
 <div class="employees">
-  <div class="employees__list">
-    <app-employees-list [listOfEmployees]="listOfEmployees"></app-employees-list>
+  <app-basic-button class="employees__button" (clickEvent)="goBack()">
+    <mat-icon>keyboard_backspace</mat-icon>
+  </app-basic-button>
+  <div class="employees__list"><app-employees-list></app-employees-list></div>
+
+  <div class="employees__details">
+    <router-outlet></router-outlet>
   </div>
-  @if (selectedEmployee) {
-    <div class="employees__details">
-      <app-employee-details [employee]="selectedEmployee"></app-employee-details>
-    </div>
-  }
 </div>

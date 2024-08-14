@@ -1,20 +1,33 @@
 @import "../../../../../public/assets/styles/styles";
 
+$big-button-width: 12rem;
+$small-button-min-width: 2rem;
+
 .basic-button {
-  background-color: $buttons;
+  background-color: $secondary;
   color: $text !important;
-  padding: 0.5rem;
-  margin: 0.5rem;
+  padding: $small-padding;
+  margin: $small-margin;
+
   &--big {
-    background-color: $buttons;
     color: $text !important;
-    width: 12rem;
+    width: $big-button-width;
   }
+
   &--delete {
     color: $error !important;
   }
+
   &--small {
-    padding: 0.5rem !important;
-    min-width: 2rem;
+    padding: $small-padding !important;
+    min-width: $small-button-min-width;
+  }
+
+  &--active {
+    background-color: $primary !important;
+  }
+
+  &--header {
+    background-color: $buttons;
   }
 }

@@ -3,11 +3,12 @@ import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { MessagesMenuComponent } from '../messages-menu-component/messages-menu.component';
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [MatIconButton, MatIcon, MatMenu, MatMenuTrigger, MatMenuItem, TranslateModule],
+  imports: [MatIconButton, MatIcon, MatMenu, MatMenuTrigger, MatMenuItem, TranslateModule, MessagesMenuComponent],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss',
 })

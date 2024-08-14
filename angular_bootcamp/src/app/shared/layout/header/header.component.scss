@@ -1,32 +1,38 @@
 @import "../../../../../public/assets/styles/styles.scss";
+
+$header-height: 7rem;
+$page-title-font-size: 2.5rem;
+$small-page-title-font-size: 1.5rem;
+$header-icon-width: 5rem;
+
 .header {
-  height: 7rem;
-  margin: 0 0 4rem 0;
+  height: $header-height;
+  margin: 0 0 $big-margin * 2 0;
   padding: 0 0 0 0;
   background-color: $header-footer;
   display: flex;
   align-items: center;
 
+  &__icon {
+    width: $header-icon-width;
+    margin-left: $big-margin;
+  }
+
   &__page-title {
     display: flex;
     flex: 1;
-    font-size: 2.5em;
-    margin-left: 2rem;
+    font-size: $page-title-font-size;
+    margin-left: $big-margin;
     color: $text;
   }
+
   @media only screen and (max-width: $mobile-breakpoint) {
     &__page-title {
       display: flex;
       flex: 1;
-      font-size: 1.5rem;
-      margin-left: 2rem;
+      font-size: $small-page-title-font-size;
+      margin-left: $big-margin;
       color: $text;
     }
-  }
-
-  &__menu-button {
-    color: $text !important;
-    background-color: $buttons;
-    margin: 0 0.5rem;
   }
 }

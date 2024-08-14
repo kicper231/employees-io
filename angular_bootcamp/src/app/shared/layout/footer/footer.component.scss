@@ -1,9 +1,22 @@
 @import "../../../../../public/assets/styles/styles.scss";
+$footer-min-height: 5rem;
+$footer-margin-top: 4rem;
+$footer-font-size: 1rem;
+
 .footer {
   background: $header-footer;
-  min-height: 5rem;
-  margin-top: 4rem;
-  font-size: 1rem;
+  min-height: $footer-min-height;
+  margin-top: $footer-margin-top;
+  font-size: $footer-font-size;
   display: flex;
   flex-direction: row;
+  justify-items: center;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+
+  &__item {
+    align-self: center;
+    justify-self: center;
+  }
 }

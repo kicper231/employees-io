@@ -14,7 +14,7 @@ body {
 }
 
 .website-wrapper {
-  margin: 0 15%;
+  margin: 0 10%;
   min-height: calc(100vh - $header-footer-height);
 }
 
@@ -23,4 +23,15 @@ body {
     margin: 0 2%;
     min-height: calc(100vh - $header-footer-height);
   }
+}
+.employees-list {
+  .mat-mdc-card-content {
+    display: flex;
+    padding: 0 16px;
+    flex-direction: column;
+  }
+}
+
+.mat-mdc-menu-content {
+  background: $background-color;
 }

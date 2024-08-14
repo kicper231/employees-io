@@ -6,5 +6,16 @@ $border-width: 1px;
 $font-size-body: 10px;
 $border-default: $border-width solid $border;
 $border-button: $border-width solid black;
+$border-default-shadow: 0 0 1rem $border-width $secondary !important;
 $mobile-breakpoint: 700px;
 $header-footer-height: 20rem;
+
+$small-padding: 0.5rem;
+$normal-padding: 1rem;
+$big-padding: 2rem;
+
+$small-margin: 0.5rem;
+$normal-margin: 1rem;
+$big-margin: 2rem;
+
+$error-font-size: 0.8rem;
