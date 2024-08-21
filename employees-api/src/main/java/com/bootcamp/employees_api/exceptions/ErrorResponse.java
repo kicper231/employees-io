@@ -6,6 +6,5 @@ public record ErrorResponse(
         String path,
         String message,
         int statusCode,
-        LocalDateTime localDateTime
-) {
+        LocalDateTime localDateTime) {
 }

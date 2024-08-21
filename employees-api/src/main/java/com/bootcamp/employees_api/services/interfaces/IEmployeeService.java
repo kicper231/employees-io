@@ -1,20 +1,21 @@
 package com.bootcamp.employees_api.services.interfaces;
 
-import com.bootcamp.employees_api.models.Employee;
+import com.bootcamp.employees_api.DTO.EmployeeCreateDTO;
+import com.bootcamp.employees_api.DTO.EmployeeDTO;
+import com.bootcamp.employees_api.DTO.EmployeeEditDTO;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface IEmployeeService {
 
-    public List<Employee> findAllEmployees(String name);
+    List<EmployeeDTO> findAllEmployees(String name);
 
-    public Optional<Employee> findEmployeeById(UUID id);
+    EmployeeDTO findEmployeeById(UUID id);
 
-    public UUID addEmployee(Employee employee);
+    UUID addEmployee(EmployeeCreateDTO employee);
 
-    public void deleteEmployee(UUID id);
+    void deleteEmployee(UUID id);
 
-    public void updateEmployee(Employee employee);
+    void updateEmployee(EmployeeEditDTO employee, UUID employeeId);
 }

@@ -1,8 +1,11 @@
 package com.bootcamp.employees_api.models;
 
-
 import jakarta.persistence.*;
-import lombok.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 import java.util.List;
@@ -10,26 +13,42 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
-@AllArgsConstructor
 @Entity
-@Table(name = "employee")
+@Table(name = "employees")
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
+    @NotNull
     private UUID id;
 
+    @Basic
+    @Column
+    @NotNull
+
     private String name;
+
+    @Basic
+    @Column
+    @NotNull
     private String surname;
+
+    @Basic
+    @Column
+    @NotNull
     private Date hireDate;
 
-    @OneToMany(mappedBy = "employee")
-    private List<Skill> skillsList;
-    
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Size(min = 1)
+    private List<Skill> skills;
+
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Size(min = 1)
     private List<Project> projects;
 
+    @ManyToOne
+    @JoinColumn(name = "manager_id")
+    private Employee manager;
 
 }
