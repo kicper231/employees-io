@@ -1,6 +1,7 @@
 package com.bootcamp.employees_api.mappers;
 
 import com.bootcamp.employees_api.DTO.SkillCreateDTO;
+import com.bootcamp.employees_api.DTO.SkillDTO;
 import com.bootcamp.employees_api.models.Skill;
 import org.mapstruct.Mapper;
 
@@ -8,5 +9,7 @@ import org.mapstruct.Mapper;
 public interface SkillMapper {
 
     Skill skillCreateDtoToSkill(SkillCreateDTO skillCreateDTO);
+
+    SkillDTO skillToSkillDTO(Skill Skill);
 
 }
