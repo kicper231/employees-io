@@ -1,5 +1,6 @@
-package com.bootcamp.employees_api.feature.employee.models;
+package com.bootcamp.employees_api.feature.projects.models;
 
+import com.bootcamp.employees_api.feature.employee.models.Employee;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.bootcamp.employees_api.feature.employee.exception;
+package com.bootcamp.employees_api.feature.employee.exceptions;
 
 import com.bootcamp.employees_api.exception.EntityNotFoundException;
 

@@ -1,10 +1,11 @@
-package com.bootcamp.employees_api.feature.employee.controllers;
+package com.bootcamp.employees_api.feature.employee.controlers;
 
 import com.bootcamp.employees_api.feature.employee.dto.EmployeeCreateDTO;
 import com.bootcamp.employees_api.feature.employee.dto.EmployeeDTO;
 import com.bootcamp.employees_api.feature.employee.dto.EmployeeEditDTO;
+import com.bootcamp.employees_api.feature.employee.dto.EmployeeSummaryDTO;
 import com.bootcamp.employees_api.feature.employee.mappers.EmployeeMapper;
-import com.bootcamp.employees_api.feature.employee.services.interfaces.IEmployeeService;
+import com.bootcamp.employees_api.feature.employee.services.IEmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,11 +32,11 @@ public class EmployeeController {
     }
 
     @GetMapping()
-    public List<EmployeeDTO> findEmployeesByName(@RequestParam(required = false) String name) {
+    public List<EmployeeSummaryDTO> findEmployeesByName(@RequestParam(required = false) String name) {
         return _employeeService.findAllEmployees(name);
     }
 
-    @PutMapping("/employees/{employeeId}")
+    @PutMapping("/{employeeId}")
     public void editEmployeeById(@PathVariable UUID employeeId, @Valid
     @RequestBody EmployeeEditDTO employee) {
 

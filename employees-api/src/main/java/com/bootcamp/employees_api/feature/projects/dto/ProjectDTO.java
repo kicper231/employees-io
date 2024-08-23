@@ -1,4 +1,4 @@
-package com.bootcamp.employees_api.feature.employee.dto;
+package com.bootcamp.employees_api.feature.projects.dto;
 
 import java.util.UUID;
 

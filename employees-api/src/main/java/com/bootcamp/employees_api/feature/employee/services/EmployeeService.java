@@ -3,14 +3,15 @@ package com.bootcamp.employees_api.feature.employee.services;
 import com.bootcamp.employees_api.feature.employee.dto.EmployeeCreateDTO;
 import com.bootcamp.employees_api.feature.employee.dto.EmployeeDTO;
 import com.bootcamp.employees_api.feature.employee.dto.EmployeeEditDTO;
-import com.bootcamp.employees_api.feature.employee.exception.EmployeeNotFoundException;
-import com.bootcamp.employees_api.feature.employee.exception.ManagerNotFoundException;
+import com.bootcamp.employees_api.feature.employee.dto.EmployeeSummaryDTO;
+import com.bootcamp.employees_api.feature.employee.exceptions.EmployeeIdIsNullException;
+import com.bootcamp.employees_api.feature.employee.exceptions.EmployeeNotFoundException;
+import com.bootcamp.employees_api.feature.employee.exceptions.ManagerNotFoundException;
 import com.bootcamp.employees_api.feature.employee.mappers.EmployeeMapper;
-import com.bootcamp.employees_api.feature.employee.mappers.ProjectMapper;
 import com.bootcamp.employees_api.feature.employee.mappers.SkillMapper;
 import com.bootcamp.employees_api.feature.employee.models.Employee;
 import com.bootcamp.employees_api.feature.employee.repositories.EmployeeRepository;
-import com.bootcamp.employees_api.feature.employee.services.interfaces.IEmployeeService;
+import com.bootcamp.employees_api.feature.projects.ProjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,13 +39,13 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<EmployeeDTO> findAllEmployees(String name) {
+    public List<EmployeeSummaryDTO> findAllEmployees(String name) {
         List<Employee> allEmployees;
 
         allEmployees = name == null || name.isBlank() ? employeeRepository.findAll() : employeeRepository.findAllByNameContains(
                 name);
 
-        return allEmployees.stream().map(employeeMapper::employeeToDtoEmployee).toList();
+        return allEmployees.stream().map(employeeMapper::employeeToEmployeeSummaryDTO).toList();
     }
 
     @Override
@@ -52,7 +53,7 @@ public class EmployeeService implements IEmployeeService {
     public EmployeeDTO findEmployeeById(UUID employeeId) {
 
         Optional<EmployeeDTO> result = employeeRepository.findById(employeeId).map(
-                employeeMapper::employeeToDtoEmployee);
+                employeeMapper::employeeToEmployeeDto);
 
         return result.orElseThrow(() -> {
             log.error("Employee not found at findEmployeeById()");
@@ -96,6 +97,10 @@ public class EmployeeService implements IEmployeeService {
     @Override
     @Transactional
     public void updateEmployee(EmployeeEditDTO employeeEditDTO, UUID employeeId) {
+
+        if (employeeId == null) {
+            throw new EmployeeIdIsNullException("employeeEditDTO", "EmployeeId is not in path.");
+        }
 
         Employee employeeToEdit = employeeRepository.findById(employeeId).orElseThrow(() -> {
             log.error("Employee not found at updateEmployee()");

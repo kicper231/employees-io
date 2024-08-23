@@ -1,5 +1,6 @@
 package com.bootcamp.employees_api.feature.employee.dto;
 
+import com.bootcamp.employees_api.feature.projects.dto.ProjectCreateDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
