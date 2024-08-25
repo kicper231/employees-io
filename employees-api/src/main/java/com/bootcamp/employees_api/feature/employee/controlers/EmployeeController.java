@@ -18,6 +18,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/v1/employees")
 @Validated
+@CrossOrigin
 public class EmployeeController {
 
     private final IEmployeeService _employeeService;
