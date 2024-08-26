@@ -61,9 +61,9 @@
         "label": "Skills:",
         "add.skill": "Add Skill",
         "proficiency": {
-          "begginer": "Beginner",
-          "intermediate": "Intermediate",
-          "advanced": "Advanced"
+          "BEGINNER": "Beginner",
+          "INTERMEDIATE": "Intermediate",
+          "ADVANCED": "Advanced"
         },
         "name.placeholder": "Skill Name"
       },

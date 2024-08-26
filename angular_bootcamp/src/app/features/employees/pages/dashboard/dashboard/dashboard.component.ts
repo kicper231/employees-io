@@ -12,6 +12,7 @@ import { map } from 'rxjs';
 import { FullName } from '../../../../../shared/pipes/full-name.pipe';
 import { Router } from '@angular/router';
 import * as ROUTES from '../../../../../core/routes.config';
+import { EmployeeSummary } from '../../../../../models/employee-summary.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -33,7 +34,7 @@ import * as ROUTES from '../../../../../core/routes.config';
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
-  listOfBestEmployees?: Employee[];
+  listOfBestEmployees?: EmployeeSummary[];
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private numberOfBestEmployees = 4;
 
@@ -43,34 +44,13 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getEmployeesData();
-
-    this.employeesService.employees$
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        map((employees: Employee[]) =>
-          employees.sort((a, b) => a.skillsList.length - b.skillsList.length).slice(0, this.numberOfBestEmployees)
-        )
-      )
+    this.employeesService.employeesSummary$
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((value) => (this.listOfBestEmployees = value));
     this.employeesService.getEmployees();
   }
 
-  getEmployeesData(): void {
-    // this.employeesService
-    //   .getEmployees()
-    //   .pipe(
-    //     takeUntilDestroyed(this.destroyRef),
-    //     map((employees: Employee[]) =>
-    //       employees.sort((a, b) => a.skillsList.length - b.skillsList.length).slice(0, this.numberOfBestEmployees)
-    //     )
-    //   )
-    //   .subscribe((employees: Employee[]) => {
-    //     this.listOfBestEmployees = employees;
-    //   });
-  }
-
-  employeeSelected(employee: Employee) {
+  employeeSelected(employee: EmployeeSummary) {
     this.router.navigate([ROUTES.EMPLOYEES, employee.id]);
   }
 }

@@ -6,7 +6,7 @@ export interface Employee {
   surname: string;
   id: string;
   hireDate: Date;
-  skillsList: Skill[];
-  projectsList: Project[];
+  skills: Skill[];
+  projects: Project[];
   manager: Employee | null;
 }

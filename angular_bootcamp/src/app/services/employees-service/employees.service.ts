@@ -8,6 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EMPLOYEE_API_URL } from '../../core/urls.config';
 import { MANAGERS } from '../../employees-mocks/mock-managers';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { EmployeeSummary } from '../../models/employee-summary.model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +19,8 @@ export class EmployeesService {
   };
 
   public isEmployeeBeingCreated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  public employeesSubject: BehaviorSubject<Employee[]> = new BehaviorSubject<Employee[]>([]);
-  public employees$: Observable<Employee[]> = this.employeesSubject.asObservable();
+  public employeesSummarySubject: BehaviorSubject<EmployeeSummary[]> = new BehaviorSubject<EmployeeSummary[]>([]);
+  public employeesSummary$: Observable<EmployeeSummary[]> = this.employeesSummarySubject.asObservable();
 
   private managers: Employee[] = MANAGERS;
 
@@ -31,11 +32,11 @@ export class EmployeesService {
 
   getEmployees(): void {
     this.http
-      .get<Employee[]>(EMPLOYEE_API_URL)
+      .get<EmployeeSummary[]>(EMPLOYEE_API_URL)
       .pipe(
         tap((employees) => {
           this.messagesService.addMessage(MessagesTypes.GetEmployees);
-          this.employeesSubject.next(employees);
+          this.employeesSummarySubject.next(employees);
         }),
         catchError(this.handleError<Employee>('delete Employee'))
       )
@@ -73,6 +74,7 @@ export class EmployeesService {
       catchError(this.handleError<Employee>('add Employee'))
     );
   }
+
   updateEmployee(updatedEmployee: Employee): Observable<Employee> {
     return this.http.put<Employee>(EMPLOYEE_API_URL, updatedEmployee, this.httpOptions).pipe(
       tap(() => {
@@ -99,7 +101,7 @@ export class EmployeesService {
         .get<Employee[]>(EMPLOYEE_API_URL)
         .pipe(tap(() => this.messagesService.addMessage(MessagesTypes.GetEmployees)));
     }
-    return this.http.get<Employee[]>(`${EMPLOYEE_API_URL}/?name=${term}`);
+    return this.http.get<Employee[]>(`${EMPLOYEE_API_URL}?name=${term}`);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

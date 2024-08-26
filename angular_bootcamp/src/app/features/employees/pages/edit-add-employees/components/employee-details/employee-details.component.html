@@ -57,14 +57,14 @@
 
           <div class="profile-info__tile">
             <div class="profile-info__tile-label--bigger">{{ "employees.details.skills.label" | translate }}</div>
-            <div formArrayName="skillsList" class="profile-info__tile-skills">
-              @if (skillsListControlArray.hasError("required")) {
+            <div formArrayName="skills" class="profile-info__tile-skills">
+              @if (skillsControlArray.hasError("required")) {
                 <mat-error>
                   {{ "employees.details.validation.skills" | translate }}
                 </mat-error>
               }
 
-              @for (skill of skillsListControlArray.controls; track skill; let i = $index) {
+              @for (skill of skillsControlArray.controls; track skill; let i = $index) {
                 <div [formGroupName]="i" class="profile-info__tile-skills-group">
                   <mat-form-field appearance="outline" class="profile-info__tile-skills-group-element">
                     <input
@@ -106,12 +106,12 @@
 
           <div class="profile-info__tile">
             <div class="profile-info__tile-label--bigger">{{ "employees.details.projects.label" | translate }}</div>
-            @if (projectsListControlArray.hasError("required")) {
+            @if (projectsControlArray.hasError("required")) {
               <mat-error>{{ "employees.details.validation.projects" | translate }}</mat-error>
             }
 
-            <div formArrayName="projectsList" class="profile-info__tile-projects">
-              @for (projects of projectsListControlArray.controls; track projects; let i = $index) {
+            <div formArrayName="projects" class="profile-info__tile-projects">
+              @for (projects of projectsControlArray.controls; track projects; let i = $index) {
                 <div [formGroupName]="i" class="profile-info__tile-projects-group">
                   <mat-form-field class="profile-info__tile-projects-group-element" appearance="outline">
                     <mat-label>{{ "employees.details.projects.name.label" | translate }}</mat-label>

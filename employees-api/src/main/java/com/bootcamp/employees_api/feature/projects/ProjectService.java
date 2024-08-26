@@ -1,8 +1,13 @@
 package com.bootcamp.employees_api.feature.projects;
 
+import com.bootcamp.employees_api.feature.employee.exceptions.EmployeeNotFoundException;
+import com.bootcamp.employees_api.feature.employee.models.Employee;
+import com.bootcamp.employees_api.feature.employee.repositories.EmployeeRepository;
 import com.bootcamp.employees_api.feature.projects.dto.ProjectCreateDTO;
 import com.bootcamp.employees_api.feature.projects.dto.ProjectDTO;
 import com.bootcamp.employees_api.feature.projects.dto.ProjectEditDTO;
+import com.bootcamp.employees_api.feature.projects.dto.ProjectSummaryDTO;
+import com.bootcamp.employees_api.feature.projects.exceptions.ProjectIdIsNullException;
 import com.bootcamp.employees_api.feature.projects.exceptions.ProjectNotFoundException;
 import com.bootcamp.employees_api.feature.projects.models.Project;
 import jakarta.validation.Valid;
@@ -10,9 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -20,61 +23,96 @@ public class ProjectService {
 
     private final ProjectRepository projectRepository;
     private final ProjectMapper projectMapper;
+    private final EmployeeRepository employeeRepository;
 
-    public ProjectService(ProjectRepository ProjectRepository, ProjectMapper projectMapper) {
-        this.projectRepository = ProjectRepository;
+    public ProjectService(ProjectRepository projectRepository, ProjectMapper projectMapper,
+                          EmployeeRepository employeeRepository) {
+        this.projectRepository = projectRepository;
 
         this.projectMapper = projectMapper;
+        this.employeeRepository = employeeRepository;
     }
 
     @Transactional(readOnly = true)
-    public List<ProjectDTO> findAllProjects(String name) {
+    public List<ProjectSummaryDTO> findAllProjects(String name) {
         List<Project> allProjects;
 
         allProjects = name == null || name.isBlank() ? projectRepository.findAll() :
                 projectRepository.findAllByNameContains(
                         name);
 
-        return allProjects.stream().map(projectMapper::projectToProjectDTO).toList();
+        return allProjects.stream().map(projectMapper::projectToProjectSummaryDTO).toList();
     }
 
     @Transactional(readOnly = true)
-    public ProjectDTO findProjectById(UUID ProjectId) {
+    public ProjectDTO findProjectById(UUID projectId) {
 
-        Optional<ProjectDTO> result = projectRepository.findById(ProjectId).map(
-                projectMapper::projectToProjectDTO);
+        Optional<Project> optionalProject = projectRepository.findById(projectId);
 
-        return result.orElseThrow(() -> {
+        Project project = optionalProject.orElseThrow(() -> {
             log.error("Project not found at findProjectById()");
-            return new ProjectNotFoundException(ProjectId);
+            return new ProjectNotFoundException(projectId);
         });
+
+        return projectMapper.projectToProjectDTO(project);
     }
 
     @Transactional
-    public UUID addProject(@Valid ProjectCreateDTO ProjectCreateDTO) {
-        Project Project = projectMapper.projectCreateDtoToProject(ProjectCreateDTO);
+    public UUID addProject(@Valid ProjectCreateDTO projectCreateDTO) {
+        Project project = projectMapper.projectCreateDtoToProject(projectCreateDTO);
+        Set<Employee> employeesList = new HashSet<>();
 
-        return projectRepository.save(Project).getId();
+        projectCreateDTO.userIds().forEach(uuid -> {
+            Employee employee =
+                    employeeRepository.findById(uuid).orElseThrow(() -> {
+                        log.error("Employee not found at addProject()");
+                        return new EmployeeNotFoundException(uuid);
+                    });
+            employeesList.add(employee);
+        });
+
+        project.setEmployees(employeesList);
+
+        return projectRepository.save(project).getId();
     }
 
     @Transactional
-    public void deleteProject(UUID ProjectId) {
+    public void deleteProject(UUID projectId) {
 
-        if (projectExist(ProjectId)) {
-            projectRepository.deleteById(ProjectId);
+        if (projectRepository.existsById(projectId)) {
+            projectRepository.deleteById(projectId);
             return;
         }
         log.error("Project not found at deleteProject()");
-        throw new ProjectNotFoundException(ProjectId);
+        throw new ProjectNotFoundException(projectId);
     }
 
     @Transactional
-    public void updateProject(@Valid ProjectEditDTO ProjectEditDTO, UUID ProjectId) {
+    public void updateProject(ProjectEditDTO projectEditDTO, UUID projectId) {
+        if (projectId == null) {
+            throw new ProjectIdIsNullException("projectEditDTO", "ProjectId is not in path.");
+        }
 
+        Project projectToEdit = projectRepository.findById(projectId).orElseThrow(() -> {
+            log.error("Project not found at updateProject()");
+            return new ProjectNotFoundException(projectId);
+        });
+
+        projectToEdit.setName(projectEditDTO.name());
+        projectToEdit.setDescription(projectEditDTO.description());
+
+        List<Employee> employees = new ArrayList<>();
+        for (UUID userId : projectEditDTO.userIds()) {
+            Employee employee = employeeRepository.findById(userId).orElseThrow(() -> {
+                log.error("Employee not found for id: " + userId);
+                return new EmployeeNotFoundException(userId);
+            });
+            employees.add(employee);
+        }
+
+        projectToEdit.getEmployees().clear();
+        projectToEdit.getEmployees().addAll(employees);
+
+        projectRepository.save(projectToEdit);
     }
-
-    public boolean projectExist(UUID ProjectId) {
-        return true;
-    }
-
 }

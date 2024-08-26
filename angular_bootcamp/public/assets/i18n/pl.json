@@ -62,9 +62,9 @@
         "label": "Umiejętności:",
         "add.skill": "Dodaj umiejętność",
         "proficiency": {
-          "begginer": "początkujący",
-          "intermediate": "średnio zaawansowany",
-          "advanced": "zaawansowany"
+          "BEGINNER": "początkujący",
+          "INTERMEDIATE": "średnio zaawansowany",
+          "ADVANCED": "zaawansowany"
         },
         "name.placeholder": "Nazwa umięjetności"
       },

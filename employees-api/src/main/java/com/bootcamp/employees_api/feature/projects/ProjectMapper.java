@@ -2,6 +2,7 @@ package com.bootcamp.employees_api.feature.projects;
 
 import com.bootcamp.employees_api.feature.projects.dto.ProjectCreateDTO;
 import com.bootcamp.employees_api.feature.projects.dto.ProjectDTO;
+import com.bootcamp.employees_api.feature.projects.dto.ProjectSummaryDTO;
 import com.bootcamp.employees_api.feature.projects.models.Project;
 import org.mapstruct.Mapper;
 
@@ -10,8 +11,10 @@ public interface ProjectMapper {
 
     Project projectCreateDtoToProject(ProjectCreateDTO projectCreateDTO);
 
+    ProjectSummaryDTO projectToProjectSummaryDTO(Project project);
+
     ProjectDTO projectToProjectDTO(Project project);
 
-    //  ProjectCreateDTO projectToProjectCreateDTO(Project project);
+    //ProjectCreateDTO projectToProjectCreateDTO(Project project);
 
 }

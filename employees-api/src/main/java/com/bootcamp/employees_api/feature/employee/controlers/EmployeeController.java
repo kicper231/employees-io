@@ -40,7 +40,6 @@ public class EmployeeController {
     @PutMapping("/{employeeId}")
     public void editEmployeeById(@PathVariable UUID employeeId, @Valid
     @RequestBody EmployeeEditDTO employee) {
-
         _employeeService.updateEmployee(employee, employeeId);
     }
 

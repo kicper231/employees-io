@@ -22,12 +22,6 @@ public class DefaultExceptionHandler {
         return buildApiError(request, HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 
-    @ExceptionHandler(ApplicationException.class)
-    public ResponseEntity<ApiError> handleException(ApplicationException exception,
-                                                    HttpServletRequest request) {
-        return buildApiError(request, exception.getResponseStatus(), exception.getMessage());
-    }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiError> handleException(MethodArgumentNotValidException exception,
                                                     HttpServletRequest request) {
@@ -42,6 +36,19 @@ public class DefaultExceptionHandler {
 
     }
 
+    @ExceptionHandler(ApplicationException.class)
+    public ResponseEntity<ApiError> handleException(ApplicationException exception,
+                                                    HttpServletRequest request) {
+        return buildApiError(request, exception.getResponseStatus(), exception.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiError> handleException(Exception exception,
+                                                    HttpServletRequest request) {
+        String errorMessage = "An unexpected error occurred: " + exception.getMessage();
+        return buildApiError(request, HttpStatus.INTERNAL_SERVER_ERROR, errorMessage);
+    }
+
     private ResponseEntity<ApiError> buildApiError(HttpServletRequest request, HttpStatus status,
                                                    String message) {
         ApiError responseError = new ApiError(
@@ -52,5 +59,4 @@ public class DefaultExceptionHandler {
         );
         return new ResponseEntity<>(responseError, status);
     }
-
 }

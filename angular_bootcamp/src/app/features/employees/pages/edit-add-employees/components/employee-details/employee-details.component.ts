@@ -88,14 +88,16 @@ export class EmployeeDetailsComponent implements OnInit {
     name: FormControl<string | null>;
     surname: FormControl<string | null>;
     hireDate: FormControl<string | null>;
-    skillsList: FormArray<
+    skills: FormArray<
       FormGroup<{
+        id: FormControl<string | null>;
         name: FormControl<string | null>;
         proficiency: FormControl<ProficiencyLevelsEnums | null>;
       }>
     >;
-    projectsList: FormArray<
+    projects: FormArray<
       FormGroup<{
+        id: FormControl<string | null>;
         name: FormControl<string | null>;
         description: FormControl<string | null>;
       }>
@@ -117,18 +119,18 @@ export class EmployeeDetailsComponent implements OnInit {
       name: ['', Validators.required],
       surname: ['', Validators.required],
       hireDate: [new FormControl<string | null>(null), Validators.required],
-      skillsList: this.formBuilder.array([this.createSkillGroup()], Validators.required),
-      projectsList: this.formBuilder.array([this.createProjectGroup()], [Validators.minLength(1), Validators.required]),
+      skills: this.formBuilder.array([this.createSkillGroup()], Validators.required),
+      projects: this.formBuilder.array([this.createProjectGroup()], [Validators.minLength(1), Validators.required]),
       manager: [new FormControl<Employee | null>(null), Validators.required],
     });
   }
 
-  get skillsListControlArray(): FormArray {
-    return this.employeeForm.get('skillsList') as FormArray;
+  get skillsControlArray(): FormArray {
+    return this.employeeForm.get('skills') as FormArray;
   }
 
-  get projectsListControlArray(): FormArray {
-    return this.employeeForm.get('projectsList') as FormArray;
+  get projectsControlArray(): FormArray {
+    return this.employeeForm.get('projects') as FormArray;
   }
 
   get employee(): Employee | undefined {
@@ -137,33 +139,40 @@ export class EmployeeDetailsComponent implements OnInit {
 
   public set employee(employee: Employee | undefined) {
     this._employee = employee;
+
     if (employee) {
       this.employeeForm.patchValue({
         ...employee,
         hireDate: this.datePipe.transform(employee.hireDate, 'yyyy-MM-dd'),
       });
-
+      console.log(employee);
       const skillsArray: FormGroup<{
+        id: FormControl<string | null>;
         name: FormControl<string | null>;
         proficiency: FormControl<ProficiencyLevelsEnums | null>;
       }>[] = [];
-
-      employee.skillsList.forEach((skill) => skillsArray.push(this.createSkillGroup(skill)));
+      // console.log(employee);
+      // console.log(employee.skills);
+      if (employee.skills.length != 0) {
+        employee.skills.forEach((skill) => skillsArray.push(this.createSkillGroup(skill)));
+      }
 
       this.employeeForm.setControl(
-        'skillsList',
+        'skills',
         this.formBuilder.array(skillsArray, [Validators.minLength(1), Validators.required])
       );
 
       const projectArray: FormGroup<{
+        id: FormControl<string | null>;
         name: FormControl<string | null>;
         description: FormControl<string | null>;
       }>[] = [];
-
-      employee.projectsList.forEach((project) => projectArray.push(this.createProjectGroup(project)));
-
+      console.log(employee.projects.length);
+      if (employee.projects.length != 0) {
+        employee.projects.forEach((project) => projectArray.push(this.createProjectGroup(project)));
+      }
       this.employeeForm.setControl(
-        'projectsList',
+        'projects',
         this.formBuilder.array(projectArray, [Validators.minLength(1), Validators.required])
       );
       if (employee.manager) {
@@ -194,8 +203,8 @@ export class EmployeeDetailsComponent implements OnInit {
         surname: '',
         hireDate: new Date(),
         manager: null,
-        skillsList: [],
-        projectsList: [],
+        skills: [],
+        projects: [],
       };
       this.loadingEmployee = false;
       return;
@@ -254,30 +263,32 @@ export class EmployeeDetailsComponent implements OnInit {
 
   public onReset() {
     this.employeeForm.reset();
-    this.employeeForm.controls.projectsList.clear();
-    this.employeeForm.controls.skillsList.clear();
+    this.employeeForm.controls.projects.clear();
+    this.employeeForm.controls.skills.clear();
   }
 
   public addSkill() {
     const skill: Skill = {
+      id: crypto.randomUUID(),
       name: '',
-      proficiency: ProficiencyLevelsEnums.begginer,
+      proficiency: ProficiencyLevelsEnums.BEGINNER,
     };
-    this.skillsListControlArray.push(this.createSkillGroup(skill));
+    this.skillsControlArray.push(this.createSkillGroup(skill));
   }
   public deleteSkill(index: number) {
-    this.skillsListControlArray.removeAt(index);
+    this.skillsControlArray.removeAt(index);
   }
 
   public addProject() {
     const project: Project = {
+      id: crypto.randomUUID(),
       name: '',
       description: '',
     };
-    this.projectsListControlArray.push(this.createProjectGroup(project));
+    this.projectsControlArray.push(this.createProjectGroup(project));
   }
   public deleteProject(index: number) {
-    this.projectsListControlArray.removeAt(index);
+    this.projectsControlArray.removeAt(index);
   }
 
   getManagersData(): void {
