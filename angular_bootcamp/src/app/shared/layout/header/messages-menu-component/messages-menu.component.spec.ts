@@ -48,7 +48,6 @@ describe('MessagesMenuComponent', () => {
 
     // act
     await menuHarness.open();
-
     const resetButtonDe = fixture.debugElement.query(By.css('app-basic-button'));
     expect(resetButtonDe).not.toBeNull();
     resetButtonDe.nativeElement.click();
