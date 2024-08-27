@@ -69,12 +69,19 @@ public class EmployeeService implements IEmployeeService {
     @Transactional
     public void deleteEmployee(UUID employeeId) {
 
-        if (employeeRepository.existsById(employeeId)) {
-            employeeRepository.deleteById(employeeId);
-            return;
+        Optional<Employee> employeeOpt = employeeRepository.findById(employeeId);
+
+        if (employeeOpt.isPresent()) {
+            Employee employee = employeeOpt.get();
+            for (Project project : new HashSet<>(employee.getProjects())) {
+                project.getEmployees().remove(employee);
+            }
+            employeeRepository.save(employee);
+            employeeRepository.delete(employee);
+        } else {
+            log.error("Employee not found at deleteEmployee()");
+            throw new EmployeeNotFoundException(employeeId);
         }
-        log.error("Employee not found at deleteEmployee()");
-        throw new EmployeeNotFoundException(employeeId);
     }
 
     @Override
@@ -164,6 +171,7 @@ public class EmployeeService implements IEmployeeService {
 
                 projectsList.add(project);
             });
+
         }
 
         employee.getProjects().clear();

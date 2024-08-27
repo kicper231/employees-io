@@ -15,6 +15,6 @@ public interface ProjectMapper {
 
     ProjectDTO projectToProjectDTO(Project project);
 
-    //ProjectCreateDTO projectToProjectCreateDTO(Project project);
+    ProjectCreateDTO projectToProjectCreateDTO(Project project);
 
 }

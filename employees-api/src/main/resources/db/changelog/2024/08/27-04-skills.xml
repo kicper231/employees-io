@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1724714365823-4" author="Kacper Król">
+        <createTable tableName="skills">
+            <column name="id" type="char(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="skills_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="proficiency" type="SMALLINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="employee_id" type="char(36)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1724714365823-4-uuid" author="Kacper Król">
+        <sql>
+            ALTER TABLE skills
+                ALTER COLUMN id SET DATA TYPE uuid USING id::uuid;
+            ALTER TABLE skills
+                ALTER COLUMN employee_id SET DATA TYPE uuid USING employee_id::uuid;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

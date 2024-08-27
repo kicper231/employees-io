@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1724714365823-5" author="Kacper Król">
+        <addForeignKeyConstraint baseColumnNames="employee_id" baseTableName="employees_projects"
+                                 constraintName="fkbslohhow39ayel1dc6cdus5sc" onDelete="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="employees"/>
+    </changeSet>
+    <changeSet id="1724714365823-6" author="Kacper Król">
+        <addForeignKeyConstraint baseColumnNames="project_id" baseTableName="employees_projects"
+                                 constraintName="fkc9x9r7nbtwnx24vcrfxym9cyy" onDelete="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="projects"/>
+    </changeSet>
+    <changeSet id="1724714365823-7" author="Kacper Król">
+        <addForeignKeyConstraint baseColumnNames="manager_id" baseTableName="employees"
+                                 constraintName="fki4365uo9af35g7jtbc2rteukt" onDelete="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="employees"/>
+    </changeSet>
+    <changeSet id="1724714365823-8" author="Kacper Król">
+        <addForeignKeyConstraint baseColumnNames="employee_id" baseTableName="skills"
+                                 constraintName="fklmmn5mi6qoy7mfh9y3wwaoj02" onDelete="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="employees"/>
+    </changeSet>
+</databaseChangeLog>

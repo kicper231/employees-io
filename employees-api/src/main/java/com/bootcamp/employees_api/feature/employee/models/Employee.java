@@ -8,10 +8,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Getter
@@ -53,8 +50,9 @@ public class Employee {
     @Size(min = 1)
     private List<Skill> skills;
 
-    @ManyToMany(mappedBy = "employees", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Project> projects;
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "employees",
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    private Set<Project> projects = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "manager_id")

@@ -79,12 +79,21 @@ public class ProjectService {
     @Transactional
     public void deleteProject(UUID projectId) {
 
-        if (projectRepository.existsById(projectId)) {
-            projectRepository.deleteById(projectId);
-            return;
+        Optional<Project> projectOpt = projectRepository.findById(projectId);
+
+        if (projectOpt.isPresent()) {
+            Project project = projectOpt.get();
+
+            for (Employee employee : new HashSet<>(project.getEmployees())) {
+                employee.getProjects().remove(project);
+            }
+            projectRepository.save(project);
+            projectRepository.delete(project);
+
+        } else {
+            log.error("Project not found at deleteProject()");
+            throw new ProjectNotFoundException(projectId);
         }
-        log.error("Project not found at deleteProject()");
-        throw new ProjectNotFoundException(projectId);
     }
 
     @Transactional
