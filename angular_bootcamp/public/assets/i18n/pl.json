@@ -70,7 +70,7 @@
       },
       "add.skill": "Dodaj",
       "projects": {
-        "label": "Projekty:",
+        "label": "Wybierz projekty:",
         "add.project": "Dodaj projekt",
         "name.label": "Nazwa:",
         "name.placeholder": "Tytuł projektu",

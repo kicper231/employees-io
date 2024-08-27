@@ -107,12 +107,12 @@ public class EmployeeService implements IEmployeeService {
                                                               employeeToEdit.getHireDate()
         ));
 
-        if (employeeEditDTO.projectsIds() != null) {
+        if (employeeEditDTO.skills() != null) {
             setSkills(employeeToEdit, employeeEditDTO.skills());
         }
 
-        if (employeeEditDTO.projectsIds() != null) {
-            setProjects(employeeToEdit, employeeEditDTO.projectsIds());
+        if (employeeEditDTO.projectIds() != null) {
+            setProjects(employeeToEdit, employeeEditDTO.projectIds());
         }
 
         setManager(employeeToEdit, employeeEditDTO.managerId());

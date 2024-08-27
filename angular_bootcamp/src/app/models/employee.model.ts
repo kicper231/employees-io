@@ -1,5 +1,6 @@
 import { Skill } from './skill.model';
 import { Project } from './project.model';
+import { EmployeeSummary } from './employee.summary.model';
 
 export interface Employee {
   name: string;
@@ -8,5 +9,5 @@ export interface Employee {
   hireDate: Date;
   skills: Skill[];
   projects: Project[];
-  manager: Employee | null;
+  manager: EmployeeSummary | null;
 }

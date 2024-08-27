@@ -16,6 +16,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/v1/projects")
 @Validated
+@CrossOrigin
 public class ProjectController {
 
     private final ProjectService _projectService;

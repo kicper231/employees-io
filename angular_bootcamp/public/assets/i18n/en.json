@@ -68,7 +68,7 @@
         "name.placeholder": "Skill Name"
       },
       "projects": {
-        "label": "Projects:",
+        "label": "Select projects:",
         "add.project": "Add Project",
         "name.label": "Name:",
         "name.placeholder": "Project Title",

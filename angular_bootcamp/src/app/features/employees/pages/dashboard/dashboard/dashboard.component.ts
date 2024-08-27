@@ -7,12 +7,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatChip } from '@angular/material/chips';
 import { EmployeesService } from '../../../../../services/employees-service/employees.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Employee } from '../../../../../models/employee.model';
-import { map } from 'rxjs';
 import { FullName } from '../../../../../shared/pipes/full-name.pipe';
 import { Router } from '@angular/router';
 import * as ROUTES from '../../../../../core/routes.config';
-import { EmployeeSummary } from '../../../../../models/employee-summary.model';
+import { EmployeeSummary } from '../../../../../models/employee.summary.model';
 
 @Component({
   selector: 'app-dashboard',

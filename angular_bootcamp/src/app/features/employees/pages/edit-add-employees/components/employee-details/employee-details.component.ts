@@ -37,6 +37,9 @@ import { BasicButtonComponent } from '../../../../../../shared/components/basic-
 import { BasicInputComponent } from '../../../../../../shared/components/basic-input/basic-input/basic-input.component';
 import { ActivatedRoute } from '@angular/router';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { EmployeeSummary } from '../../../../../../models/employee.summary.model';
+import { MatChip, MatChipGrid, MatChipRow, MatChipSet } from '@angular/material/chips';
+import { ProjectsService } from '../../../../../../services/projects-service/projects.service';
 
 @Component({
   selector: 'app-employee-details',
@@ -72,38 +75,25 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
     BasicButtonComponent,
     BasicInputComponent,
     MatProgressSpinner,
+    MatChip,
+    MatChipSet,
+    MatChipGrid,
+    MatChipRow,
   ],
   templateUrl: './employee-details.component.html',
   styleUrl: './employee-details.component.scss',
   providers: [DatePipe, provideNativeDateAdapter()],
 })
 export class EmployeeDetailsComponent implements OnInit {
-  managers: Employee[] = [];
+  managers: EmployeeSummary[] = [];
   proficiencyValues: ProficiencyLevelsEnums[] = Object.values(ProficiencyLevelsEnums);
   creatingEmployee = false;
   loadingEmployee = false;
 
-  employeeForm!: FormGroup<{
-    id: FormControl<string | null>;
-    name: FormControl<string | null>;
-    surname: FormControl<string | null>;
-    hireDate: FormControl<string | null>;
-    skills: FormArray<
-      FormGroup<{
-        id: FormControl<string | null>;
-        name: FormControl<string | null>;
-        proficiency: FormControl<ProficiencyLevelsEnums | null>;
-      }>
-    >;
-    projects: FormArray<
-      FormGroup<{
-        id: FormControl<string | null>;
-        name: FormControl<string | null>;
-        description: FormControl<string | null>;
-      }>
-    >;
-    manager: FormControl<Employee | null>;
-  }>;
+  employeeForm: FormGroup;
+
+  availableProjects: Project[] = [];
+  selectedProjects: Project[] = [];
 
   private _employee?: Employee;
   private readonly destroyRef = inject(DestroyRef);
@@ -112,16 +102,27 @@ export class EmployeeDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
-    private employeesService: EmployeesService
+    private employeesService: EmployeesService,
+    private projectsService: ProjectsService
   ) {
+    // this.employeeForm = this.formBuilder.group({
+    //   id: [''],
+    //   name: ['', Validators.required],
+    //   surname: ['', Validators.required],
+    //   hireDate: [new FormControl<string | null>(null), Validators.required],
+    //   skills: this.formBuilder.array([this.createSkillGroup()], Validators.required),
+    //   projects: this.formBuilder.array([this.createProjectGroup()]),
+    //   manager: [new FormControl<EmployeeSummary | null>(null)],
+    // });
+
     this.employeeForm = this.formBuilder.group({
       id: [''],
       name: ['', Validators.required],
       surname: ['', Validators.required],
-      hireDate: [new FormControl<string | null>(null), Validators.required],
-      skills: this.formBuilder.array([this.createSkillGroup()], Validators.required),
-      projects: this.formBuilder.array([this.createProjectGroup()], [Validators.minLength(1), Validators.required]),
-      manager: [new FormControl<Employee | null>(null), Validators.required],
+      hireDate: ['', Validators.required],
+      manager: [null],
+      skills: this.formBuilder.array([]),
+      projects: this.formBuilder.array([]),
     });
   }
 
@@ -145,14 +146,13 @@ export class EmployeeDetailsComponent implements OnInit {
         ...employee,
         hireDate: this.datePipe.transform(employee.hireDate, 'yyyy-MM-dd'),
       });
-      console.log(employee);
+
       const skillsArray: FormGroup<{
         id: FormControl<string | null>;
         name: FormControl<string | null>;
         proficiency: FormControl<ProficiencyLevelsEnums | null>;
       }>[] = [];
-      // console.log(employee);
-      // console.log(employee.skills);
+
       if (employee.skills.length != 0) {
         employee.skills.forEach((skill) => skillsArray.push(this.createSkillGroup(skill)));
       }
@@ -167,9 +167,11 @@ export class EmployeeDetailsComponent implements OnInit {
         name: FormControl<string | null>;
         description: FormControl<string | null>;
       }>[] = [];
-      console.log(employee.projects.length);
+
       if (employee.projects.length != 0) {
-        employee.projects.forEach((project) => projectArray.push(this.createProjectGroup(project)));
+        employee.projects.forEach((project) => {
+          this.onProjectSelect(project);
+        });
       }
       this.employeeForm.setControl(
         'projects',
@@ -183,6 +185,8 @@ export class EmployeeDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getManagersData();
+    this.getProjectsData();
+
     this.route.params.subscribe((): void => {
       this.getEmployee();
     });
@@ -192,6 +196,28 @@ export class EmployeeDetailsComponent implements OnInit {
 
   isEmployeeBeingCreated(): void {
     this.employeesService.getIsEmployeeBeingCreated().subscribe((value): boolean => (this.creatingEmployee = value));
+  }
+  onProjectSelect(event: any | Project): void {
+    const selectedProject = event && 'value' in event ? event.value : event;
+    //console.log(this.selectedProjects);
+
+    if (selectedProject && !this.selectedProjects.includes(selectedProject)) {
+      this.selectedProjects.push(selectedProject);
+      this.projectsControlArray.push(this.createProjectGroup(selectedProject));
+      this.availableProjects = this.availableProjects.filter((project) => project.id !== selectedProject.id);
+    }
+    // console.log(this.selectedProjects);
+  }
+
+  removeProject(project: Project): void {
+    this.selectedProjects = this.selectedProjects.filter((p) => p.id !== project.id);
+    this.availableProjects.push(project);
+    const indexToRemove = this.projectsControlArray.controls.findIndex(
+      (control) => control.get('id')?.value === project.id
+    );
+    if (indexToRemove !== -1) {
+      this.projectsControlArray.removeAt(indexToRemove);
+    }
   }
 
   getEmployee() {
@@ -229,6 +255,7 @@ export class EmployeeDetailsComponent implements OnInit {
 
   createSkillGroup(skill?: Skill): FormGroup {
     return this.formBuilder.group({
+      id: new FormControl<string | null>(skill?.id ?? null),
       name: new FormControl<string | null>(skill?.name ?? null, [Validators.required]),
       proficiency: new FormControl<ProficiencyLevelsEnums | null>(skill?.proficiency ?? null, [Validators.required]),
     });
@@ -236,6 +263,7 @@ export class EmployeeDetailsComponent implements OnInit {
 
   createProjectGroup(project?: Project): FormGroup {
     return this.formBuilder.group({
+      id: new FormControl<string | null>({ value: project?.id ?? null, disabled: true }),
       name: [project?.name ?? null, Validators.required],
       description: [project?.description ?? null, Validators.required],
     });
@@ -244,6 +272,8 @@ export class EmployeeDetailsComponent implements OnInit {
   public onSubmit() {
     if (this.employeeForm.valid) {
       const formValue = this.employeeForm.getRawValue();
+
+      //console.log(formValue);
 
       if (this.creatingEmployee) {
         this.employeesService
@@ -263,8 +293,10 @@ export class EmployeeDetailsComponent implements OnInit {
 
   public onReset() {
     this.employeeForm.reset();
-    this.employeeForm.controls.projects.clear();
-    this.employeeForm.controls.skills.clear();
+    // this.employeeForm.controls.projects.clear();
+    // this.employeeForm.controls.skills.clear();
+    (this.employeeForm.get('projects') as FormArray).clear();
+    (this.employeeForm.get('skills') as FormArray).clear();
   }
 
   public addSkill() {
@@ -275,26 +307,29 @@ export class EmployeeDetailsComponent implements OnInit {
     };
     this.skillsControlArray.push(this.createSkillGroup(skill));
   }
+
   public deleteSkill(index: number) {
     this.skillsControlArray.removeAt(index);
   }
 
-  public addProject() {
-    const project: Project = {
-      id: crypto.randomUUID(),
-      name: '',
-      description: '',
-    };
-    this.projectsControlArray.push(this.createProjectGroup(project));
-  }
-  public deleteProject(index: number) {
-    this.projectsControlArray.removeAt(index);
+  getProjectsData(): void {
+    this.projectsService
+      .getProjects()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((employees: Project[]) => (this.availableProjects = employees));
   }
 
   getManagersData(): void {
     this.employeesService
       .getManagers()
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((employees: Employee[]) => (this.managers = employees));
+      .subscribe((employees: EmployeeSummary[]) => (this.managers = employees));
+  }
+
+  compareManager(obj1: EmployeeSummary, obj2: EmployeeSummary) {
+    if (obj1 == null || obj2 == null) {
+      return false;
+    }
+    return obj1.name == obj2.name && obj1.id == obj2.id;
   }
 }

@@ -15,8 +15,8 @@ describe('FullNamePipe', () => {
       surname: '',
       hireDate: new Date(),
       manager: null,
-      skillsList: [],
-      projectsList: [],
+      skills: [],
+      projects: [],
     };
   });
 

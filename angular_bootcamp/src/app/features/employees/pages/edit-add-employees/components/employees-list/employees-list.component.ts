@@ -16,7 +16,7 @@ import { MatInput } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
 import { NgClass } from '@angular/common';
-import { EmployeeSummary } from '../../../../../../models/employee-summary.model';
+import { EmployeeSummary } from '../../../../../../models/employee.summary.model';
 
 @Component({
   selector: 'app-employees-list',
