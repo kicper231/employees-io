@@ -34,7 +34,8 @@
   "header": {
     "title": "Employees.io",
     "dashboard": "Panel",
-    "employees": "Employees"
+    "employees": "Employees",
+    "projects": "Projects"
   },
 
   "employees": {

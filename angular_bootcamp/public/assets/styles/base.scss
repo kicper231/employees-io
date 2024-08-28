@@ -35,3 +35,11 @@ body {
 .mat-mdc-menu-content {
   background: $background-color;
 }
+
+.mat-select-trigger {
+  height: fit-content;
+}
+
+.no-selected-display .mat-select-value {
+  display: none;
+}

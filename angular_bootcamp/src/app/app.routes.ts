@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './features/employees/pages/dashboard/dashboard/dashboard.component';
 import * as ROUTES from './core/routes.config';
+import { ProjectsListComponent } from './features/projects/pages/projects-list/projects-list.component';
+import { ProjectsDetailsComponent } from './features/projects/pages/projects-details/projects-details.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: ROUTES.DASHBOARD, pathMatch: 'full' },
@@ -21,5 +23,16 @@ export const routes: Routes = [
     ],
   },
   { path: ROUTES.DASHBOARD, component: DashboardComponent },
+  {
+    path: ROUTES.PROJECTS_LIST,
+    loadComponent: () =>
+      import('././features/projects/pages/projects-list/projects-list.component').then(
+        (mod) => mod.ProjectsListComponent
+      ),
+  },
+  {
+    path: `${ROUTES.PROJECTS_LIST}/:id`,
+    component: ProjectsDetailsComponent,
+  },
   { path: '**', loadComponent: () => import('./core/error/error.component').then((mod) => mod.ErrorComponent) },
 ];

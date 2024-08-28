@@ -1,7 +1,7 @@
 import { Employee } from '../models/employee.model';
-import { EmployeeUpdate } from '../models/employee-update.model';
+import { EmployeeCreateUpdate } from '../models/employee-update-create.model';
 
-export function mapEmployeeToEmployeeUpdate(employee: Employee): EmployeeUpdate {
+export function mapEmployeeToEmployeeUpdate(employee: Employee): EmployeeCreateUpdate {
   return {
     name: employee.name,
     surname: employee.surname,

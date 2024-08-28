@@ -1,8 +1,7 @@
 import { EmployeeSummary } from './employee.summary.model';
 
-export interface Project {
-  id: string;
+export interface ProjectUpdateCreate {
   name: string;
   description: string;
-  employees: EmployeeSummary[];
+  employeeIds: string[];
 }

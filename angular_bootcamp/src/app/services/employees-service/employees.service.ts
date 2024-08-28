@@ -9,7 +9,7 @@ import { EMPLOYEE_API_URL } from '../../core/urls.config';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EmployeeSummary } from '../../models/employee.summary.model';
 import { mapEmployeeToEmployeeUpdate } from '../../mappers/employee-to-employee-update.mapper';
-import { EmployeeUpdate } from '../../models/employee-update.model';
+import { EmployeeCreateUpdate } from '../../models/employee-update-create.model';
 
 @Injectable({
   providedIn: 'root',
@@ -73,7 +73,9 @@ export class EmployeesService {
     );
   }
 
-  addEmployee(newEmployee: Employee): Observable<Employee> {
+  addEmployee(employee: Employee): Observable<Employee> {
+    let newEmployee: EmployeeCreateUpdate = mapEmployeeToEmployeeUpdate(employee);
+    console.log(newEmployee);
     return this.http.post<Employee>(EMPLOYEE_API_URL, newEmployee, this.httpOptions).pipe(
       tap(() => {
         this.messagesService.addMessage(MessagesTypes.EmployeeAdded);
@@ -86,7 +88,7 @@ export class EmployeesService {
   }
 
   updateEmployee(employee: Employee): Observable<Employee> {
-    let updatedEmployee: EmployeeUpdate = mapEmployeeToEmployeeUpdate(employee);
+    let updatedEmployee: EmployeeCreateUpdate = mapEmployeeToEmployeeUpdate(employee);
 
     return this.http.put<Employee>(`${EMPLOYEE_API_URL}/${employee.id}`, updatedEmployee, this.httpOptions).pipe(
       tap(() => {

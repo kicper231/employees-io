@@ -1,6 +1,6 @@
 import { Skill } from './skill.model';
 
-export interface EmployeeUpdate {
+export interface EmployeeCreateUpdate {
   name: string;
   surname: string;
   hireDate: Date;

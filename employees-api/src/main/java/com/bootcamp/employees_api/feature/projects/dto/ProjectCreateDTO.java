@@ -7,5 +7,5 @@ import java.util.UUID;
 
 public record ProjectCreateDTO(
         @NotNull String name, @NotNull String description,
-        @NotNull List<UUID> userIds) {
+        @NotNull List<UUID> employeeIds) {
 }

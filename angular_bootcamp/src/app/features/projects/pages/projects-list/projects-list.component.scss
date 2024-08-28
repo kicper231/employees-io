@@ -1,0 +1,26 @@
+@import "../../../../../../public/assets/styles/styles";
+
+table {
+  width: 100%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+.menu {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  background-color: $secondary;
+}
+
+.mat-mdc-row .mat-mdc-cell {
+  cursor: pointer;
+}
+
+.mat-elevation-z8 {
+  background-color: white;
+  box-shadow: $border-default-shadow;
+}

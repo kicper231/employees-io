@@ -19,7 +19,7 @@ import { EmployeesService } from '../../../../../../services/employees-service/e
 import { ProficiencyLevelsEnums } from '../../../../../../enums/proficiency-levels.enums';
 import { Employee } from '../../../../../../models/employee.model';
 import { Skill } from '../../../../../../models/skill.model';
-import { Project } from '../../../../../../models/project.model';
+import { ProjectSummary } from '../../../../../../models/project-summary.model';
 import { MatCard, MatCardContent, MatCardHeader } from '@angular/material/card';
 import { MatError, MatFormField, MatFormFieldModule, MatHint, MatLabel } from '@angular/material/form-field';
 import { MatInput, MatInputModule } from '@angular/material/input';
@@ -30,7 +30,7 @@ import {
   MatDatepickerToggle,
 } from '@angular/material/datepicker';
 import { MatOption, provideNativeDateAdapter } from '@angular/material/core';
-import { MatSelect } from '@angular/material/select';
+import { MatSelect, MatSelectTrigger } from '@angular/material/select';
 import { MatButton, MatFabButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { BasicButtonComponent } from '../../../../../../shared/components/basic-button/basic-button.component';
@@ -79,21 +79,19 @@ import { ProjectsService } from '../../../../../../services/projects-service/pro
     MatChipSet,
     MatChipGrid,
     MatChipRow,
+    MatSelectTrigger,
   ],
   templateUrl: './employee-details.component.html',
   styleUrl: './employee-details.component.scss',
   providers: [DatePipe, provideNativeDateAdapter()],
 })
 export class EmployeeDetailsComponent implements OnInit {
+  availableProjects: ProjectSummary[] = [];
   managers: EmployeeSummary[] = [];
   proficiencyValues: ProficiencyLevelsEnums[] = Object.values(ProficiencyLevelsEnums);
   creatingEmployee = false;
   loadingEmployee = false;
-
   employeeForm: FormGroup;
-
-  availableProjects: Project[] = [];
-  selectedProjects: Project[] = [];
 
   private _employee?: Employee;
   private readonly destroyRef = inject(DestroyRef);
@@ -105,22 +103,12 @@ export class EmployeeDetailsComponent implements OnInit {
     private employeesService: EmployeesService,
     private projectsService: ProjectsService
   ) {
-    // this.employeeForm = this.formBuilder.group({
-    //   id: [''],
-    //   name: ['', Validators.required],
-    //   surname: ['', Validators.required],
-    //   hireDate: [new FormControl<string | null>(null), Validators.required],
-    //   skills: this.formBuilder.array([this.createSkillGroup()], Validators.required),
-    //   projects: this.formBuilder.array([this.createProjectGroup()]),
-    //   manager: [new FormControl<EmployeeSummary | null>(null)],
-    // });
-
     this.employeeForm = this.formBuilder.group({
       id: [''],
       name: ['', Validators.required],
       surname: ['', Validators.required],
       hireDate: ['', Validators.required],
-      manager: [null],
+      manager: [''],
       skills: this.formBuilder.array([]),
       projects: this.formBuilder.array([]),
     });
@@ -170,16 +158,15 @@ export class EmployeeDetailsComponent implements OnInit {
 
       if (employee.projects.length != 0) {
         employee.projects.forEach((project) => {
-          this.onProjectSelect(project);
+          projectArray.push(this.createProjectGroup(project));
         });
       }
-      this.employeeForm.setControl(
-        'projects',
-        this.formBuilder.array(projectArray, [Validators.minLength(1), Validators.required])
-      );
+
       if (employee.manager) {
         this.employeeForm.get('manager')!.setValue(employee.manager);
       }
+
+      this.onProjectSelect(employee.projects);
     }
   }
 
@@ -197,26 +184,12 @@ export class EmployeeDetailsComponent implements OnInit {
   isEmployeeBeingCreated(): void {
     this.employeesService.getIsEmployeeBeingCreated().subscribe((value): boolean => (this.creatingEmployee = value));
   }
-  onProjectSelect(event: any | Project): void {
-    const selectedProject = event && 'value' in event ? event.value : event;
-    //console.log(this.selectedProjects);
 
-    if (selectedProject && !this.selectedProjects.includes(selectedProject)) {
-      this.selectedProjects.push(selectedProject);
-      this.projectsControlArray.push(this.createProjectGroup(selectedProject));
-      this.availableProjects = this.availableProjects.filter((project) => project.id !== selectedProject.id);
-    }
-    // console.log(this.selectedProjects);
-  }
-
-  removeProject(project: Project): void {
-    this.selectedProjects = this.selectedProjects.filter((p) => p.id !== project.id);
-    this.availableProjects.push(project);
-    const indexToRemove = this.projectsControlArray.controls.findIndex(
-      (control) => control.get('id')?.value === project.id
-    );
-    if (indexToRemove !== -1) {
-      this.projectsControlArray.removeAt(indexToRemove);
+  onProjectSelect(event: any | ProjectSummary[]): void {
+    const selectedProjects = (event && 'value' in event ? event.value : event) as ProjectSummary[];
+    this.projectsControlArray.clear();
+    if (selectedProjects.length != 0) {
+      selectedProjects.forEach((project) => this.projectsControlArray.push(this.createProjectGroup(project)));
     }
   }
 
@@ -261,7 +234,7 @@ export class EmployeeDetailsComponent implements OnInit {
     });
   }
 
-  createProjectGroup(project?: Project): FormGroup {
+  createProjectGroup(project?: ProjectSummary): FormGroup {
     return this.formBuilder.group({
       id: new FormControl<string | null>({ value: project?.id ?? null, disabled: true }),
       name: [project?.name ?? null, Validators.required],
@@ -272,8 +245,6 @@ export class EmployeeDetailsComponent implements OnInit {
   public onSubmit() {
     if (this.employeeForm.valid) {
       const formValue = this.employeeForm.getRawValue();
-
-      //console.log(formValue);
 
       if (this.creatingEmployee) {
         this.employeesService
@@ -301,7 +272,7 @@ export class EmployeeDetailsComponent implements OnInit {
 
   public addSkill() {
     const skill: Skill = {
-      id: crypto.randomUUID(),
+      id: null,
       name: '',
       proficiency: ProficiencyLevelsEnums.BEGINNER,
     };
@@ -316,7 +287,7 @@ export class EmployeeDetailsComponent implements OnInit {
     this.projectsService
       .getProjects()
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((employees: Project[]) => (this.availableProjects = employees));
+      .subscribe((employees: ProjectSummary[]) => (this.availableProjects = employees));
   }
 
   getManagersData(): void {
@@ -327,6 +298,13 @@ export class EmployeeDetailsComponent implements OnInit {
   }
 
   compareManager(obj1: EmployeeSummary, obj2: EmployeeSummary) {
+    if (obj1 == null || obj2 == null) {
+      return false;
+    }
+    return obj1.name == obj2.name && obj1.id == obj2.id;
+  }
+
+  compareProject(obj1: ProjectSummary, obj2: ProjectSummary) {
     if (obj1 == null || obj2 == null) {
       return false;
     }

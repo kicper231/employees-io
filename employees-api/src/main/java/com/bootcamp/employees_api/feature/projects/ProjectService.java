@@ -62,7 +62,7 @@ public class ProjectService {
         Project project = projectMapper.projectCreateDtoToProject(projectCreateDTO);
         Set<Employee> employeesList = new HashSet<>();
 
-        projectCreateDTO.userIds().forEach(uuid -> {
+        projectCreateDTO.employeeIds().forEach(uuid -> {
             Employee employee =
                     employeeRepository.findById(uuid).orElseThrow(() -> {
                         log.error("Employee not found at addProject()");
@@ -111,7 +111,7 @@ public class ProjectService {
         projectToEdit.setDescription(projectEditDTO.description());
 
         List<Employee> employees = new ArrayList<>();
-        for (UUID userId : projectEditDTO.userIds()) {
+        for (UUID userId : projectEditDTO.employeeIds()) {
             Employee employee = employeeRepository.findById(userId).orElseThrow(() -> {
                 log.error("Employee not found for id: " + userId);
                 return new EmployeeNotFoundException(userId);

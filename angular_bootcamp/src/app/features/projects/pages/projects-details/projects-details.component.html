@@ -1,0 +1,74 @@
+<div class="main">
+  <app-basic-button (clickEvent)="goBack()">
+    <mat-icon>keyboard_backspace</mat-icon>
+  </app-basic-button>
+  <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+    <div class="project">
+      <mat-card appearance="outlined" class="project-info">
+        <mat-card-header class="project-info__title">Projekt</mat-card-header>
+
+        <mat-card-content>
+          <app-basic-input
+            class="profile-info__tile-input--full-width"
+            [isRequired]="true"
+            [label]="'employees.details.name.label' | translate"
+            [maxLength]="30"
+            [placeholder]="'employees.details.name.placeholder' | translate"
+            [validationMessage]="'employees.details.validation.employee.name' | translate"
+            controlName="name"
+          ></app-basic-input>
+
+          <app-basic-input
+            class="profile-info__tile-input--full-width"
+            [isRequired]="true"
+            [label]="'employees.details.name.label' | translate"
+            [maxLength]="30"
+            [placeholder]="'employees.details.name.placeholder' | translate"
+            [validationMessage]="'employees.details.validation.employee.name' | translate"
+            controlName="description"
+          ></app-basic-input>
+
+          <p>{{ project?.description }}</p>
+
+          <!--      <app-basic-input></app-basic-input>-->
+
+          @if (loadingProject) {
+            Loading...
+          } @else {
+            <mat-chip-set>
+              @for (employee of project?.employees; track employee) {
+                <mat-chip>{{ employee | fullName }}</mat-chip>
+              }
+            </mat-chip-set>
+          }
+
+          <!--      <mat-form-field appearance="outline" class="employee-select">-->
+          <!--        <mat-label>Select Employees</mat-label>-->
+          <!--        <mat-select-->
+          <!--          [value]="selectedEmployees"-->
+          <!--          (selectionChange)="onEmployeeSelect($event)"-->
+          <!--          [compareWith]="compareEmployee"-->
+          <!--          multiple-->
+          <!--          placeholder="Select Employees"-->
+          <!--        >-->
+          <!--          <mat-select-trigger>-->
+          <!--            <mat-chip-set aria-label="Employee selection">-->
+          <!--              <mat-chip *ngFor="let employee of selectedEmployees">{{ employee.name }} {{ employee.surname }}</mat-chip>-->
+          <!--            </mat-chip-set>-->
+          <!--          </mat-select-trigger>-->
+
+          <!--          <mat-option *ngFor="let employee of availableEmployees" [value]="employee">-->
+          <!--            {{ employee.name }} {{ employee.surname }}-->
+          <!--          </mat-option>-->
+          <!--        </mat-select>-->
+          <!--      </mat-form-field>-->
+
+          <!--      &lt;!&ndash; Validation message &ndash;&gt;-->
+          <!--      <mat-error *ngIf="employeeForm.get('selectedEmployees')?.hasError('required')">-->
+          <!--        Please select at least one employee.-->
+          <!--      </mat-error>-->
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </form>
+</div>

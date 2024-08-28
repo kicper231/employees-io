@@ -1,7 +1,7 @@
 import { ProficiencyLevelsEnums } from '../enums/proficiency-levels.enums';
 
 export interface Skill {
-  id: string;
+  id: string | null;
   name: string;
   proficiency: ProficiencyLevelsEnums;
 }
