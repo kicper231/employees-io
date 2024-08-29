@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProjectSummary } from '../../models/project-summary.model';
-import { EMPLOYEE_API_URL, PROJECT_API_URL } from '../../core/urls.config';
+import { PROJECT_API_URL } from '../../core/urls.config';
 import { Project } from '../../models/project.model';
 
 import { mapProjectToProjectUpdateCreate } from '../../mappers/project-to-project-update-create.mapper';
@@ -18,6 +18,8 @@ export class ProjectsService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
+  public isProjectBeingCreated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
   constructor(
     private http: HttpClient,
     private _snackBar: MatSnackBar
@@ -28,7 +30,7 @@ export class ProjectsService {
       map((response: ProjectSummary[] | ProjectSummary) => {
         return Array.isArray(response) ? response : [response];
       }),
-      tap((ProjectsP) => {}),
+      tap(() => {}),
       catchError(this.handleError<ProjectSummary[]>('get Projects'))
     );
   }
@@ -40,37 +42,43 @@ export class ProjectsService {
     );
   }
 
+  setIsProjectBeingCreated(value: boolean): void {
+    this.isProjectBeingCreated.next(value);
+  }
+
+  getIsProjectBeingCreated(): Observable<boolean> {
+    return this.isProjectBeingCreated.asObservable();
+  }
+
   addProject(project: Project): Observable<string> {
-    let newProject: ProjectUpdateCreate = mapProjectToProjectUpdateCreate(project);
+    const newProject: ProjectUpdateCreate = mapProjectToProjectUpdateCreate(project);
 
     return this.http.post<string>(PROJECT_API_URL, newProject, this.httpOptions).pipe(
       tap(() => {
-        //  this.messagesService.addMessage(MessagesTypes.EmployeeAdded);
-        // this.setIsEmployeeBeingCreated(false);
-        // this.getEmployees();
+        this.setIsProjectBeingCreated(false);
         this._snackBar.open('Pomyślnie dodano projekt!', '', { duration: 2000 });
       }),
       catchError(this.handleError<string>('add Employee'))
     );
   }
 
-  updateProject(project: Project): Observable<Project> {
-    let updatedProject: ProjectUpdateCreate = mapProjectToProjectUpdateCreate(project);
+  updateProject(project: Project): Observable<ProjectUpdateCreate> {
+    const updatedProject: ProjectUpdateCreate = mapProjectToProjectUpdateCreate(project);
 
-    return this.http.put<Project>(`${EMPLOYEE_API_URL}/${project.id}`, updatedProject, this.httpOptions).pipe(
-      tap(() => {
-        //this.getEmployees();
-        this._snackBar.open('Pomyślnie zaaktualizowano usera!', '', { duration: 2000 });
-      }),
-      catchError(this.handleError<Project>('update Project'))
-    );
+    return this.http
+      .put<ProjectUpdateCreate>(`${PROJECT_API_URL}/${project.id}`, updatedProject, this.httpOptions)
+      .pipe(
+        tap(() => {
+          this._snackBar.open('Pomyślnie zaaktualizowano projekt!', '', { duration: 2000 });
+        }),
+        catchError(this.handleError<ProjectUpdateCreate>('update Project'))
+      );
   }
 
   deleteProject(projectId: string): Observable<Project> {
-    return this.http.delete<Project>(`${EMPLOYEE_API_URL}/${projectId}`, this.httpOptions).pipe(
+    return this.http.delete<Project>(`${PROJECT_API_URL}/${projectId}`, this.httpOptions).pipe(
       tap(() => {
-        //this.getProjects();
-        this._snackBar.open('Usunieto usera!', '', { duration: 2000 });
+        this._snackBar.open('Usunieto projekt!', '', { duration: 2000 });
       }),
       catchError(this.handleError<Project>('delete Project'))
     );

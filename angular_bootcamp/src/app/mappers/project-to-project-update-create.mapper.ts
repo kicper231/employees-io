@@ -1,5 +1,3 @@
-import { Employee } from '../models/employee.model';
-import { EmployeeCreateUpdate } from '../models/employee-update-create.model';
 import { Project } from '../models/project.model';
 import { ProjectUpdateCreate } from '../models/project-update-create';
 

@@ -8,43 +8,50 @@ $label-bigger-font-size: 1.2rem;
 $profile-width: 40rem;
 $spinner-margin: 5rem;
 
-app-projects-details {
-  display: flex;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-}
-
 .project {
+  width: 90%;
   display: flex;
-  width: 100%;
-  flex: 1;
-}
-
-.main {
-  display: flex;
+  justify-content: center;
   gap: 2rem;
-}
 
-.project-info {
-  justify-self: center;
-  align-self: center;
-  margin: 0 0 0 0;
-  padding: 0 $normal-padding;
-  background-color: $background-color;
-  border: $border-default;
-  box-shadow: $border-default-shadow;
-  width: $project-card-width;
-
-  &__title {
-    font-weight: bold;
-    padding: $small-padding $normal-padding;
-    height: $title-height;
-    text-align: left;
-    display: flex;
-    align-items: center;
-    margin: $normal-margin 0;
+  &-info {
+    justify-self: center;
     align-self: center;
-    font-size: $header-font-size;
+    margin: 0 0 0 0;
+    padding: 0 $normal-padding;
+    background-color: $background-color;
+    border: $border-default;
+    box-shadow: $border-default-shadow;
+    width: $project-card-width;
+
+    &__title {
+      font-weight: bold;
+      padding: $small-padding $normal-padding;
+      height: $title-height;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      margin: $normal-margin 0;
+      align-self: center;
+      font-size: $header-font-size;
+    }
+
+    &__row {
+      display: flex;
+      place-content: space-between;
+      gap: $row-gap;
+      & > .profile-info__tile {
+        flex: 1;
+      }
+    }
+  }
+
+  &-item__full-width {
+    width: 100%;
+  }
+
+  &-buttons {
+    display: flex;
+    justify-content: space-around;
   }
 }

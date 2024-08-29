@@ -105,9 +105,7 @@
           </div>
 
           <div class="profile-info__tile" formArrayName="projects">
-            <div class="profile-info__tile-label&#45;&#45;bigger">
-              {{ "employees.details.projects.label" | translate }}
-            </div>
+            <div class="profile-info__tile-label--bigger">Projekty:</div>
             <div class="profile-info__tile-projects-selected">
               <mat-form-field class="profile-info__tile-projects" appearance="outline">
                 <mat-label>{{ "employees.details.projects.label" | translate }}</mat-label>
@@ -154,9 +152,6 @@
                   </mat-option>
                 }
               </mat-select>
-              <!--              @if (employeeForm.controls["manager"].hasError("required")) {-->
-              <!--                <mat-error>{{ "employees.details.validation.employee.manager" | translate }}</mat-error>-->
-              <!--              }-->
             </mat-form-field>
           </div>
 
@@ -177,60 +172,3 @@
     </mat-card>
   }
 }
-
-<!--          <div class="profile-info__tile">-->
-<!--            <div class="profile-info__tile-label&#45;&#45;bigger">{{ "employees.details.projects.label" | translate }}</div>-->
-<!--            @if (projectsControlArray.hasError("required")) {-->
-<!--              <mat-error>{{ "employees.details.validation.projects" | translate }}</mat-error>-->
-<!--            }-->
-
-<!--            <div formArrayName="projects" class="profile-info__tile-projects">-->
-<!--              @for (projects of projectsControlArray.controls; track projects; let i = $index) {-->
-<!--                <div [formGroupName]="i" class="profile-info__tile-projects-group">-->
-<!--                  <mat-form-field class="profile-info__tile-projects-group-element" appearance="outline">-->
-<!--                    <mat-label>{{ "employees.details.projects.name.label" | translate }}</mat-label>-->
-<!--                    <input-->
-<!--                      matInput-->
-<!--                      id="project-name-{{ i }}"-->
-<!--                      formControlName="name"-->
-<!--                      placeholder="{{ 'employees.details.projects.name.placeholder' | translate }}"-->
-<!--                      class="profile-info__tile-projects-group-element profile-info__tile-projects-group-element&#45;&#45;inline"-->
-<!--                    />-->
-<!--                    @if (projects.get("name")!.hasError("required")) {-->
-<!--                      <mat-error>{{ "employees.details.validation.skill.name" | translate }}</mat-error>-->
-<!--                    }-->
-<!--                  </mat-form-field>-->
-
-<!--                  <mat-form-field class="profile-info__tile-projects-group-element" appearance="outline">-->
-<!--                    <mat-label>{{ "employees.details.projects.description.label" | translate }}</mat-label>-->
-<!--                    <textarea-->
-<!--                      matInput-->
-<!--                      id="project-description-{{ i }}"-->
-<!--                      formControlName="description"-->
-<!--                      placeholder="{{ 'employees.details.projects.description.placeholder' | translate }}"-->
-<!--                      class="profile-info__tile-projects-group-element&#45;&#45;big profile-info__tile-projects-group-element"-->
-<!--                    ></textarea>-->
-<!--                  </mat-form-field>-->
-
-<!--                  @if (projects.get("description")!.hasError("required")) {-->
-<!--                    <mat-error>-->
-<!--                      {{ "employees.details.validation.project.description" | translate }}-->
-<!--                    </mat-error>-->
-<!--                  }-->
-
-<!--                  <app-basic-button-->
-<!--                    class="profile-info__tile-projects-group-button&#45;&#45;delete"-->
-<!--                    (click)="deleteProject(i)"-->
-<!--                    [isDelete]="true"-->
-<!--                    [isSmall]="true"-->
-<!--                  >-->
-<!--                    <mat-icon>delete</mat-icon>-->
-<!--                  </app-basic-button>-->
-<!--                </div>-->
-<!--              }-->
-
-<!--              <app-basic-button (click)="addProject()" class="profile-info__tile-button">-->
-<!--                {{ "employees.details.projects.add.project" | translate }}-->
-<!--              </app-basic-button>-->
-<!--            </div>-->
-<!--          </div>-->

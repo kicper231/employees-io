@@ -74,21 +74,21 @@ export class EmployeesService {
   }
 
   addEmployee(employee: Employee): Observable<Employee> {
-    let newEmployee: EmployeeCreateUpdate = mapEmployeeToEmployeeUpdate(employee);
-    console.log(newEmployee);
+    const newEmployee: EmployeeCreateUpdate = mapEmployeeToEmployeeUpdate(employee);
     return this.http.post<Employee>(EMPLOYEE_API_URL, newEmployee, this.httpOptions).pipe(
       tap(() => {
         this.messagesService.addMessage(MessagesTypes.EmployeeAdded);
         this.setIsEmployeeBeingCreated(false);
         this.getEmployees();
-        this._snackBar.open('Pomyślnie dodano usera!', '', { duration: 2000 });
+        this._snackBar.open('Pomyślnie dodano pracownika', '', { duration: 2000 });
       }),
+
       catchError(this.handleError<Employee>('add Employee'))
     );
   }
 
   updateEmployee(employee: Employee): Observable<Employee> {
-    let updatedEmployee: EmployeeCreateUpdate = mapEmployeeToEmployeeUpdate(employee);
+    const updatedEmployee: EmployeeCreateUpdate = mapEmployeeToEmployeeUpdate(employee);
 
     return this.http.put<Employee>(`${EMPLOYEE_API_URL}/${employee.id}`, updatedEmployee, this.httpOptions).pipe(
       tap(() => {

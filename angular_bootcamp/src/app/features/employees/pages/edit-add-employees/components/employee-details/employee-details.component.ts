@@ -264,10 +264,8 @@ export class EmployeeDetailsComponent implements OnInit {
 
   public onReset() {
     this.employeeForm.reset();
-    // this.employeeForm.controls.projects.clear();
-    // this.employeeForm.controls.skills.clear();
-    (this.employeeForm.get('projects') as FormArray).clear();
-    (this.employeeForm.get('skills') as FormArray).clear();
+    this.skillsControlArray.clear();
+    this.projectsControlArray.clear();
   }
 
   public addSkill() {
