@@ -44,7 +44,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.employeesService.employeesSummary$
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => (this.listOfBestEmployees = value));
+      .subscribe((value) => (this.listOfBestEmployees = value.slice(0, this.numberOfBestEmployees)));
     this.employeesService.getEmployees();
   }
 

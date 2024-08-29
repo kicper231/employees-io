@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, ViewChild, inject, OnInit, DestroyRef } from '@angular/core';
-import { MatSort, Sort } from '@angular/material/sort';
+import { Component, OnInit } from '@angular/core';
+import { MatSort } from '@angular/material/sort';
 import {
   MatCell,
   MatCellDef,
@@ -13,16 +13,18 @@ import {
   MatTable,
   MatTableDataSource,
 } from '@angular/material/table';
-import { MatError, MatFormField, MatFormFieldModule, MatHint, MatLabel } from '@angular/material/form-field';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { ProjectSummary } from '../../../../models/project-summary.model';
 import { ProjectsService } from '../../../../services/projects-service/projects.service';
 import { MatPaginator } from '@angular/material/paginator';
-import { Location } from '@angular/common';
+import { Location, SlicePipe } from '@angular/common';
 import { MatInput } from '@angular/material/input';
 import { TranslateModule } from '@ngx-translate/core';
 import { BasicButtonComponent } from '../../../../shared/components/basic-button/basic-button.component';
-import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
+import * as ROUTES from '../../../../core/routes.config';
+import { CREATING_EMPLOYEE } from '../../../../core/routes.config';
 
 @Component({
   selector: 'app-projects-list',
@@ -54,6 +56,7 @@ import { MatIcon } from '@angular/material/icon';
     RouterLinkActive,
     RouterLink,
     MatIcon,
+    SlicePipe,
   ],
   templateUrl: './projects-list.component.html',
   styleUrl: './projects-list.component.scss',
@@ -67,7 +70,8 @@ export class ProjectsListComponent implements OnInit {
   constructor(
     private projectsService: ProjectsService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -84,6 +88,11 @@ export class ProjectsListComponent implements OnInit {
       this.projects = value;
       this.dataSource = new MatTableDataSource(this.projects);
     });
+  }
+
+  addProject(): void {
+    this.projectsService.setIsProjectBeingCreated(true);
+    this.router.navigate([ROUTES.PROJECTS_LIST, CREATING_EMPLOYEE]);
   }
 
   goBack(): void {

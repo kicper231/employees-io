@@ -41,7 +41,10 @@ public class ProjectService {
                 projectRepository.findAllByNameContains(
                         name);
 
-        return allProjects.stream().map(projectMapper::projectToProjectSummaryDTO).toList();
+        return allProjects.stream()
+                .map(projectMapper::projectToProjectSummaryDTO)
+                .sorted((o1, o2) -> o2.name().compareTo(o1.name()))
+                .toList();
     }
 
     @Transactional(readOnly = true)

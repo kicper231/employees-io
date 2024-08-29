@@ -31,11 +31,64 @@
     "best.employees": "Employees of the month"
   },
 
+  "snackbar": {
+    "project": {
+      "edit.success": "Project successfully updated!",
+      "add.success": "Project successfully added!",
+      "remove.success": "Project removed!"
+    },
+    "employee": {
+      "edit.success": "User successfully updated!",
+      "add.success": "User successfully added!",
+      "remove.success": "User removed!"
+    }
+  },
   "header": {
     "title": "Employees.io",
     "dashboard": "Panel",
     "employees": "Employees",
     "projects": "Projects"
+  },
+
+  "projects": {
+    "loading": {
+      "spinner": "Loading project data..."
+    },
+    "error": {
+      "notFound": "This project does not exist!"
+    },
+    "form": {
+      "title.create": "Project creation",
+      "title.editing": "Project edition",
+      "fields": {
+        "id": {
+          "label": "Ids."
+        },
+        "name": {
+          "label": "Name:",
+          "placeholder": "Enter project name",
+          "label.search": "Search by project name"
+        },
+        "description": {
+          "label": "Description:",
+          "placeholder": "Enter project description"
+        },
+        "employees": {
+          "label": "Select employees",
+          "placeholder": "Select employees"
+        }
+      },
+      "validation": {
+        "name": "Project name is required!",
+        "description": "Project description is required!",
+        "employees": "Employees list cannot be empty!"
+      },
+      "buttons": {
+        "delete": "Delete",
+        "reset": "Reset",
+        "submit": "Add Project"
+      }
+    }
   },
 
   "employees": {

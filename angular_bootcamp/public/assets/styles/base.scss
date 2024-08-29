@@ -43,3 +43,18 @@ body {
 .no-selected-display .mat-select-value {
   display: none;
 }
+
+app-projects-list {
+  display: flex !important;
+  justify-content: center;
+}
+
+app-projects-details {
+  display: flex !important;
+  justify-content: center;
+}
+
+app-dashboard {
+  display: flex !important;
+  justify-content: center;
+}
