@@ -149,5 +149,13 @@
         "employee.manager": "Manager is required!"
       }
     }
+  },
+  "dialog": {
+    "delete.confirmation": {
+      "title": "Delete Confirmation",
+      "content": "Are you sure you want to delete this item?",
+      "no": "No",
+      "yes": "Yes"
+    }
   }
 }

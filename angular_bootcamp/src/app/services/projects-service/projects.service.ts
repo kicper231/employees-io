@@ -9,6 +9,7 @@ import { Project } from '../../models/project.model';
 
 import { mapProjectToProjectUpdateCreate } from '../../mappers/project-to-project-update-create.mapper';
 import { ProjectUpdateCreate } from '../../models/project-update-create';
+import { EmployeeSummary } from '../../models/employee.summary.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,8 @@ export class ProjectsService {
   };
 
   public isProjectBeingCreated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public projectsSummarySubject: BehaviorSubject<ProjectSummary[]> = new BehaviorSubject<ProjectSummary[]>([]);
+  public projectsSummary$: Observable<ProjectSummary[]> = this.projectsSummarySubject.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -30,7 +33,9 @@ export class ProjectsService {
       map((response: ProjectSummary[] | ProjectSummary) => {
         return Array.isArray(response) ? response : [response];
       }),
-      tap(() => {}),
+      tap((projects) => {
+        this.projectsSummarySubject.next(projects);
+      }),
       catchError(this.handleError<ProjectSummary[]>('get Projects'))
     );
   }
@@ -78,6 +83,7 @@ export class ProjectsService {
   deleteProject(projectId: string): Observable<Project> {
     return this.http.delete<Project>(`${PROJECT_API_URL}/${projectId}`, this.httpOptions).pipe(
       tap(() => {
+        this.getProjects();
         this._snackBar.open('Usunieto projekt!', '', { duration: 2000 });
       }),
       catchError(this.handleError<Project>('delete Project'))

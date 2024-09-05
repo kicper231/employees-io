@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import {
   MatCell,
@@ -24,7 +24,9 @@ import { BasicButtonComponent } from '../../../../shared/components/basic-button
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import * as ROUTES from '../../../../core/routes.config';
-import { CREATING_EMPLOYEE } from '../../../../core/routes.config';
+import { CREATING_EMPLOYEE, CREATING_PROJECT } from '../../../../core/routes.config';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { EmployeeSummary } from '../../../../models/employee.summary.model';
 
 @Component({
   selector: 'app-projects-list',
@@ -63,9 +65,10 @@ import { CREATING_EMPLOYEE } from '../../../../core/routes.config';
 })
 export class ProjectsListComponent implements OnInit {
   projects: ProjectSummary[] = [];
-
   displayedColumns: string[] = ['id', 'title', 'description'];
   dataSource: MatTableDataSource<ProjectSummary, MatPaginator> = new MatTableDataSource(this.projects);
+
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   constructor(
     private projectsService: ProjectsService,
@@ -76,6 +79,12 @@ export class ProjectsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.setProjects();
+    this.projectsService.projectsSummary$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((projects: ProjectSummary[]) => {
+        this.projects = projects;
+        console.log('doszlo cos');
+      });
   }
 
   applyFilter(event: Event) {
@@ -92,7 +101,7 @@ export class ProjectsListComponent implements OnInit {
 
   addProject(): void {
     this.projectsService.setIsProjectBeingCreated(true);
-    this.router.navigate([ROUTES.PROJECTS_LIST, CREATING_EMPLOYEE]);
+    this.router.navigate([ROUTES.PROJECTS_LIST, CREATING_PROJECT]);
   }
 
   goBack(): void {

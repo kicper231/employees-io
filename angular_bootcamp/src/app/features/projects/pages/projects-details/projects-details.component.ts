@@ -67,7 +67,7 @@ export class ProjectsDetailsComponent implements OnInit {
   projectForm: FormGroup;
   availableEmployees: EmployeeSummary[] = [];
 
-  readonly dialog = inject(MatDialog);
+  private readonly dialog = inject(MatDialog);
   private readonly destroyRef = inject(DestroyRef);
   private _project?: Project;
 
@@ -91,7 +91,6 @@ export class ProjectsDetailsComponent implements OnInit {
       this.getProject();
       this.getEmployeesData();
     });
-
     this.projectsService.getIsProjectBeingCreated().subscribe((value) => (this.projectIsBeingCreated = value));
   }
 
@@ -157,6 +156,7 @@ export class ProjectsDetailsComponent implements OnInit {
     this.location.back();
     this.projectsService.setIsProjectBeingCreated(false);
   }
+
   compareEmployee(obj1: EmployeeSummary, obj2: EmployeeSummary) {
     if (obj1 == null || obj2 == null) {
       return false;
@@ -180,7 +180,7 @@ export class ProjectsDetailsComponent implements OnInit {
     });
   }
 
-  public onSubmit() {
+  onSubmit() {
     if (this.projectForm.valid) {
       const formValue = this.projectForm.getRawValue();
 
@@ -205,7 +205,7 @@ export class ProjectsDetailsComponent implements OnInit {
     this.employeesControlArray.clear();
   }
 
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+  openDeleteDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
     const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
       width: '250px',
       enterAnimationDuration,
@@ -213,7 +213,7 @@ export class ProjectsDetailsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result == true) {
+      if (result === true) {
         this.projectsService.deleteProject(this.project!.id).subscribe();
         this.goBack();
       }

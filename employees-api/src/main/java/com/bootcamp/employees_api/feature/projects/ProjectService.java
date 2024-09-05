@@ -43,7 +43,7 @@ public class ProjectService {
 
         return allProjects.stream()
                 .map(projectMapper::projectToProjectSummaryDTO)
-                .sorted((o1, o2) -> o2.name().compareTo(o1.name()))
+                .sorted((o1, o2) -> o2.id().compareTo(o1.id()))
                 .toList();
     }
 

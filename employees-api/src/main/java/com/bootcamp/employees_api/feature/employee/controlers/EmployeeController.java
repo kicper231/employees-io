@@ -55,38 +55,3 @@ public class EmployeeController {
     }
 
 }
-
-//{
-//        "name": "string",
-//        "surname": "string",
-//        "hireDate": "2024-08-27T00:00:00.000Z",
-//        "skills": [
-//        {
-//        "id": "222692cd-c9bc-4d8f-8637-98a84c9ec783",
-//        "name": "string",
-//        "proficiency": "BEGINNER"
-//        }
-//        ],
-//        "projectIds": [
-//        "d45b6d6c-4eef-4eb5-a663-691945f755b2",
-//        "7527af24-61fd-4be7-8bc3-0175c9d21134"
-//        ],
-//        "managerId": "dd6e32d5-1c68-41fe-9e43-7b9a6f0da05a"
-//        }
-//
-//        {
-//        "name": "string",
-//        "surname": "string",
-//        "hireDate": "2024-08-27T11:16:41.187Z",
-//        "skills": [
-//        {
-//        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//        "name": "string",
-//        "proficiency": "string"
-//        }
-//        ],
-//        "projectsI": [
-//        "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-//        ],
-//        "managerId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-//        }

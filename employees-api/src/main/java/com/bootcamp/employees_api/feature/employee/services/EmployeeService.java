@@ -36,7 +36,6 @@ public class EmployeeService implements IEmployeeService {
         this.employeeMapper = employeeMapper;
         this.skillMapper = skillMapper;
         this.projectRepository = projectRepository;
-
     }
 
     @Override
@@ -49,7 +48,8 @@ public class EmployeeService implements IEmployeeService {
                 : employeeRepository.findAllByNameContains(
                 name);
 
-        return allEmployees.stream().map(employeeMapper::employeeToEmployeeSummaryDTO).toList();
+        return allEmployees.stream().sorted((o1, o2) -> o2.getId().compareTo(o1.getId())).map(
+                employeeMapper::employeeToEmployeeSummaryDTO).toList();
     }
 
     @Override
@@ -157,6 +157,7 @@ public class EmployeeService implements IEmployeeService {
         if (projectIds == null) {
             throw new ProjectIdIsNullException("projectIds", "ProjectIds list is null");
         }
+
         List<Project> projectsList = new ArrayList<>();
 
         if (!projectIds.isEmpty()) {
@@ -194,11 +195,8 @@ public class EmployeeService implements IEmployeeService {
         existingSkills.removeIf(skill -> !newSkillsMap.containsKey(skill.getId()));
 
         for (Skill skill : newSkillsList) {
-
             Skill existingSkill = existingSkillsMap.get(skill.getId());
-
             if (existingSkill != null) {
-
                 existingSkill.setName(skill.getName());
                 existingSkill.setProficiency(skill.getProficiency());
             } else {
