@@ -1,6 +1,7 @@
 package com.bootcamp.employees_api.feature.employee.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -21,10 +22,12 @@ public class Skill {
 
     @Basic
     @Column
+    @NotNull
     private String name;
 
     @Basic
     @Column
+    @NotNull
     private ProficiencyLevelsEnums proficiency;
 
     @ManyToOne

@@ -2,10 +2,13 @@ package com.bootcamp.employees_api.feature.projects.models;
 
 import com.bootcamp.employees_api.feature.employee.models.Employee;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -22,14 +25,20 @@ public class Project {
 
     @Basic
     @Column
+    @NotNull
     private String name;
 
     @Basic
     @Column
+    @NotNull
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
+    @JoinTable(
+            name = "employees_projects",
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "employee_id")
+    )
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    private Set<Employee> employees = new HashSet<>();
 
 }

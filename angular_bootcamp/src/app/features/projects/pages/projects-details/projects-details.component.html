@@ -1,0 +1,99 @@
+@if (loadingProject) {
+  <mat-progress-spinner></mat-progress-spinner>
+} @else {
+  @if (project === undefined) {
+    {{ "projects.error.notFound" | translate }}
+  } @else {
+    <div class="project">
+      <app-basic-button (clickEvent)="goBack()">
+        <mat-icon>keyboard_backspace</mat-icon>
+      </app-basic-button>
+      <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+        <mat-card appearance="outlined" class="project-info">
+          @if (projectIsBeingCreated) {
+            <mat-card-header class="project-info__title">
+              {{ "projects.form.title.create" | translate }}
+            </mat-card-header>
+          } @else {
+            <mat-card-header class="project-info__title">
+              {{ "projects.form.title.editing" | translate }}
+            </mat-card-header>
+          }
+
+          <mat-card-content>
+            <app-basic-input
+              [isRequired]="true"
+              [label]="'projects.form.fields.name.label' | translate"
+              [maxLength]="30"
+              [placeholder]="'projects.form.fields.name.placeholder' | translate"
+              [validationMessage]="'projects.form.validation.name' | translate"
+              controlName="name"
+            ></app-basic-input>
+
+            <mat-form-field class="project-item__full-width" appearance="outline">
+              <mat-label>{{ "projects.form.fields.description.label" | translate }}</mat-label>
+              <textarea
+                rows="4"
+                class="project-item__full-width"
+                type="text"
+                matInput
+                formControlName="description"
+                placeholder="{{ 'projects.form.fields.description.placeholder' | translate }}"
+              ></textarea>
+            </mat-form-field>
+
+            <div class="project-info__row" formArrayName="employees">
+              <div class="project-item__full-width">
+                <mat-form-field class="project-item__full-width" appearance="outline">
+                  <mat-label>{{ "projects.form.fields.employees.label" | translate }}</mat-label>
+
+                  <mat-select
+                    [value]="project.employees"
+                    (selectionChange)="onEmployeeSelect($event)"
+                    [compareWith]="compareEmployee"
+                    multiple
+                    placeholder="{{ 'projects.form.fields.employees.placeholder' | translate }}"
+                  >
+                    <mat-select-trigger>
+                      <mat-chip-set aria-label="Employee selection">
+                        @for (employee of employeesControlArray.value; track $index) {
+                          <mat-chip>
+                            {{ employee | fullName }}
+                          </mat-chip>
+                        }
+                      </mat-chip-set>
+                    </mat-select-trigger>
+
+                    @for (project of availableEmployees; track project) {
+                      <mat-option [value]="project">
+                        {{ project.name }}
+                      </mat-option>
+                    }
+                  </mat-select>
+
+                  @if (projectForm.get("selectedProject")?.hasError("required")) {
+                    <mat-error>
+                      {{ "projects.form.validation.employees" | translate }}
+                    </mat-error>
+                  }
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="project-buttons">
+              <app-basic-button (click)="openDialog('0ms', '0ms')">
+                {{ "projects.form.buttons.delete" | translate }}
+              </app-basic-button>
+              <app-basic-button (click)="onReset()">
+                {{ "projects.form.buttons.reset" | translate }}
+              </app-basic-button>
+              <app-basic-button type="submit">
+                {{ "projects.form.buttons.submit" | translate }}
+              </app-basic-button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </form>
+    </div>
+  }
+}

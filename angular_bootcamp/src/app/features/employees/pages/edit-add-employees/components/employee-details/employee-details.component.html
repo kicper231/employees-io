@@ -17,7 +17,7 @@
               class="profile-info__tile-input--full-width"
               [isRequired]="true"
               [label]="'employees.details.name.label' | translate"
-              [maxLength]="20"
+              [maxLength]="30"
               [placeholder]="'employees.details.name.placeholder' | translate"
               [validationMessage]="'employees.details.validation.employee.name' | translate"
               controlName="name"
@@ -26,7 +26,7 @@
               class="profile-info__tile-input--full-width"
               [isRequired]="true"
               [label]="'employees.details.surname.label' | translate"
-              [maxLength]="20"
+              [maxLength]="30"
               [placeholder]="'employees.details.surname.placeholder' | translate"
               [validationMessage]="'employees.details.validation.employee.surname' | translate"
               controlName="surname"
@@ -47,7 +47,7 @@
               <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
               <mat-datepicker #datepicker></mat-datepicker>
 
-              @if (employeeForm.controls.hireDate.hasError("required")) {
+              @if (employeeForm.controls["hireDate"].hasError("required")) {
                 <mat-error>
                   {{ "employees.details.validation.employee.date.of.hire" | translate }}
                 </mat-error>
@@ -57,14 +57,14 @@
 
           <div class="profile-info__tile">
             <div class="profile-info__tile-label--bigger">{{ "employees.details.skills.label" | translate }}</div>
-            <div formArrayName="skillsList" class="profile-info__tile-skills">
-              @if (skillsListControlArray.hasError("required")) {
+            <div formArrayName="skills" class="profile-info__tile-skills">
+              @if (skillsControlArray.hasError("required")) {
                 <mat-error>
                   {{ "employees.details.validation.skills" | translate }}
                 </mat-error>
               }
 
-              @for (skill of skillsListControlArray.controls; track skill; let i = $index) {
+              @for (skill of skillsControlArray.controls; track skill; let i = $index) {
                 <div [formGroupName]="i" class="profile-info__tile-skills-group">
                   <mat-form-field appearance="outline" class="profile-info__tile-skills-group-element">
                     <input
@@ -104,76 +104,54 @@
             </div>
           </div>
 
-          <div class="profile-info__tile">
-            <div class="profile-info__tile-label--bigger">{{ "employees.details.projects.label" | translate }}</div>
-            @if (projectsListControlArray.hasError("required")) {
-              <mat-error>{{ "employees.details.validation.projects" | translate }}</mat-error>
-            }
+          <div class="profile-info__tile" formArrayName="projects">
+            <div class="profile-info__tile-label--bigger">Projekty:</div>
+            <div class="profile-info__tile-projects-selected">
+              <mat-form-field class="profile-info__tile-projects" appearance="outline">
+                <mat-label>{{ "employees.details.projects.label" | translate }}</mat-label>
 
-            <div formArrayName="projectsList" class="profile-info__tile-projects">
-              @for (projects of projectsListControlArray.controls; track projects; let i = $index) {
-                <div [formGroupName]="i" class="profile-info__tile-projects-group">
-                  <mat-form-field class="profile-info__tile-projects-group-element" appearance="outline">
-                    <mat-label>{{ "employees.details.projects.name.label" | translate }}</mat-label>
-                    <input
-                      matInput
-                      id="project-name-{{ i }}"
-                      formControlName="name"
-                      placeholder="{{ 'employees.details.projects.name.placeholder' | translate }}"
-                      class="profile-info__tile-projects-group-element profile-info__tile-projects-group-element--inline"
-                    />
-                    @if (projects.get("name")!.hasError("required")) {
-                      <mat-error>{{ "employees.details.validation.skill.name" | translate }}</mat-error>
-                    }
-                  </mat-form-field>
+                <mat-select
+                  [value]="employee.projects"
+                  (selectionChange)="onProjectSelect($event)"
+                  [compareWith]="compareProject"
+                  multiple
+                  placeholder="{{ 'employees.details.projects.name.placeholder' | translate }}"
+                >
+                  <mat-select-trigger>
+                    <mat-chip-set aria-label="Fruit selection">
+                      @for (project of projectsControlArray.value; track $index) {
+                        <mat-chip>
+                          {{ project.name }}
+                        </mat-chip>
+                      }
+                    </mat-chip-set>
+                  </mat-select-trigger>
 
-                  <mat-form-field class="profile-info__tile-projects-group-element" appearance="outline">
-                    <mat-label>{{ "employees.details.projects.description.label" | translate }}</mat-label>
-                    <textarea
-                      matInput
-                      id="project-description-{{ i }}"
-                      formControlName="description"
-                      placeholder="{{ 'employees.details.projects.description.placeholder' | translate }}"
-                      class="profile-info__tile-projects-group-element--big profile-info__tile-projects-group-element"
-                    ></textarea>
-                  </mat-form-field>
-
-                  @if (projects.get("description")!.hasError("required")) {
-                    <mat-error>
-                      {{ "employees.details.validation.project.description" | translate }}
-                    </mat-error>
+                  @for (project of availableProjects; track project) {
+                    <mat-option [value]="project">
+                      {{ project.name }}
+                    </mat-option>
                   }
-
-                  <app-basic-button
-                    class="profile-info__tile-projects-group-button--delete"
-                    (click)="deleteProject(i)"
-                    [isDelete]="true"
-                    [isSmall]="true"
-                  >
-                    <mat-icon>delete</mat-icon>
-                  </app-basic-button>
-                </div>
-              }
-
-              <app-basic-button (click)="addProject()" class="profile-info__tile-button">
-                {{ "employees.details.projects.add.project" | translate }}
-              </app-basic-button>
+                </mat-select>
+                @if (employeeForm.get("selectedProject")?.hasError("required")) {
+                  <mat-error>
+                    {{ "employees.details.validation.projects" | translate }}
+                  </mat-error>
+                }
+              </mat-form-field>
             </div>
           </div>
 
           <div class="profile-info__tile">
             <mat-form-field class="profile-info__tile-managers" appearance="outline">
               <mat-label>{{ "employees.details.manager.label" | translate }}</mat-label>
-              <mat-select [value]="employee.manager" required formControlName="manager">
+              <mat-select [value]="employee.manager" formControlName="manager" [compareWith]="compareManager">
                 @for (manager of managers; track manager) {
                   <mat-option [value]="manager">
                     {{ manager | fullName }}
                   </mat-option>
                 }
               </mat-select>
-              @if (employeeForm.controls.manager.hasError("required")) {
-                <mat-error>{{ "employees.details.validation.employee.manager" | translate }}</mat-error>
-              }
             </mat-form-field>
           </div>
 

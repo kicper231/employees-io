@@ -1,4 +1,4 @@
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { MessagesService } from './messages.service';
 import { Message } from '../../models/message.model';

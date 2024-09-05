@@ -26,6 +26,19 @@
     "best.employees": "Pracowicy miesiąca"
   },
 
+  "snackbar": {
+    "project": {
+      "edit.success": "Pomyślnie zaktualizowano projekt!",
+      "add.success": "Pomyślnie dodano projekt!",
+      "remove.success": "Usunięto projekt!"
+    },
+    "employee": {
+      "edit.success": "Pomyślnie zaktualizowano usera!",
+      "add.success": "Pomyślnie dodano usera!",
+      "remove.success": "Usunięto usera!"
+    }
+  },
+
   "languages": {
     "en": "Angielski",
     "pl": "Polski",
@@ -35,7 +48,49 @@
   "header": {
     "title": "Pracownicy.io",
     "dashboard": "Panel",
-    "employees": "Pracownicy"
+    "employees": "Pracownicy",
+    "projects": "Projekty"
+  },
+
+  "projects": {
+    "loading": {
+      "spinner": "Ładowanie danych projektu..."
+    },
+    "error": {
+      "notFound": "Taki projekt nie istnieje!"
+    },
+    "form": {
+      "title.create": "Tworzenie projektu ",
+      "title.editing": "Edycja projektu",
+      "fields": {
+        "id": {
+          "label": "Ids"
+        },
+        "name": {
+          "label": "Nazwa:",
+          "label.search": "Wyszukaj po nazwie",
+          "placeholder": "Wprowadz nazwę projektu"
+        },
+        "description": {
+          "label": "Opis:",
+          "placeholder": "Wprowadź opis projektu"
+        },
+        "employees": {
+          "label": "Wybierz pracowników",
+          "placeholder": "Wybierz pracowników"
+        }
+      },
+      "validation": {
+        "name": "Nazwa projektu jest wymagana!",
+        "description": "Opis projektu jest wymagany!",
+        "employees": "Lista pracowników nie może być pusta!"
+      },
+      "buttons": {
+        "delete": "Usuń",
+        "reset": "Resetuj",
+        "submit": "Dodaj projekt"
+      }
+    }
   },
 
   "employees": {
@@ -62,15 +117,15 @@
         "label": "Umiejętności:",
         "add.skill": "Dodaj umiejętność",
         "proficiency": {
-          "begginer": "początkujący",
-          "intermediate": "średnio zaawansowany",
-          "advanced": "zaawansowany"
+          "BEGINNER": "początkujący",
+          "INTERMEDIATE": "średnio zaawansowany",
+          "ADVANCED": "zaawansowany"
         },
         "name.placeholder": "Nazwa umięjetności"
       },
       "add.skill": "Dodaj",
       "projects": {
-        "label": "Projekty:",
+        "label": "Wybierz projekty:",
         "add.project": "Dodaj projekt",
         "name.label": "Nazwa:",
         "name.placeholder": "Tytuł projektu",

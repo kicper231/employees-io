@@ -8,9 +8,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Getter
@@ -29,7 +27,6 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
-    @NotNull
     private UUID id;
 
     @Basic
@@ -48,14 +45,14 @@ public class Employee {
     @NotNull
     private Date hireDate;
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @Size(min = 1)
-    private List<Skill> skills;
-
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true, fetch =
             FetchType.LAZY)
     @Size(min = 1)
-    private List<Project> projects;
+    private List<Skill> skills;
+
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "employees",
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    private Set<Project> projects = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "manager_id")

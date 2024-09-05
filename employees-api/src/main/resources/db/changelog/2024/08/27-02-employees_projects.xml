@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1724714365823-2" author="Kacper Król">
+        <createTable tableName="employees_projects">
+            <column name="project_id" type="char(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="employee_id" type="char(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1724714365823-2-uuid" author="Kacper Król">
+        <sql>
+            ALTER TABLE employees_projects
+                ALTER COLUMN project_id SET DATA TYPE uuid USING project_id::uuid;
+            ALTER TABLE employees_projects
+                ALTER COLUMN employee_id SET DATA TYPE uuid USING employee_id::uuid;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

@@ -19,7 +19,7 @@ import { EmployeesService } from '../../../../../../services/employees-service/e
 import { ProficiencyLevelsEnums } from '../../../../../../enums/proficiency-levels.enums';
 import { Employee } from '../../../../../../models/employee.model';
 import { Skill } from '../../../../../../models/skill.model';
-import { Project } from '../../../../../../models/project.model';
+import { ProjectSummary } from '../../../../../../models/project-summary.model';
 import { MatCard, MatCardContent, MatCardHeader } from '@angular/material/card';
 import { MatError, MatFormField, MatFormFieldModule, MatHint, MatLabel } from '@angular/material/form-field';
 import { MatInput, MatInputModule } from '@angular/material/input';
@@ -30,13 +30,16 @@ import {
   MatDatepickerToggle,
 } from '@angular/material/datepicker';
 import { MatOption, provideNativeDateAdapter } from '@angular/material/core';
-import { MatSelect } from '@angular/material/select';
+import { MatSelect, MatSelectTrigger } from '@angular/material/select';
 import { MatButton, MatFabButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { BasicButtonComponent } from '../../../../../../shared/components/basic-button/basic-button.component';
 import { BasicInputComponent } from '../../../../../../shared/components/basic-input/basic-input/basic-input.component';
 import { ActivatedRoute } from '@angular/router';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { EmployeeSummary } from '../../../../../../models/employee.summary.model';
+import { MatChip, MatChipGrid, MatChipRow, MatChipSet } from '@angular/material/chips';
+import { ProjectsService } from '../../../../../../services/projects-service/projects.service';
 
 @Component({
   selector: 'app-employee-details',
@@ -72,36 +75,23 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
     BasicButtonComponent,
     BasicInputComponent,
     MatProgressSpinner,
+    MatChip,
+    MatChipSet,
+    MatChipGrid,
+    MatChipRow,
+    MatSelectTrigger,
   ],
   templateUrl: './employee-details.component.html',
   styleUrl: './employee-details.component.scss',
   providers: [DatePipe, provideNativeDateAdapter()],
 })
 export class EmployeeDetailsComponent implements OnInit {
-  managers: Employee[] = [];
+  availableProjects: ProjectSummary[] = [];
+  managers: EmployeeSummary[] = [];
   proficiencyValues: ProficiencyLevelsEnums[] = Object.values(ProficiencyLevelsEnums);
   creatingEmployee = false;
   loadingEmployee = false;
-
-  employeeForm!: FormGroup<{
-    id: FormControl<string | null>;
-    name: FormControl<string | null>;
-    surname: FormControl<string | null>;
-    hireDate: FormControl<string | null>;
-    skillsList: FormArray<
-      FormGroup<{
-        name: FormControl<string | null>;
-        proficiency: FormControl<ProficiencyLevelsEnums | null>;
-      }>
-    >;
-    projectsList: FormArray<
-      FormGroup<{
-        name: FormControl<string | null>;
-        description: FormControl<string | null>;
-      }>
-    >;
-    manager: FormControl<Employee | null>;
-  }>;
+  employeeForm: FormGroup;
 
   private _employee?: Employee;
   private readonly destroyRef = inject(DestroyRef);
@@ -110,25 +100,26 @@ export class EmployeeDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
-    private employeesService: EmployeesService
+    private employeesService: EmployeesService,
+    private projectsService: ProjectsService
   ) {
     this.employeeForm = this.formBuilder.group({
       id: [''],
       name: ['', Validators.required],
       surname: ['', Validators.required],
-      hireDate: [new FormControl<string | null>(null), Validators.required],
-      skillsList: this.formBuilder.array([this.createSkillGroup()], Validators.required),
-      projectsList: this.formBuilder.array([this.createProjectGroup()], [Validators.minLength(1), Validators.required]),
-      manager: [new FormControl<Employee | null>(null), Validators.required],
+      hireDate: ['', Validators.required],
+      manager: [''],
+      skills: this.formBuilder.array([]),
+      projects: this.formBuilder.array([]),
     });
   }
 
-  get skillsListControlArray(): FormArray {
-    return this.employeeForm.get('skillsList') as FormArray;
+  get skillsControlArray(): FormArray {
+    return this.employeeForm.get('skills') as FormArray;
   }
 
-  get projectsListControlArray(): FormArray {
-    return this.employeeForm.get('projectsList') as FormArray;
+  get projectsControlArray(): FormArray {
+    return this.employeeForm.get('projects') as FormArray;
   }
 
   get employee(): Employee | undefined {
@@ -137,6 +128,7 @@ export class EmployeeDetailsComponent implements OnInit {
 
   public set employee(employee: Employee | undefined) {
     this._employee = employee;
+
     if (employee) {
       this.employeeForm.patchValue({
         ...employee,
@@ -144,36 +136,44 @@ export class EmployeeDetailsComponent implements OnInit {
       });
 
       const skillsArray: FormGroup<{
+        id: FormControl<string | null>;
         name: FormControl<string | null>;
         proficiency: FormControl<ProficiencyLevelsEnums | null>;
       }>[] = [];
 
-      employee.skillsList.forEach((skill) => skillsArray.push(this.createSkillGroup(skill)));
+      if (employee.skills.length != 0) {
+        employee.skills.forEach((skill) => skillsArray.push(this.createSkillGroup(skill)));
+      }
 
       this.employeeForm.setControl(
-        'skillsList',
+        'skills',
         this.formBuilder.array(skillsArray, [Validators.minLength(1), Validators.required])
       );
 
       const projectArray: FormGroup<{
+        id: FormControl<string | null>;
         name: FormControl<string | null>;
         description: FormControl<string | null>;
       }>[] = [];
 
-      employee.projectsList.forEach((project) => projectArray.push(this.createProjectGroup(project)));
+      if (employee.projects.length != 0) {
+        employee.projects.forEach((project) => {
+          projectArray.push(this.createProjectGroup(project));
+        });
+      }
 
-      this.employeeForm.setControl(
-        'projectsList',
-        this.formBuilder.array(projectArray, [Validators.minLength(1), Validators.required])
-      );
       if (employee.manager) {
         this.employeeForm.get('manager')!.setValue(employee.manager);
       }
+
+      this.onProjectSelect(employee.projects);
     }
   }
 
   ngOnInit(): void {
     this.getManagersData();
+    this.getProjectsData();
+
     this.route.params.subscribe((): void => {
       this.getEmployee();
     });
@@ -185,6 +185,14 @@ export class EmployeeDetailsComponent implements OnInit {
     this.employeesService.getIsEmployeeBeingCreated().subscribe((value): boolean => (this.creatingEmployee = value));
   }
 
+  onProjectSelect(event: any | ProjectSummary[]): void {
+    const selectedProjects = (event && 'value' in event ? event.value : event) as ProjectSummary[];
+    this.projectsControlArray.clear();
+    if (selectedProjects.length != 0) {
+      selectedProjects.forEach((project) => this.projectsControlArray.push(this.createProjectGroup(project)));
+    }
+  }
+
   getEmployee() {
     this.loadingEmployee = true;
     if (this.employeesService.isEmployeeBeingCreated.value) {
@@ -194,8 +202,8 @@ export class EmployeeDetailsComponent implements OnInit {
         surname: '',
         hireDate: new Date(),
         manager: null,
-        skillsList: [],
-        projectsList: [],
+        skills: [],
+        projects: [],
       };
       this.loadingEmployee = false;
       return;
@@ -220,13 +228,15 @@ export class EmployeeDetailsComponent implements OnInit {
 
   createSkillGroup(skill?: Skill): FormGroup {
     return this.formBuilder.group({
+      id: new FormControl<string | null>(skill?.id ?? null),
       name: new FormControl<string | null>(skill?.name ?? null, [Validators.required]),
       proficiency: new FormControl<ProficiencyLevelsEnums | null>(skill?.proficiency ?? null, [Validators.required]),
     });
   }
 
-  createProjectGroup(project?: Project): FormGroup {
+  createProjectGroup(project?: ProjectSummary): FormGroup {
     return this.formBuilder.group({
+      id: new FormControl<string | null>({ value: project?.id ?? null, disabled: true }),
       name: [project?.name ?? null, Validators.required],
       description: [project?.description ?? null, Validators.required],
     });
@@ -254,36 +264,48 @@ export class EmployeeDetailsComponent implements OnInit {
 
   public onReset() {
     this.employeeForm.reset();
-    this.employeeForm.controls.projectsList.clear();
-    this.employeeForm.controls.skillsList.clear();
+    this.skillsControlArray.clear();
+    this.projectsControlArray.clear();
   }
 
   public addSkill() {
     const skill: Skill = {
+      id: null,
       name: '',
-      proficiency: ProficiencyLevelsEnums.begginer,
+      proficiency: ProficiencyLevelsEnums.BEGINNER,
     };
-    this.skillsListControlArray.push(this.createSkillGroup(skill));
-  }
-  public deleteSkill(index: number) {
-    this.skillsListControlArray.removeAt(index);
+    this.skillsControlArray.push(this.createSkillGroup(skill));
   }
 
-  public addProject() {
-    const project: Project = {
-      name: '',
-      description: '',
-    };
-    this.projectsListControlArray.push(this.createProjectGroup(project));
+  public deleteSkill(index: number) {
+    this.skillsControlArray.removeAt(index);
   }
-  public deleteProject(index: number) {
-    this.projectsListControlArray.removeAt(index);
+
+  getProjectsData(): void {
+    this.projectsService
+      .getProjects()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((employees: ProjectSummary[]) => (this.availableProjects = employees));
   }
 
   getManagersData(): void {
     this.employeesService
       .getManagers()
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((employees: Employee[]) => (this.managers = employees));
+      .subscribe((employees: EmployeeSummary[]) => (this.managers = employees));
+  }
+
+  compareManager(obj1: EmployeeSummary, obj2: EmployeeSummary) {
+    if (obj1 == null || obj2 == null) {
+      return false;
+    }
+    return obj1.name == obj2.name && obj1.id == obj2.id;
+  }
+
+  compareProject(obj1: ProjectSummary, obj2: ProjectSummary) {
+    if (obj1 == null || obj2 == null) {
+      return false;
+    }
+    return obj1.name == obj2.name && obj1.id == obj2.id;
   }
 }

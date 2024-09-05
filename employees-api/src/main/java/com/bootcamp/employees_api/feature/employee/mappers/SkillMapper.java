@@ -1,16 +1,16 @@
 package com.bootcamp.employees_api.feature.employee.mappers;
 
-import com.bootcamp.employees_api.feature.employee.dto.SkillCreateDTO;
-import com.bootcamp.employees_api.feature.employee.dto.SkillDTO;
+import com.bootcamp.employees_api.feature.employee.dto.SkillEditCreateDTO;
+import com.bootcamp.employees_api.feature.employee.models.ProficiencyLevelsEnums;
 import com.bootcamp.employees_api.feature.employee.models.Skill;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface SkillMapper {
 
-    Skill skillCreateDtoToSkill(SkillCreateDTO skillCreateDTO);
+    Skill skillEditCreateDtoToSkill(SkillEditCreateDTO skillCreateDTO);
 
-    SkillDTO skillToSkillDTO(Skill skill);
+    ProficiencyLevelsEnums stringToProficiencyLevelsEnums(String proficiency);
 
-    SkillCreateDTO skillToSkillCreateDTO(Skill skill);
+    // SkillCreateDTO skillToSkillCreateDTO(Skill skill);
 }

@@ -16,6 +16,7 @@ import { MatInput } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
 import { NgClass } from '@angular/common';
+import { EmployeeSummary } from '../../../../../../models/employee.summary.model';
 
 @Component({
   selector: 'app-employees-list',
@@ -44,8 +45,8 @@ import { NgClass } from '@angular/common';
   styleUrl: './employees-list.component.scss',
 })
 export class EmployeesListComponent implements OnDestroy, OnInit {
-  listOfEmployees?: Employee[];
-  selectedEmployee?: Employee;
+  listOfEmployees?: EmployeeSummary[];
+  selectedEmployee?: EmployeeSummary;
 
   private searchTerms: Subject<string> = new Subject<string>();
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
@@ -76,9 +77,11 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
   ngOnInit(): void {
     this.getSelectedEmployee();
 
-    this.employeesService.employees$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((employees: Employee[]) => {
-      this.listOfEmployees = employees;
-    });
+    this.employeesService.employeesSummary$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((employees: EmployeeSummary[]) => {
+        this.listOfEmployees = employees;
+      });
     this.employeesService.getEmployees();
 
     this.searchTerms
@@ -94,7 +97,7 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
     this.searchTerms.next(term);
   }
 
-  onSelect(employee?: Employee) {
+  onSelect(employee?: EmployeeSummary) {
     if (this.employeesService.isEmployeeBeingCreated.value && employee != this.listOfEmployees!.at(-1)) {
       this.employeesService.setIsEmployeeBeingCreated(false);
       this.listOfEmployees?.pop();
@@ -115,8 +118,8 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
         surname: '',
         hireDate: new Date(),
         manager: null,
-        skillsList: [],
-        projectsList: [],
+        skills: [],
+        projects: [],
       };
       this.employeesService.setIsEmployeeBeingCreated(true);
       this.listOfEmployees?.push(newEmployee);
@@ -127,7 +130,7 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
   deleteEmployee() {
     if (this.selectedEmployee) {
       this.listOfEmployees = this.listOfEmployees!.filter(
-        (employee: Employee): boolean => employee.id !== this.selectedEmployee!.id
+        (employee: EmployeeSummary): boolean => employee.id !== this.selectedEmployee!.id
       );
 
       this.employeesService

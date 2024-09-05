@@ -1,0 +1,56 @@
+@import "../../../../../../public/assets/styles/styles";
+
+$dashboard-header-font-size: 1.8rem;
+$table-max-height: 500px;
+
+.projects-list {
+  justify-self: center !important;
+  align-self: center !important;
+  width: 70%;
+  display: flex;
+  justify-content: center !important;
+  flex-direction: column;
+
+  &__menu {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__table-container {
+    max-height: $table-max-height !important;
+    max-width: 100%;
+    overflow: auto;
+    background-color: white;
+    box-shadow: $border-default-shadow;
+  }
+
+  &__table {
+    width: 100%;
+    overflow: auto;
+    background-color: white;
+    box-shadow: $border-default-shadow;
+
+    &-header {
+      &-sorted {
+        color: black;
+      }
+    }
+
+    &-row {
+      &:hover {
+        .mat-mdc-cell {
+          background-color: $secondary;
+        }
+      }
+
+      .mat-mdc-cell {
+        cursor: pointer;
+      }
+    }
+
+    &-cell,
+    &-header-cell {
+      width: 25%;
+    }
+  }
+}

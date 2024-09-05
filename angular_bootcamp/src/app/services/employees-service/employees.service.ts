@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
 
 import { Employee } from '../../models/employee.model';
 import { MessagesService } from '../messages-service/messages.service';
 import { MessagesTypes } from '../../enums/messages-types';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EMPLOYEE_API_URL } from '../../core/urls.config';
-import { MANAGERS } from '../../employees-mocks/mock-managers';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { EmployeeSummary } from '../../models/employee.summary.model';
+import { mapEmployeeToEmployeeUpdate } from '../../mappers/employee-to-employee-update.mapper';
+import { EmployeeCreateUpdate } from '../../models/employee-update-create.model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,10 +20,8 @@ export class EmployeesService {
   };
 
   public isEmployeeBeingCreated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  public employeesSubject: BehaviorSubject<Employee[]> = new BehaviorSubject<Employee[]>([]);
-  public employees$: Observable<Employee[]> = this.employeesSubject.asObservable();
-
-  private managers: Employee[] = MANAGERS;
+  public employeesSummarySubject: BehaviorSubject<EmployeeSummary[]> = new BehaviorSubject<EmployeeSummary[]>([]);
+  public employeesSummary$: Observable<EmployeeSummary[]> = this.employeesSummarySubject.asObservable();
 
   constructor(
     private messagesService: MessagesService,
@@ -31,20 +31,31 @@ export class EmployeesService {
 
   getEmployees(): void {
     this.http
-      .get<Employee[]>(EMPLOYEE_API_URL)
+      .get<EmployeeSummary[]>(EMPLOYEE_API_URL)
       .pipe(
         tap((employees) => {
           this.messagesService.addMessage(MessagesTypes.GetEmployees);
-          this.employeesSubject.next(employees);
+          this.employeesSummarySubject.next(employees);
         }),
-        catchError(this.handleError<Employee>('delete Employee'))
+        catchError(this.handleError<Employee>('get Employees'))
       )
       .subscribe();
   }
 
-  getManagers(): Observable<Employee[]> {
-    this.messagesService.addMessage(MessagesTypes.GetManagers);
-    return of(this.managers);
+  getManagers(): Observable<EmployeeSummary[]> {
+    return this.http.get<EmployeeSummary[] | EmployeeSummary>(EMPLOYEE_API_URL).pipe(
+      map((response: EmployeeSummary[] | EmployeeSummary) => {
+        if (Array.isArray(response)) {
+          return response;
+        } else {
+          return [response];
+        }
+      }),
+      tap((employees: EmployeeSummary[]) => {
+        this.messagesService.addMessage(MessagesTypes.GetEmployees);
+      }),
+      catchError(this.handleError<EmployeeSummary[]>('get Managers'))
+    );
   }
 
   setIsEmployeeBeingCreated(value: boolean): void {
@@ -62,19 +73,24 @@ export class EmployeesService {
     );
   }
 
-  addEmployee(newEmployee: Employee): Observable<Employee> {
+  addEmployee(employee: Employee): Observable<Employee> {
+    const newEmployee: EmployeeCreateUpdate = mapEmployeeToEmployeeUpdate(employee);
     return this.http.post<Employee>(EMPLOYEE_API_URL, newEmployee, this.httpOptions).pipe(
       tap(() => {
         this.messagesService.addMessage(MessagesTypes.EmployeeAdded);
         this.setIsEmployeeBeingCreated(false);
         this.getEmployees();
-        this._snackBar.open('Pomyślnie dodano usera!', '', { duration: 2000 });
+        this._snackBar.open('Pomyślnie dodano pracownika', '', { duration: 2000 });
       }),
+
       catchError(this.handleError<Employee>('add Employee'))
     );
   }
-  updateEmployee(updatedEmployee: Employee): Observable<Employee> {
-    return this.http.put<Employee>(EMPLOYEE_API_URL, updatedEmployee, this.httpOptions).pipe(
+
+  updateEmployee(employee: Employee): Observable<Employee> {
+    const updatedEmployee: EmployeeCreateUpdate = mapEmployeeToEmployeeUpdate(employee);
+
+    return this.http.put<Employee>(`${EMPLOYEE_API_URL}/${employee.id}`, updatedEmployee, this.httpOptions).pipe(
       tap(() => {
         this.getEmployees();
         this._snackBar.open('Pomyślnie zaaktualizowano usera!', '', { duration: 2000 });
@@ -99,7 +115,7 @@ export class EmployeesService {
         .get<Employee[]>(EMPLOYEE_API_URL)
         .pipe(tap(() => this.messagesService.addMessage(MessagesTypes.GetEmployees)));
     }
-    return this.http.get<Employee[]>(`${EMPLOYEE_API_URL}/?name=${term}`);
+    return this.http.get<Employee[]>(`${EMPLOYEE_API_URL}?name=${term}`);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
