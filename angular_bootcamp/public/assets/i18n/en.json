@@ -86,7 +86,8 @@
       "buttons": {
         "delete": "Delete",
         "reset": "Reset",
-        "submit": "Add Project"
+        "submit": "Save",
+        "add": "Add project"
       }
     }
   },

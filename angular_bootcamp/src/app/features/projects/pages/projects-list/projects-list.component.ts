@@ -27,6 +27,7 @@ import * as ROUTES from '../../../../core/routes.config';
 import { CREATING_EMPLOYEE, CREATING_PROJECT } from '../../../../core/routes.config';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EmployeeSummary } from '../../../../models/employee.summary.model';
+import { Project } from '../../../../models/project.model';
 
 @Component({
   selector: 'app-projects-list',
@@ -64,9 +65,8 @@ import { EmployeeSummary } from '../../../../models/employee.summary.model';
   styleUrl: './projects-list.component.scss',
 })
 export class ProjectsListComponent implements OnInit {
-  projects: ProjectSummary[] = [];
   displayedColumns: string[] = ['id', 'title', 'description'];
-  dataSource: MatTableDataSource<ProjectSummary, MatPaginator> = new MatTableDataSource(this.projects);
+  dataSource: MatTableDataSource<ProjectSummary, MatPaginator> = new MatTableDataSource<ProjectSummary>([]);
 
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
@@ -78,25 +78,20 @@ export class ProjectsListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.setProjects();
     this.projectsService.projectsSummary$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((projects: ProjectSummary[]) => {
-        this.projects = projects;
-        console.log('doszlo cos');
+        this.dataSource = new MatTableDataSource(projects);
       });
+
+    this.projectsService.getProjects().subscribe((projects) => {
+      this.dataSource = new MatTableDataSource(projects);
+    });
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  setProjects(): void {
-    this.projectsService.getProjects().subscribe((value) => {
-      this.projects = value;
-      this.dataSource = new MatTableDataSource(this.projects);
-    });
   }
 
   addProject(): void {

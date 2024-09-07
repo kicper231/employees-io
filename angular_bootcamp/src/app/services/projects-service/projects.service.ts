@@ -83,7 +83,7 @@ export class ProjectsService {
   deleteProject(projectId: string): Observable<Project> {
     return this.http.delete<Project>(`${PROJECT_API_URL}/${projectId}`, this.httpOptions).pipe(
       tap(() => {
-        this.getProjects();
+        this.getProjects().subscribe();
         this._snackBar.open('Usunieto projekt!', '', { duration: 2000 });
       }),
       catchError(this.handleError<Project>('delete Project'))

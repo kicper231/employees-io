@@ -81,9 +81,11 @@
             </div>
 
             <div class="project-buttons">
-              <app-basic-button (click)="openDeleteDialog('0ms', '0ms')">
-                {{ "projects.form.buttons.delete" | translate }}
-              </app-basic-button>
+              @if (!projectIsBeingCreated) {
+                <app-basic-button (click)="openDeleteDialog('0ms', '0ms')">
+                  {{ "projects.form.buttons.delete" | translate }}
+                </app-basic-button>
+              }
               <app-basic-button (click)="onReset()">
                 {{ "projects.form.buttons.reset" | translate }}
               </app-basic-button>

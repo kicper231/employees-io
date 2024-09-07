@@ -83,7 +83,8 @@
       "buttons": {
         "delete": "Usuń",
         "reset": "Resetuj",
-        "submit": "Dodaj projekt"
+        "submit": "Zapisz",
+        "add": "Dodaj projekt"
       }
     }
   },
