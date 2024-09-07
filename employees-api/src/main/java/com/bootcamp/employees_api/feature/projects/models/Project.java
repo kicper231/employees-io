@@ -3,9 +3,7 @@ package com.bootcamp.employees_api.feature.projects.models;
 import com.bootcamp.employees_api.feature.employee.models.Employee;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,9 +11,12 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@Builder
 @RequiredArgsConstructor
 @Entity
 @Table(name = "projects")
+@AllArgsConstructor
+
 public class Project {
 
     @Id

@@ -62,7 +62,6 @@ $spinner-margin: 5rem;
     }
 
     &-projects {
-      //padding: $small-padding $normal-padding;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -132,6 +131,7 @@ $spinner-margin: 5rem;
         margin-bottom: $small-margin;
       }
     }
+
     &-input {
       box-sizing: border-box;
       width: 100%;

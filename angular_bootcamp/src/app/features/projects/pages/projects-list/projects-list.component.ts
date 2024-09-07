@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import {
   MatCell,
@@ -24,7 +24,10 @@ import { BasicButtonComponent } from '../../../../shared/components/basic-button
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import * as ROUTES from '../../../../core/routes.config';
-import { CREATING_EMPLOYEE } from '../../../../core/routes.config';
+import { CREATING_EMPLOYEE, CREATING_PROJECT } from '../../../../core/routes.config';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { EmployeeSummary } from '../../../../models/employee.summary.model';
+import { Project } from '../../../../models/project.model';
 
 @Component({
   selector: 'app-projects-list',
@@ -62,10 +65,10 @@ import { CREATING_EMPLOYEE } from '../../../../core/routes.config';
   styleUrl: './projects-list.component.scss',
 })
 export class ProjectsListComponent implements OnInit {
-  projects: ProjectSummary[] = [];
-
   displayedColumns: string[] = ['id', 'title', 'description'];
-  dataSource: MatTableDataSource<ProjectSummary, MatPaginator> = new MatTableDataSource(this.projects);
+  dataSource: MatTableDataSource<ProjectSummary, MatPaginator> = new MatTableDataSource<ProjectSummary>([]);
+
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   constructor(
     private projectsService: ProjectsService,
@@ -75,7 +78,15 @@ export class ProjectsListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.setProjects();
+    this.projectsService.projectsSummary$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((projects: ProjectSummary[]) => {
+        this.dataSource = new MatTableDataSource(projects);
+      });
+
+    this.projectsService.getProjects().subscribe((projects) => {
+      this.dataSource = new MatTableDataSource(projects);
+    });
   }
 
   applyFilter(event: Event) {
@@ -83,16 +94,9 @@ export class ProjectsListComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  setProjects(): void {
-    this.projectsService.getProjects().subscribe((value) => {
-      this.projects = value;
-      this.dataSource = new MatTableDataSource(this.projects);
-    });
-  }
-
   addProject(): void {
     this.projectsService.setIsProjectBeingCreated(true);
-    this.router.navigate([ROUTES.PROJECTS_LIST, CREATING_EMPLOYEE]);
+    this.router.navigate([ROUTES.PROJECTS_LIST, CREATING_PROJECT]);
   }
 
   goBack(): void {

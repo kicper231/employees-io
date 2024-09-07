@@ -17,6 +17,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
 import { NgClass } from '@angular/common';
 import { EmployeeSummary } from '../../../../../../models/employee.summary.model';
+import { ConfirmDeleteDialogComponent } from '../../../../../../shared/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-employees-list',
@@ -50,6 +52,7 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
 
   private searchTerms: Subject<string> = new Subject<string>();
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
+  private readonly dialog = inject(MatDialog);
 
   constructor(
     public employeesService: EmployeesService,
@@ -104,9 +107,7 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
     }
     this.selectedEmployee = employee;
     if (employee) {
-      this.employeesService.isEmployeeBeingCreated.value
-        ? this.router.navigate([ROUTES.EMPLOYEES, CREATING_EMPLOYEE])
-        : this.router.navigate([ROUTES.EMPLOYEES, employee.id]);
+      this.router.navigate([ROUTES.EMPLOYEES, employee.id]);
     }
   }
 
@@ -127,16 +128,29 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
     }
   }
 
-  deleteEmployee() {
-    if (this.selectedEmployee) {
-      this.listOfEmployees = this.listOfEmployees!.filter(
-        (employee: EmployeeSummary): boolean => employee.id !== this.selectedEmployee!.id
-      );
+  openDeleteDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
+      width: '250px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
 
-      this.employeesService
-        .deleteEmployee(this.selectedEmployee.id)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe(() => this.router.navigate([ROUTES.EMPLOYEES]));
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.listOfEmployees = this.listOfEmployees!.filter(
+          (employee: EmployeeSummary): boolean => employee.id !== this.selectedEmployee!.id
+        );
+        this.employeesService
+          .deleteEmployee(this.selectedEmployee!.id)
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe(() => this.router.navigate([ROUTES.EMPLOYEES]));
+      }
+    });
+  }
+
+  deleteEmployee() {
+    if (this.selectedEmployee != null) {
+      this.openDeleteDialog('0ms', '0ms');
     }
   }
 }

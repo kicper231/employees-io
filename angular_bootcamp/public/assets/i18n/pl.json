@@ -18,14 +18,12 @@
   "footer": {
     "privacy.policy": "Polityka prywatności 2024, wszystkie prawa zastrzeżone @"
   },
-
   "errors": {
     "page.not.exist": "Taka strona nie istnieje!"
   },
   "dashboard": {
-    "best.employees": "Pracowicy miesiąca"
+    "best.employees": "Pracownicy miesiąca"
   },
-
   "snackbar": {
     "project": {
       "edit.success": "Pomyślnie zaktualizowano projekt!",
@@ -38,20 +36,17 @@
       "remove.success": "Usunięto usera!"
     }
   },
-
   "languages": {
     "en": "Angielski",
     "pl": "Polski",
     "menu.option": "Języki"
   },
-
   "header": {
     "title": "Pracownicy.io",
     "dashboard": "Panel",
     "employees": "Pracownicy",
     "projects": "Projekty"
   },
-
   "projects": {
     "loading": {
       "spinner": "Ładowanie danych projektu..."
@@ -88,11 +83,11 @@
       "buttons": {
         "delete": "Usuń",
         "reset": "Resetuj",
-        "submit": "Dodaj projekt"
+        "submit": "Zapisz",
+        "add": "Dodaj projekt"
       }
     }
   },
-
   "employees": {
     "list": {
       "search": "Wyszukaj pracownika",
@@ -140,7 +135,6 @@
         "submit": "zapisz",
         "reset": "resetuj"
       },
-
       "validation": {
         "employee.name": "Imię jest wymagane!",
         "employee.surname": "Nazwisko jest wymagane!",
@@ -152,6 +146,14 @@
         "project.description": "Opis projektu jest wymagany!",
         "employee.manager": "Menager jest wymagany!"
       }
+    }
+  },
+  "dialog": {
+    "delete.confirmation": {
+      "title": "Potwierdzenie usunięcia",
+      "content": "Czy na pewno chcesz usunąć ten element?",
+      "no": "Nie",
+      "yes": "Tak"
     }
   }
 }
