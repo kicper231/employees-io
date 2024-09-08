@@ -195,11 +195,11 @@ export class EmployeeDetailsComponent implements OnInit {
 
   getEmployee() {
     this.loadingEmployee = true;
-    console.log(this.employeesService.isEmployeeBeingCreated.value);
+
     if (this.employeesService.isEmployeeBeingCreated.value) {
       this.onReset();
       this.employee = {
-        id: crypto.randomUUID(),
+        id: '',
         name: '',
         surname: '',
         hireDate: new Date(),

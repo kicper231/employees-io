@@ -35,7 +35,6 @@ public class ProjectController {
         return _projectService.findAllProjects(name);
     }
 
-    @CrossOrigin
     @PutMapping("/{projectId}")
     public void editProjectById(@PathVariable UUID projectId, @Valid
     @RequestBody ProjectEditDTO project) {

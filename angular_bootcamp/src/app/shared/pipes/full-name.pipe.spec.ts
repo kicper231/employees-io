@@ -10,7 +10,7 @@ describe('FullNamePipe', () => {
     TestBed.configureTestingModule({ providers: [FullName] });
     pipe = TestBed.inject(FullName);
     baseEmployee = {
-      id: crypto.randomUUID(),
+      id: '',
       name: '',
       surname: '',
       hireDate: new Date(),
