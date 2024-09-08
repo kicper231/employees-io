@@ -16,7 +16,10 @@ import { EmployeeCreateUpdate } from '../../models/employee-update-create.model'
 })
 export class EmployeesService {
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    headers: new HttpHeaders({ 
+      "Access-Control-Allow-Origin": "*",
+      'Content-Type': 'application/json' 
+    }),
   };
 
   public isEmployeeBeingCreated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);

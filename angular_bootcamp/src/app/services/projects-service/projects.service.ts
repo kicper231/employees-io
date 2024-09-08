@@ -16,7 +16,10 @@ import { EmployeeSummary } from '../../models/employee.summary.model';
 })
 export class ProjectsService {
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    headers: new HttpHeaders({ 
+      "Access-Control-Allow-Origin": "*",
+      'Content-Type': 'application/json' 
+    }),
   };
 
   public isProjectBeingCreated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
