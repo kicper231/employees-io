@@ -6,6 +6,7 @@ import com.bootcamp.employees_api.feature.employee.exceptions.EmployeeIsOwnManag
 import com.bootcamp.employees_api.feature.employee.exceptions.EmployeeNotFoundException;
 import com.bootcamp.employees_api.feature.employee.exceptions.ManagerNotFoundException;
 import com.bootcamp.employees_api.feature.employee.mappers.EmployeeMapper;
+import com.bootcamp.employees_api.feature.employee.mappers.MyEmployeeMapper;
 import com.bootcamp.employees_api.feature.employee.mappers.SkillMapper;
 import com.bootcamp.employees_api.feature.employee.models.Employee;
 import com.bootcamp.employees_api.feature.employee.models.Skill;
@@ -29,13 +30,15 @@ public class EmployeeService implements IEmployeeService {
     private final EmployeeMapper employeeMapper;
     private final SkillMapper skillMapper;
     private final ProjectRepository projectRepository;
+    private final MyEmployeeMapper myEmployeeMapper;
 
     public EmployeeService(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, SkillMapper skillMapper,
-                           ProjectRepository projectRepository) {
+                           ProjectRepository projectRepository, MyEmployeeMapper myEmployeeMapper) {
         this.employeeRepository = employeeRepository;
         this.employeeMapper = employeeMapper;
         this.skillMapper = skillMapper;
         this.projectRepository = projectRepository;
+        this.myEmployeeMapper=myEmployeeMapper;
     }
 
     @Override
@@ -49,7 +52,7 @@ public class EmployeeService implements IEmployeeService {
                 name);
 
         return allEmployees.stream().sorted((o1, o2) -> o2.getId().compareTo(o1.getId())).map(
-                employeeMapper::employeeToEmployeeSummaryDTO).toList();
+                myEmployeeMapper::employeeToEmployeeSummaryDTO).toList();
     }
 
     @Override
@@ -57,7 +60,7 @@ public class EmployeeService implements IEmployeeService {
     public EmployeeDTO findEmployeeById(UUID employeeId) {
 
         Optional<EmployeeDTO> employeeDTOoptional = employeeRepository.findById(employeeId).map(
-                employeeMapper::employeeToEmployeeDto);
+                myEmployeeMapper::employeeToEmployeeDto);
 
         return employeeDTOoptional.orElseThrow(() -> {
             log.error("Employee not found at findEmployeeById()");
@@ -123,8 +126,7 @@ public class EmployeeService implements IEmployeeService {
     @Override
     @Transactional
     public UUID addEmployee(EmployeeCreateDTO employeeCreateDTO) {
-        Employee employee = employeeMapper.employeeCreateDtoToEmployee(employeeCreateDTO);
-
+        Employee employee = myEmployeeMapper.employeeCreateDtoToEmployee(employeeCreateDTO);
         employee.getSkills().forEach(skill -> skill.setEmployee(employee));
         setProjects(employee, employeeCreateDTO.projectIds());
         setManager(employee, employeeCreateDTO.managerId());
