@@ -10,7 +10,7 @@ public interface SkillMapper {
 
     Skill skillEditCreateDtoToSkill(SkillEditCreateDTO skillCreateDTO);
 
-    ProficiencyLevelsEnums stringToProficiencyLevelsEnums(String proficiency);
+   // ProficiencyLevelsEnums stringToProficiencyLevelsEnums(String proficiency);
 
-    //  SkillCreateDTO skillToSkillCreateDTO(Skill skill);
+   //  SkillCreateDTO skillToSkillCreateDTO(Skill skill);
 }
