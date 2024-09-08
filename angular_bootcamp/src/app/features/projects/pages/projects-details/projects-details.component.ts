@@ -128,7 +128,7 @@ export class ProjectsDetailsComponent implements OnInit {
 
     if (this.projectsService.isProjectBeingCreated.value) {
       this.project = {
-        id: crypto.randomUUID(),
+        id: '',
         name: '',
         employees: [],
         description: '',
