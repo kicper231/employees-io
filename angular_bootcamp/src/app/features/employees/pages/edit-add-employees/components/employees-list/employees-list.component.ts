@@ -114,7 +114,7 @@ export class EmployeesListComponent implements OnDestroy, OnInit {
   addEmployee() {
     if (!this.employeesService.isEmployeeBeingCreated.value) {
       const newEmployee: Employee = {
-        id: crypto.randomUUID(),
+        id: '',
         name: '',
         surname: '',
         hireDate: new Date(),

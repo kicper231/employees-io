@@ -199,7 +199,7 @@ export class EmployeeDetailsComponent implements OnInit {
     if (this.employeesService.isEmployeeBeingCreated.value) {
       this.onReset();
       this.employee = {
-        id: crypto.randomUUID(),
+        id: '',
         name: '',
         surname: '',
         hireDate: new Date(),
