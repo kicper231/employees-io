@@ -8,6 +8,7 @@ import com.bootcamp.employees_api.feature.projects.dto.ProjectEditDTO;
 import com.bootcamp.employees_api.feature.projects.dto.ProjectSummaryDTO;
 import com.bootcamp.employees_api.feature.projects.exceptions.ProjectIdIsNullException;
 import com.bootcamp.employees_api.feature.projects.exceptions.ProjectNotFoundException;
+import com.bootcamp.employees_api.feature.projects.mappers.ProjectMapper;
 import com.bootcamp.employees_api.feature.projects.models.Project;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

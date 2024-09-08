@@ -9,6 +9,8 @@ import com.bootcamp.employees_api.feature.projects.dto.ProjectEditDTO;
 import com.bootcamp.employees_api.feature.projects.dto.ProjectSummaryDTO;
 import com.bootcamp.employees_api.feature.projects.exceptions.ProjectIdIsNullException;
 import com.bootcamp.employees_api.feature.projects.exceptions.ProjectNotFoundException;
+import com.bootcamp.employees_api.feature.projects.mappers.MyProjectMapper;
+import com.bootcamp.employees_api.feature.projects.mappers.ProjectMapper;
 import com.bootcamp.employees_api.feature.projects.models.Project;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -23,13 +25,15 @@ public class ProjectService {
 
     private final ProjectRepository projectRepository;
     private final ProjectMapper projectMapper;
+    private final MyProjectMapper myProjectMapper;
     private final EmployeeRepository employeeRepository;
 
-    public ProjectService(ProjectRepository projectRepository, ProjectMapper projectMapper,
+    public ProjectService(ProjectRepository projectRepository, ProjectMapper projectMapper, MyProjectMapper myProjectMapper,
                           EmployeeRepository employeeRepository) {
         this.projectRepository = projectRepository;
 
         this.projectMapper = projectMapper;
+        this.myProjectMapper = myProjectMapper;
         this.employeeRepository = employeeRepository;
     }
 
@@ -42,7 +46,7 @@ public class ProjectService {
                         name);
 
         return allProjects.stream()
-                .map(projectMapper::projectToProjectSummaryDTO)
+                .map(myProjectMapper::projectToProjectSummaryDTO)
                 .sorted((o1, o2) -> o2.id().compareTo(o1.id()))
                 .toList();
     }
@@ -57,12 +61,12 @@ public class ProjectService {
             return new ProjectNotFoundException(projectId);
         });
 
-        return projectMapper.projectToProjectDTO(project);
+        return myProjectMapper.projectToProjectDTO(project);
     }
 
     @Transactional
     public UUID addProject(@Valid ProjectCreateDTO projectCreateDTO) {
-        Project project = projectMapper.projectCreateDtoToProject(projectCreateDTO);
+        Project project = myProjectMapper.projectCreateDtoToProject(projectCreateDTO);
         Set<Employee> employeesList = new HashSet<>();
 
         projectCreateDTO.employeeIds().forEach(uuid -> {

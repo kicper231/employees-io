@@ -1,4 +1,4 @@
-package com.bootcamp.employees_api.feature.projects;
+package com.bootcamp.employees_api.feature.projects.mappers;
 
 import com.bootcamp.employees_api.feature.projects.dto.ProjectCreateDTO;
 import com.bootcamp.employees_api.feature.projects.dto.ProjectDTO;
@@ -15,6 +15,6 @@ public interface ProjectMapper {
 
     ProjectDTO projectToProjectDTO(Project project);
 
-    //ProjectCreateDTO projectToProjectCreateDTO(Project project);
+    ProjectCreateDTO projectToProjectCreateDTO(Project project);
 
 }
